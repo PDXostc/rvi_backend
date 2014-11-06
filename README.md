@@ -59,11 +59,14 @@ default. We use pip to install these packages. You may need to install pip on
 your system:
 
 Fedora:
+
     sudo yum install python-pip
 
 OpenSuse:
+
     sudo zypper install python-pip
     
 Debian/Ubuntu:
+
     sudo apt-get install python-pip    
     
