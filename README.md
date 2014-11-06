@@ -57,8 +57,13 @@ Linux distribution installs Python by default.
 3. RVI-BE requires additional Python packages that may not be installed by
 default. We use pip to install these packages. You may need to install pip on
 your system:
-    Fedora:          shell> sudo yum install python-pip
-    OpenSuse:        shell> sudo zypper install python-pip
-    Debian/Ubuntu:   shell> sudo apt-get install python-pip
+
+Fedora:
+    sudo yum install python-pip
+
+OpenSuse:
+    sudo zypper install python-pip
     
+Debian/Ubuntu:
+    sudo apt-get install python-pip    
     
