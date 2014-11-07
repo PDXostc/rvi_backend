@@ -159,32 +159,34 @@ the MySQL shell typically as *root* user.
 
 1. Load Timezone Definitions
 
-    shell> mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+        shell> mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
    
 1. Set Root Password
 
-    shell> mysql -u root
-    mysql> select user, host, password from mysql.user;
-    mysql> update mysql.user set password = PASSWORD('newpwd') where user = 'root';
-    mysql> flush privileges;
+        shell> mysql -u root
+        mysql> select user, host, password from mysql.user;
+        mysql> update mysql.user set password = PASSWORD('newpwd') where user = 'root';
+        mysql> flush privileges;
    
 2. Remove anonymous accounts
 
-    mysql> drop user ''@'localhost';
-    mysql> drop user ''@'hostname';
+        mysql> drop user ''@'localhost';
+        mysql> drop user ''@'hostname';
 
 3. Drop test database
 
-    mysql> drop database test;  
+        mysql> drop database test;  
    
 4. Create RVI Database
 
-    mysql> create database rvi character set utf8;
+        mysql> create database rvi character set utf8;
    
 6. Create User for RVI
-   mysql> create user 'rvi_user'@'localhost' identified by 'rvi';
+
+        mysql> create user 'rvi_user'@'localhost' identified by 'rvi';
    
 8. Grant User All Rights to Database
-   mysql> grant all on rvi.* to 'rvi_user'@'localhost';
+
+        mysql> grant all on rvi.* to 'rvi_user'@'localhost';
 
     
