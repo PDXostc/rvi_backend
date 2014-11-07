@@ -230,7 +230,7 @@ which should print *1.7* to the console.
     This will access the MariaDB database server. If you set the database up according
     to the above instructions this will work right out of the box. If you did change
     user name and/or password when setting up the database then you will need to modify
-    the file *rvibackend/mysql.cnf* accordingly.
+    the file *rvibackend/web/rvi/settings.py* accordingly.
 
 4. Create the Admin User for the RVI Backend
 
@@ -255,8 +255,20 @@ which should print *1.7* to the console.
         Starting development server at http://127.0.0.1:8000/
         Quit the server with CONTROL-C.
         
-    You can now use your web browser and point it to *http://localhost:8000/admin*
+    You can now use your web browser and point it to *http://localhost:8000*
     to see the login prompt for the RVI Backend administrative user interface.
+    
+    If you want access your RVI Backend from other computers on the web and/or
+    have it listen on a different port use
+    
+        python manage.py runserver <ip>:<port>
+        
+    replacing <ip>:<port> with the IP address of your system and the desired port.
+    Using
+    
+        python manage.py runserver 0.0.0.0:80
+        
+    will cause the server to listen on port 80 of all configured network interfaces.
     
     
 ### Start the RVI Backend Server Daemon
@@ -301,6 +313,122 @@ Your RVI Backend is now ready for use.
 USING THE RVI BACKEND
 ---------------------
 
+This pre-release of the RVI Backend does not yet include any customized pages but
+uses the administration pages that are automatically created by Django. The root
+URL is automatically forwarded to the administration pages. Loggin into your server
+from a web browser using
 
+    http://localhost:8000
+    
+will take you to the front page of the administrative UI which is divided into
+the applications
+
+* Authentication and Authorization
+* Dblog
+* Sota
+* Vehicles
+
+
+### Authentication and Authorization
+
+This application allows the administration of Users and Groups. By default, after
+using *createsuperuser* only the super user exists who has full rights to any of
+the applications. There are no groups created. The UI and its capabilities are
+similar to virtually any user/group administration system.
+
+### Dblog
+
+The RVI Backend writes log messages into the database. This makes it easy to verify
+operation from the web browser. There are two logging categories *General Log* and
+*SOTA Log*. The former logs all messages. The latter logs messages that are associated
+with *Software Over The Air (SOTA)* activities.
+
+### Vehicles
+
+This application let's you manage vehicles that is adding, modifying and deleting
+Vehicles. A Vehicle has these data fields:
+
+* Vehicle Name
+* Vehicle Make
+* Vehicle Model
+* Vehicle VIN
+* Vehicle Model Year
+* Vehicle RVI Basename
+
+All, excpet *Vehicle Model Year*, are required fields. *Vehicle Name, Vehicle Make,
+Vehicle Model* and *Vehicle Model Year* are self explanatory.
+
+*Vehicle Name* is a unique alphanumeric identifier under which the RVI Backend
+identifies the Vehicle.
+
+*Vehicle VIN* is the unique RVI identifier for the Vehicle. This can be an actual
+VIN or any alphanumeric string.
+
+The *Vehicle RVI Basename* is the domain of the vehicle. The values have
+to match the *node_service_prefix* of the RVI middleware framework configuration
+of the vehicle (or target system):
+
+    { node_service_prefix, "<Vehicle RVI Basename>/vin/<Vehicle VIN> }
+    
+That is all that is required to setup a vehicle in the RVI Backend.
+
+### SOTA
+
+This application manages *Software Over The Air (SOTA)*. There are two components
+to SOTA:
+
+* Packages
+* Updates
+
+*Packages* defines software packages and lets you upload actual software package
+files to the RVI Backend server. A Package has the data fields:
+
+* Package Name
+* Package Description
+* Package Version
+* Package Architecture
+* Package File
+
+*Package Name* is a unique identifier used by the RVI Backend server to identify
+the software package.
+
+*Package Description* is a more detailed description of the software package. It
+is optional.
+
+*Package Version* the version string of the software package.
+
+*Package Architecture* the architecture of the software package.
+
+*Package File* is the actual software package. Choose a file from your local file
+system to upload to the RVI Backend server.
+
+*Updates* assign Packages to Vehicles for an over-the-air update. When creating
+an Update you first select:
+
+* Vehicle
+* Package
+
+from the previously defined Vehicles and Packages. The *+* next to the combo boxes
+lets you create them on-the-fly. Then select
+
+* Valid Until
+* Maximum Retries
+
+to set a deadline and a maximum number of update attempts.
+
+Now that you defined an Update you can start it by checking the checkbox next to
+its name and choosing *Start selected Updates* from the *Action* combo box and
+clicking the *Go* button.
+
+Shortly after sending the update notice to the vehicle the home screen should
+show a dialog box with the name of the software package to be udpated and buttons
+to either accecpt or cancel the update.
+
+Starting an Update will ceate a *Retry* which logs the status and messages of the
+Update. Clicking on the Update link in the Update overview will take you to the detail
+page of the Update. The *Retries* table will now contain an entry (and if you restart
+the Update multiple time, multiple entries) with the current status. If you click
+on *Messages* in the *Log* column you will be taken to a page showing the log
+messages.
 
 
