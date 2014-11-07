@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rvibackend : Database and Web Backend for RVI">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rvibackend</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/PDXostc/rvibackend">View on GitHub</a>
+
+          <h1 id="project_title">Rvibackend</h1>
+          <h2 id="project_tagline">Database and Web Backend for RVI</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/PDXostc/rvibackend/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/PDXostc/rvibackend/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Copyright (C) 2014, Jaguar Land Rover</p>
+
+<p>This document is licensed under Creative Commons
+Attribution-ShareAlike 4.0 International.</p>
+
+<h1>
+<a id="rvi-backend-rvi-be-01" class="anchor" href="#rvi-backend-rvi-be-01" aria-hidden="true"><span class="octicon octicon-link"></span></a>RVI BACKEND (RVI-BE) 0.1</h1>
+
+<p>This document is an overview of the RVI Backend (RVI-BE) project. RVI-BE is a
+database-backed web environment to interact with vehicles
+(or any device for that matter) via the RVI middleware framework. For
+details on RVI consult the documentation in the
+<a href="https://github.com/PDXostc/rvi">RVI</a> respository.</p>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>DESCRIPTION</h2>
+
+<p>RVI-BE consists of two components:</p>
+
+<ul>
+<li><a href="https://github.com/PDXostc/rvibackend/tree/master/web">Web</a></li>
+<li><a href="https://github.com/PDXostc/rvibackend/tree/master/server">Server</a></li>
+</ul>
+
+<p><em>Web</em> is a web interface with database backend built using the 
+<a href="https://www.djangoproject.com">Django</a> framework.</p>
+
+<p><em>Server</em> is a daemon process that receives and processes asynchronous
+messages received via RVI from vehicles and other devices.</p>
+
+<h2>
+<a id="reader-assumptions" class="anchor" href="#reader-assumptions" aria-hidden="true"><span class="octicon octicon-link"></span></a>READER ASSUMPTIONS</h2>
+
+<p>To successfully install and utilize RVI-BE you are assumed to:</p>
+
+<ol>
+<li><p>Know how to use a system running a mainstream Linux distribution such
+as Debian, Fedora, OpenSuse, Ubuntu.</p></li>
+<li><p>Know how to install software packages on your system using your
+distribution's package management system e.g. apt-get, rpm, yum, zypper.</p></li>
+<li><p>Have a basic understanding of Linux directory structures, how to
+create new directories, create and edit files.</p></li>
+</ol>
+
+<h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>PREREQUISITES</h2>
+
+<p>Verify if the following prerequisites are met by your system:</p>
+
+<ol>
+<li><p>To check out the RVI-BE code you will need to have the Git SCM installed on
+your system.</p></li>
+<li><p>Python v2.7 must be installed on your system. Python v3 or greater may
+work, however we have not yet tested it at this point. Virtually any mainstream
+Linux distribution installs Python by default.</p></li>
+<li><p>RVI-BE requires additional Python packages that may not be installed by
+default. We use pip to install these packages. You may need to install pip on
+your system:</p></li>
+</ol>
+
+<p>Fedora:</p>
+
+<pre><code>sudo yum install python-pip
+</code></pre>
+
+<p>OpenSuse:</p>
+
+<pre><code>sudo zypper install python-pip
+</code></pre>
+
+<p>Debian/Ubuntu:</p>
+
+<pre><code>sudo apt-get install python-pip    
+</code></pre>
+
+<h2>
+<a id="installation-and-setup" class="anchor" href="#installation-and-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION AND SETUP</h2>
+
+<p>The following steps explain on how to set up the RVI Backend on your system.</p>
+
+<h3>
+<a id="database-installation" class="anchor" href="#database-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database Installation</h3>
+
+<p>RVI-BE requires a database. Django supports SQLite, MySQL, PostgreSQL and Oracle.
+Since the RVI-BE does a lot of writing to the database we recommend that you use
+a database server rather than SQLite. We use MySQL (or MariaDB) for our testing.
+<a href="https://www.mariadb.com">MariaDB</a> is the community-developed fork of the
+<a href="http://www.mysql.com">MySQL</a> database. It is a drop-in replacement for MySQL.
+All mainstream Linux distributions now include MariaDB in their package
+repositories rather than MySQL. Many distributions install the MariaDB server by
+default. To check if MariaDB is already installed on your system:</p>
+
+<p>Fedora:</p>
+
+<pre><code>yum list installed | grep mariadb
+</code></pre>
+
+<p>OpenSuse:</p>
+
+<pre><code>zypper se 'mariadb*'
+</code></pre>
+
+<p>Debian/Ubuntu:</p>
+
+<pre><code>dpkg --get-selections | grep mariadb
+</code></pre>
+
+<p>If the previous does not yield any output on your system you will need to install
+the MariaDB database server:</p>
+
+<p>Fedora:</p>
+
+<pre><code>sudo yum install mariadb
+</code></pre>
+
+<p>OpenSuse:</p>
+
+<pre><code>sudo zypper in mariadb
+</code></pre>
+
+<p>Debian/Ubuntu:</p>
+
+<pre><code>sudo apt-get install mariadb
+</code></pre>
+
+<p>To access MySQL databases an API driver is required. There are several options. We
+are using <a href="http://dev.mysql.com/downloads/connector/python">MySQL Connector/Python</a>
+which is a pure Python driver from Oracle that does not require the MySQL client
+library or any other Python modules outside the standard Python libraries. The
+mainstream distributions include this driver in their package repositories:</p>
+
+<p>Fedora:</p>
+
+<pre><code>sudo yum install mysql-connector-python
+</code></pre>
+
+<p>OpenSuse:</p>
+
+<pre><code>sudo zypper in mysql-connector-python
+</code></pre>
+
+<p>Debian/Ubuntu:</p>
+
+<pre><code>sudo apt-get install mysql-connector-python
+</code></pre>
+
+<h3>
+<a id="database-server-startup" class="anchor" href="#database-server-startup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database Server Startup</h3>
+
+<p>After installing the database server you will need to start the MariaDB server
+and enable it on system startup.</p>
+
+<p>Fedora/OpenSuse (distributions using systemd):</p>
+
+<pre><code>sudo systemctl enable mariadb.service
+sudo systemdtl start mariadb.service
+</code></pre>
+
+<p>Debian/Ubuntu (distributions using SysV Init):</p>
+
+<pre><code>sudo update-rc.d mysql defaults
+</code></pre>
+
+<p><em>Note:</em> The command above for Debian/Ubuntu uses 'mysql' although the it is the
+MariaDB Server that will be started.</p>
+
+<h3>
+<a id="database-server-setup" class="anchor" href="#database-server-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database Server Setup</h3>
+
+<p>Next we need to prepare the database server. For the following steps when we use
+the notation <em>shell&gt;</em> it means that you will have to enter the command in a Linux
+shell. When we use the notation <em>mysql&gt;</em> then the command has to be issued from
+the MySQL shell typically as <em>root</em> user.</p>
+
+<p><em>Note:</em> SQL syntax requires that every command is terminated with a semicolon.</p>
+
+<ol>
+<li>
+<p>Load Timezone Definitions</p>
+
+<pre><code>shell&gt; mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+</code></pre>
+</li>
+<li>
+<p>Set Root Password</p>
+
+<pre><code>shell&gt; mysql -u root
+mysql&gt; select user, host, password from mysql.user;
+mysql&gt; update mysql.user set password = PASSWORD('newpwd') where user = 'root';
+mysql&gt; flush privileges;
+</code></pre>
+</li>
+<li>
+<p>Remove anonymous accounts</p>
+
+<pre><code>mysql&gt; drop user ''@'localhost';
+mysql&gt; drop user ''@'hostname';
+</code></pre>
+</li>
+<li>
+<p>Drop test database</p>
+
+<pre><code>mysql&gt; drop database test;  
+</code></pre>
+</li>
+<li>
+<p>Create RVI Database</p>
+
+<pre><code>mysql&gt; create database rvi character set utf8;
+</code></pre>
+</li>
+<li>
+<p>Create User for RVI</p>
+
+<pre><code>mysql&gt; create user 'rvi_user'@'localhost' identified by 'rvi';
+</code></pre>
+
+<p>These are the default user name and password. If you change them you will
+also have to change them in the <em>mysql.cnf</em> file (see section on RVI
+Backend Installation).</p>
+</li>
+<li>
+<p>Grant User All Rights to Database</p>
+
+<pre><code>mysql&gt; grant all on rvi.* to 'rvi_user'@'localhost';
+</code></pre>
+</li>
+</ol>
+
+<h3>
+<a id="django-installation" class="anchor" href="#django-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Django Installation</h3>
+
+<p>To install Django you need to have <em>pip</em> installed on your system as explained
+earlier. We are using Django version 1.7.</p>
+
+<pre><code>sudo pip install django==1.7
+</code></pre>
+
+<p>Verify installation with:</p>
+
+<pre><code>python -c "import django; print(django.get_version())"
+</code></pre>
+
+<p>which should print <em>1.7</em> to the console.</p>
+
+<h3>
+<a id="rvi-backend-installation" class="anchor" href="#rvi-backend-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>RVI Backend Installation</h3>
+
+<ol>
+<li>
+<p>Clone the RVI Backend Repository from GitHub</p>
+
+<pre><code>git clone https://github.com/PDXostc/rvibackend.git rvibackend
+</code></pre>
+</li>
+<li>
+<p>Change into the <em>rvibackend/web</em> Directory</p>
+
+<pre><code>cd rvibackend/web
+</code></pre>
+</li>
+<li>
+<p>Create the Tables for the RVI Backend Database</p>
+
+<pre><code>python manage.py migrate
+</code></pre>
+
+<p>This will access the MariaDB database server. If you set the database up according
+to the above instructions this will work right out of the box. If you did change
+user name and/or password when setting up the database then you will need to modify
+the file <em>rvibackend/mysql.cnf</em> accordingly.</p>
+</li>
+<li>
+<p>Create the Admin User for the RVI Backend</p>
+
+<pre><code>python manage.py createsuperuser
+</code></pre>
+</li>
+<li>
+<p>Start the Development Server</p>
+
+<p>For development purposes and to test the RVI Backend it is easiest to use
+the built-in web server. Executing</p>
+
+<pre><code>python manage.py runserver
+</code></pre>
+
+<p>will start the development server listening on <em>localhost:8000</em>. The
+development server will perform a couple of system checks, read the settings
+file and then listen to incoming HTTP requests:</p>
+
+<pre><code>Performing system checks...
+
+System check identified no issues (0 silenced).
+November 07, 2014 - 02:17:21
+Django version 1.7, using settings 'rvi.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+</code></pre>
+
+<p>You can now use your web browser and point it to <em>http://localhost:8000/admin</em>
+to see the login prompt for the RVI Backend administrative user interface.</p>
+</li>
+</ol>
+
+<h3>
+<a id="start-the-rvi-backend-server-daemon" class="anchor" href="#start-the-rvi-backend-server-daemon" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start the RVI Backend Server Daemon</h3>
+
+<p>Before you can start the RVI Backend Server Daemon you will need to have the RVI
+Middleware Server running on your system. Please consult the instructions at
+<a href="https://github.com/PDXostc/rvi">RVI</a> on how to setup and start the server.</p>
+
+<p>The RVI Backend Server Daemon connects to the RVI Middleware Server on the
+service edge at <em>localhost:8801</em>. If you configured your RVI Middleware Server
+to listen to a different host/port you will have to change the setting</p>
+
+<pre><code>RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
+</code></pre>
+
+<p>in the file <em>web/rvi/settings.py</em>. This file is the common configuration file for
+the RVI Backend. After that you can start the RVI Backend Server Daemon in
+console or foreground mode with</p>
+
+<pre><code>python rviserver.py foreground
+</code></pre>
+
+<p>If everything is configured correctly you will see</p>
+
+<pre><code>INFO RVI Server: Starting...
+INFO RVI Server: Configuration: RVI_SERVICE_EDGE_URL: http://127.0.0.1:8801, RVI_SOTA_CALLBACK_URL: http://127.0.0.1:20001, RVI_SOTA_SERVICE_ID: /sota, RVI_SOTA_CHUNK_SIZE: 65536, MEDIA_ROOT: ../web/../files/
+INFO RVI Server: Starting SOTA Callback Server on http://127.0.0.1:20001 with service id /sota.
+INFO RVI Server: SOTA Callback Server started.
+INFO RVI Server: Setting up outbound connection to RVI Service Edge at http://127.0.0.1:8801
+INFO RVI Server: Initiate download service name: jlr.com/backend/sota/initiate_download
+INFO RVI Server: Cancel download service name: jlr.com/backend/sota/cancel_download
+INFO RVI Server: Download complete service name: jlr.com/backend/sota/download_complete
+INFO RVI Server: Starting SOTA Transmission Server.
+INFO RVI Server: SOTA Transmission Server started.
+</code></pre>
+
+<p>Every 10 seconds the RVI Backend Server will issue a heartbeat message:</p>
+
+<pre><code>DEBUG RVI Server: Heartbeat.
+</code></pre>
+
+<p>Your RVI Backend is now ready for use.</p>
+
+<h2>
+<a id="using-the-rvi-backend" class="anchor" href="#using-the-rvi-backend" aria-hidden="true"><span class="octicon octicon-link"></span></a>USING THE RVI BACKEND</h2>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rvibackend maintained by <a href="https://github.com/PDXostc">PDXostc</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
