@@ -166,7 +166,7 @@ STATIC_URL = '/static/'
 
 # File upload base path
 MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
-MEDIA_URL = os.path.join(BASE_DIR, '../files/')
+MEDIA_URL = '/files/'
 
 # RVI Server Daemon Configuration
 RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
