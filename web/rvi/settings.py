@@ -165,7 +165,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATIC_URL = '/static/'
 
 # File upload base path
-MEDIA_ROOT = os.path.join(BASE_DIR, '../files/')
+# You can use the relative path when running the rviserver in the foreground.
+# For running as a daemon you must use an absolute path.
+MEDIA_ROOT = os.path.join(BASE_DIR, '../files')
+#MEDIA_ROOT = '/absolute/path/to/files/'
+
 MEDIA_URL = '/files/'
 
 # RVI Server Daemon Configuration
