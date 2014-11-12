@@ -9,7 +9,7 @@ Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
 """
 
 """
-Initialize server package.
+Initialize tools package.
 """
 
 import sys, os, logging
@@ -30,9 +30,7 @@ django.setup()
 
 # setup logging
 logging.config.dictConfig(settings.LOGGING)
-# use RVI logger for general logging
-__RVI_LOGGER__ = logging.getLogger('rvi')
-# use SOTA logger for SOTA logging
-__SOTA_LOGGER__ = logging.getLogger('rvi.sota')
+# use tools logger for general logging
+__TOOLS_LOGGER__ = logging.getLogger('tools')
 
 

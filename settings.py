@@ -20,10 +20,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
+WEB_DIR = os.path.join(BASE_DIR, 'web')
 
 # Templates
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+TEMPLATE_DIRS = [os.path.join(WEB_DIR, 'templates')]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -50,6 +52,7 @@ INSTALLED_APPS = (
     'vehicles',
     'sota',
     'dblog',
+    'tracking',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,7 +111,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, '../log/rvibackend.log'),
+            'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
             'formatter': 'verbose',
         },
         'db_general': {
@@ -142,6 +145,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'tools': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
 
@@ -161,19 +169,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
+STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
 STATIC_URL = '/static/'
 
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.
 # For running as a daemon you must use an absolute path.
-MEDIA_ROOT = os.path.join(BASE_DIR, '../files')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 #MEDIA_ROOT = '/absolute/path/to/files/'
 
 MEDIA_URL = '/files/'
 
 # RVI Server Daemon Configuration
 RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
+RVI_SOTA_ENABLE = 'True'
 RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
-RVI_SOTA_CHUNK_SIZE = '65536'
 RVI_SOTA_SERVICE_ID = '/sota'
+RVI_SOTA_CHUNK_SIZE = '65536'

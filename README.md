@@ -219,6 +219,19 @@ which should print *1.7* to the console.
 
         git clone https://github.com/PDXostc/rvibackend.git rvibackend
     
+2. Set PYTHONPATH
+
+   For the RVI Backend to find the Python modules you will need to set the
+   environment variable PYTHONPATH. Add to the *.bashrc* file in your home
+   directory:
+   
+        PYTHONPATH="${PYTHONPATH}:/<path>/<to>/rvibackend"
+        export PYTHONPATH
+
+   Source the file to make the setting become active for your current terminal:
+   
+        source ~/.bashrc
+
 2. Change into the *rvibackend/web* Directory
 
         cd rvibackend/web
@@ -230,7 +243,7 @@ which should print *1.7* to the console.
     This will access the MariaDB database server. If you set the database up according
     to the above instructions this will work right out of the box. If you did change
     user name and/or password when setting up the database then you will need to modify
-    the file *rvibackend/web/rvi/settings.py* accordingly.
+    the file *rvibackend/settings.py* accordingly.
 
 4. Create the Admin User for the RVI Backend
 
@@ -251,7 +264,7 @@ which should print *1.7* to the console.
 
         System check identified no issues (0 silenced).
         November 07, 2014 - 02:17:21
-        Django version 1.7, using settings 'rvi.settings'
+        Django version 1.7, using settings 'settings'
         Starting development server at http://127.0.0.1:8000/
         Quit the server with CONTROL-C.
         
@@ -283,7 +296,7 @@ to listen to a different host/port you will have to change the setting
 
     RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
     
-in the file *web/rvi/settings.py*. This file is the common configuration file for
+in the file *rvibackend/settings.py*. This file is the common configuration file for
 the RVI Backend. After that you can start the RVI Backend Server Daemon in
 console or foreground mode with
 
