@@ -23,9 +23,9 @@ import django
 from django.conf import settings
 from django.db import connection
 
-from daemon import Daemon
+from util.daemon import Daemon
 
-from sotaserver import SOTACallbackServer, SOTATransmissionServer
+from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 
 
 import __init__
@@ -34,8 +34,30 @@ from __init__ import __SOTA_LOGGER__ as sota_logger
 
 import sota.models
 
+def get_setting(name, default=None):
+    try:
+        value = getattr(settings, name, default)
+        print value
+    except AttributeError:
+        rvi_logger.error('RVI Server: %s not defined. Check settings!', name)
+        sys.exit(1)
+    return value
+        
 
+def get_settings():
+        # get settings from configuration
+        # service edge url
+        service_edge_url  = get_setting("RVI_SERVICE_EDGE_URL")
+        sota_enable       = get_setting("RVI_SOTA_ENABLE", "True")
+        sota_callback_url = get_setting("RVI_SOTA_CALLBACK_URL")
+        sota_service_id   = get_setting("RVI_SOTA_SERVICE_ID", "/sota")
+        sota_chunk_size   = int(get_setting("RVI_SOTA_CHUNK_SIZE", "131072"))
+        media_root        = get_setting("MEDIA_ROOT", ".")
 
+        return(service_edge_url,
+               sota_enable, sota_callback_url, sota_service_id, sota_chunk_size,
+               media_root
+              )
 
 
 class RVIServer(Daemon):
@@ -58,74 +80,48 @@ class RVIServer(Daemon):
         # Execution starts here
         rvi_logger.info('RVI Server: Starting...')
 
-        # get settings from configuration
-        # service edge url
-        try:
-            rvi_url = settings.RVI_SERVICE_EDGE_URL
-        except NameError:
-            rvi_logger.error('RVI Server: RVI_SERVICE_EDGE_URL not defined. Check settings!')
-            sys.exit(1)
-        # chunk size
-        try:
-            rvi_chunk_size = settings.RVI_SOTA_CHUNK_SIZE
-            rvi_chunk_size = int(rvi_chunk_size)
-        except NameError:
-            rvi_chunk_size = 128*1024
-        # SOTA service url
-        try:
-            rvi_callback_url = settings.RVI_SOTA_CALLBACK_URL
-        except NameError:
-            rvi_logger.error('RVI Server: RVI_SOTA_CALLBACK_URL not defined. Check settings!')
-            sys.exit(1)
-        # SOTA service id
-        try:
-            rvi_service_id = settings.RVI_SOTA_SERVICE_ID
-        except NameError:
-            rvi_service_id = '/sota'
-        # root directory for files
-        try:
-            media_root = settings.MEDIA_ROOT
-        except NameError:
-            media_root = '.'
+        (service_edge_url, sota_enable, sota_callback_url, sota_service_id, sota_chunk_size, media_root) = get_settings()
 
         rvi_logger.info('RVI Server: Configuration: ' + 
-            'BASE_DIR: '              + settings.BASE_DIR + ', ' +
-            'RVI_SERVICE_EDGE_URL: '  + rvi_url + ', ' +
-            'RVI_SOTA_CALLBACK_URL: ' + rvi_callback_url + ', ' +
-            'RVI_SOTA_SERVICE_ID: '   + rvi_service_id + ', ' +
-            'RVI_SOTA_CHUNK_SIZE: '   + str(rvi_chunk_size) + ', ' +
+            'RVI_SERVICE_EDGE_URL: '  + service_edge_url + ', ' +
+            'RVI_SOTA_ENABLE: '       + sota_enable + ', ' +
+            'RVI_SOTA_CALLBACK_URL: ' + sota_callback_url + ', ' +
+            'RVI_SOTA_SERVICE_ID: '   + sota_service_id + ', ' +
+            'RVI_SOTA_CHUNK_SIZE: '   + str(sota_chunk_size) + ', ' +
             'MEDIA_ROOT: '            + media_root
             )
 
         # setup RVI Service Edge
-        rvi_logger.info('RVI Server: Setting up outbound connection to RVI Service Edge at %s', rvi_url)
-        self.rvi_service_edge = jsonrpclib.Server(rvi_url)
+        rvi_logger.info('RVI Server: Setting up outbound connection to RVI Service Edge at %s', service_edge_url)
+        self.rvi_service_edge = jsonrpclib.Server(service_edge_url)
 
-        # start the SOTA callback server
-        try:
-            rvi_logger.info('RVI Server: Starting SOTA Callback Server on %s with service id %s.', rvi_callback_url, rvi_service_id)
-            self.sota_cb_server = SOTACallbackServer(self.rvi_service_edge, rvi_service_id, rvi_callback_url)
-            self.sota_cb_server.start()
-            rvi_logger.info('RVI Server: SOTA Callback Server started.')
-        except Exception as e:
-            rvi_logger.error('RVI Server: Cannot start SOTA Callback Server: %s', e)
-            sys.exit(1)
+        if sota_enable == 'True':
+            # enable SOTA services
+            # start the SOTA callback server
+            try:
+                rvi_logger.info('RVI Server: Starting SOTA Callback Server on %s with service id %s.', sota_callback_url, sota_service_id)
+                self.sota_cb_server = SOTACallbackServer(self.rvi_service_edge, sota_service_id, sota_callback_url)
+                self.sota_cb_server.start()
+                rvi_logger.info('RVI Server: SOTA Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start SOTA Callback Server: %s', e)
+                sys.exit(1)
 
-        # wait for SOTA callback server to come up    
-        time.sleep(0.5)
+            # wait for SOTA callback server to come up    
+            time.sleep(0.5)
 
-        # start SOTA Transmission Server
-        try:
-            rvi_logger.info('RVI Server: Starting SOTA Transmission Server.')
-            self.sota_tx_server = SOTATransmissionServer(self.rvi_service_edge, rvi_service_id, rvi_chunk_size)
-            self.sota_tx_server.start()
-            rvi_logger.info('RVI Server: SOTA Transmission Server started.')
-        except Exception as e:
-            rvi_logger.error('RVI Server: Cannot start SOTA Transmission Server: %s', e)
-            sys.exit(1)
+            # start SOTA Transmission Server
+            try:
+                rvi_logger.info('RVI Server: Starting SOTA Transmission Server.')
+                self.sota_tx_server = SOTATransmissionServer(self.rvi_service_edge, sota_service_id, sota_chunk_size)
+                self.sota_tx_server.start()
+                rvi_logger.info('RVI Server: SOTA Transmission Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start SOTA Transmission Server: %s', e)
+                sys.exit(1)
     
-        # wait for SOTA transmission server to come up    
-        time.sleep(0.5)
+            # wait for SOTA transmission server to come up    
+            time.sleep(0.5)
 
         # catch signals for proper shutdown
         for sig in (SIGABRT, SIGTERM, SIGINT):
