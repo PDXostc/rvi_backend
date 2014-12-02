@@ -17,9 +17,11 @@ urlpatterns = patterns('',
     # url(r'^$', 'rvi.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^tracking/', include('tracking.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+
     # for now redirect root to admin
     url(r'^', include(admin.site.urls)),
-    url(r'^admin/', include(admin.site.urls)),
 )
 
 # uploaded files

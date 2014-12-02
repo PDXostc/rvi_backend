@@ -34,7 +34,7 @@ class SOTACallbackServer(threading.Thread):
     RPC server thread responding to SOTA callbacks from the RVI framework
     """
     
-    def __init__(self, service_edge, service_id, callback_url):
+    def __init__(self, service_edge, callback_url, service_id):
         self.service_edge = service_edge
         self.service_id = service_id
         self.callback_url = callback_url

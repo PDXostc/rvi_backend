@@ -213,6 +213,19 @@ Verify installation with:
 which should print *1.7* to the console.
 
 
+### Python Modules
+
+The RVI Backend requires additional Python modules to function:
+
+1. Django Leaflet
+
+    sudo pip install django-leaflet
+    
+2. Django GeoJSON
+
+    sudo pip install django-geojson
+        
+
 ### RVI Backend Installation
 
 1. Clone the RVI Backend Repository from GitHub

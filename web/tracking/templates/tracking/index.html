@@ -1,0 +1,85 @@
+{% load leaflet_tags %}
+
+{% block extra_assets %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+{% endblock %}
+
+{% block content %}
+    <html>
+        <style>
+
+            .leaflet-container {  /* all maps */
+                width:  600px;
+                height: 400px;
+            }
+
+            #specialbigmap {
+               height: 800px;
+            }
+
+        </style>
+
+        <body>
+            <h1>Vehicle Locations</h1>
+            {% leaflet_map "main" callback="main_map_init" %}
+        
+            <script type="text/javascript">
+                function main_map_init(map, options) {
+                    var last_locations = {{ last_locations|safe }};
+                    var all_locations = {{ all_locations|safe }};
+                    var vehicles = {{ vehicles|safe }};
+                    var latitude = {{ latitude|safe }};
+                    var longitude = {{ longitude|safe }};
+                    
+                    // put markers on last locations
+                    for (var i in last_locations) {
+                        var loc_fields = last_locations[i].fields;
+                        var marker = L.marker([loc_fields.loc_latitude, loc_fields.loc_longitude])
+                        for (var j in vehicles) {
+                            var veh_pk = vehicles[j].pk;
+                            if (veh_pk == loc_fields.loc_vehicle) {
+                                var veh_fields = vehicles[j].fields;
+                                var popup = L.popup()
+                                    .setContent("<b>" + veh_fields.veh_name + "</b> <br>" +
+                                                "Time: " + loc_fields.loc_time + "<br>" +
+                                                "Speed: " + loc_fields.loc_speed + "km/h <br>" +
+                                                "Odometer: " + loc_fields.loc_odometer  + "km <br>"
+                                    );
+                                marker.bindPopup(popup);
+                                break;
+                            }
+                        }
+                        marker.addTo(map)
+                    }
+
+                    // draw waypoints
+                    var waypoints = [];
+                    var points = []
+                    var vehicle = -1;
+                    var index = 0;
+                    waypoints[index] = points;
+                    for (var i in all_locations) {
+                        var loc_fields = all_locations[i].fields;
+                        if ((vehicle != -1) && (vehicle != loc_fields.loc_vehicle)) {
+                            index++;
+                            points = [];
+                            waypoints[index] = points;
+                        }
+                        var waypoint = L.latLng(loc_fields.loc_latitude, loc_fields.loc_longitude);
+                        points[points.length] = waypoint;
+                        vehicle = loc_fields.loc_vehicle;
+                    }
+                    for (var i = 0; i < waypoints.length; i++) {   
+                        var track = L.polyline(waypoints[i], {color: 'red'});
+                        track.addTo(map);
+                    }
+                
+                    map.setView([latitude, longitude], 1);
+                    
+                }
+            </script>
+        </body>
+
+    </html>
+{% endblock %}

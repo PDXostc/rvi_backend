@@ -49,6 +49,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'leaflet',
+    'djgeojson',
     'vehicles',
     'sota',
     'dblog',
@@ -180,9 +182,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 
 MEDIA_URL = '/files/'
 
+DEFAULT_VEHICLE_IMAGE = "car-100x50.png"
+
+
+# Mapping Configuration
+LEAFLET_CONFIG = {
+    'TILES': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'MINIMAP': True,
+}
+LEAFLET_ANIMATION_INTERVAL = "100"
+
 # RVI Server Daemon Configuration
 RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
+
+# SOTA
 RVI_SOTA_ENABLE = 'True'
 RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
 RVI_SOTA_CHUNK_SIZE = '65536'
+
+# Tracking
+RVI_TRACKING_ENABLE = 'True'
+RVI_TRACKING_CALLBACK_URL = 'http://127.0.0.1:20002'
+RVI_TRACKING_SERVICE_ID = '/logging'
+

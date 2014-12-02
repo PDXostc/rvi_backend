@@ -35,14 +35,15 @@ class RVIJSONRPCServer(SimpleJSONRPCServer):
             # Convert 'parameters' from [{'vin': 1234}, {hello: 'world'}] to
             # a regular dictionary: {'vin': 1234, hello: 'world'}
 
-            # print "Parameters:", params['parameters']
-            msg_params = params['parameters'] 
+            #print "Service:", params['service_name']
+            #print "Parameters:", params['parameters']
+            msg_params = params['parameters']
             for i in range(0, len(msg_params)):
                 for j in range(0, len(msg_params[i].keys())):
-                    # print "params", msg_params[i].keys()[j], "=", msg_params[i].values()[j]
+                    #print "params", msg_params[i].keys()[j], "=", msg_params[i].values()[j]
                     dict_param[msg_params[i].keys()[j]] = msg_params[i].values()[j]
 
-            # print "Parameter disctionary: ", dict_param
+            # print "Parameter dictionary: ", dict_param
             # print 
             # Ship the processed dispatch info upward.
             return SimpleJSONRPCServer._dispatch(self, params['service_name'], dict_param)           
