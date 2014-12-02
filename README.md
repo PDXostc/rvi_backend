@@ -217,6 +217,14 @@ which should print *1.7* to the console.
 
 The RVI Backend requires additional Python modules to function:
 
+1. Pillow Imaging Library
+
+    sudo pip install pillow
+
+2. JSONField Module
+
+    sudo pip install jsonfield
+
 1. Django Leaflet
 
     sudo pip install django-leaflet

@@ -24,7 +24,7 @@
             <h1>Vehicle Tracking</h1>
         
             <script type="text/javascript">
-                var waypoints = {{ waypoints|geojsonfeature:"start_location,popup_content"|safe }};
+                var waypoints = {{ waypoints|geojsonfeature:"start_location,last_location,vehicle_info,location_info"|safe }};
 
                 
                 function main_map_init(map, options) {
@@ -34,9 +34,13 @@
                     var features = waypoints.features;
                     for (i = 0; i < features.length; i++) {
                         var location = features[i].properties.start_location;
+                        var veh_info = features[i].properties.vehicle_info;
+                        var loc_info = features[i].properties.location_info[0]
                         if (location != null) {
                             var marker = L.marker(location);
-                            marker.bindPopup(features[i].properties.popup_content)
+                            var popup_content = "<p><img src=" + veh_info[1] + " height='50px'></p><p>" + "<b>" + veh_info[0] +"</b>" +
+                                                "<br>Time: " + loc_info[0] + "<br>Speed: " + Math.round(loc_info[1] * 3.6) + " km/h";
+                            marker.bindPopup(popup_content)
                             marker.addTo(map);
                             markers.push(marker);
                         }
