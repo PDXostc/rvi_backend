@@ -26,6 +26,7 @@ from django.db import connection
 from util.daemon import Daemon
 
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
+from server.trackingserver import TrackingCallbackServer
 
 
 import __init__
@@ -37,7 +38,6 @@ import sota.models
 def get_setting(name, default=None):
     try:
         value = getattr(settings, name, default)
-        print value
     except AttributeError:
         rvi_logger.error('RVI Server: %s not defined. Check settings!', name)
         sys.exit(1)
@@ -47,17 +47,20 @@ def get_setting(name, default=None):
 def get_settings():
         # get settings from configuration
         # service edge url
-        service_edge_url  = get_setting("RVI_SERVICE_EDGE_URL")
-        sota_enable       = get_setting("RVI_SOTA_ENABLE", "True")
-        sota_callback_url = get_setting("RVI_SOTA_CALLBACK_URL")
-        sota_service_id   = get_setting("RVI_SOTA_SERVICE_ID", "/sota")
-        sota_chunk_size   = int(get_setting("RVI_SOTA_CHUNK_SIZE", "131072"))
-        media_root        = get_setting("MEDIA_ROOT", ".")
+        conf = {}
+        conf['SERVICE_EDGE_URL']  = get_setting("RVI_SERVICE_EDGE_URL")
+        conf['MEDIA_ROOT']        = get_setting("MEDIA_ROOT", ".")
 
-        return(service_edge_url,
-               sota_enable, sota_callback_url, sota_service_id, sota_chunk_size,
-               media_root
-              )
+        conf['SOTA_ENABLE']       = get_setting("RVI_SOTA_ENABLE", "True")
+        conf['SOTA_CALLBACK_URL'] = get_setting("RVI_SOTA_CALLBACK_URL")
+        conf['SOTA_SERVICE_ID']   = get_setting("RVI_SOTA_SERVICE_ID", "/sota")
+        conf['SOTA_CHUNK_SIZE']   = int(get_setting("RVI_SOTA_CHUNK_SIZE", "131072"))
+
+        conf['TRACKING_ENABLE']       = get_setting("RVI_TRACKING_ENABLE", "True")
+        conf['TRACKING_CALLBACK_URL'] = get_setting("RVI_TRACKING_CALLBACK_URL")
+        conf['TRACKING_SERVICE_ID']   = get_setting("RVI_TRACKING_SERVICE_ID", "/logging")
+
+        return conf
 
 
 class RVIServer(Daemon):
@@ -66,6 +69,7 @@ class RVIServer(Daemon):
     rvi_service_edge = None
     sota_cb_server = None
     sota_tx_server = None
+    tracking_cb_server = None
     
     def cleanup(self, *args):
         rvi_logger.info('RVI Server: Caught signal: %d. Shutting down...', args[0])
@@ -73,6 +77,8 @@ class RVIServer(Daemon):
             self.sota_cb_server.shutdown()
         if self.sota_tx_server:
             self.sota_tx_server.shutdown()
+        if self.tracking_cb_server:
+            self.tracking_cb_server.shutdown()
         sys.exit(0)
 
 
@@ -80,27 +86,29 @@ class RVIServer(Daemon):
         # Execution starts here
         rvi_logger.info('RVI Server: Starting...')
 
-        (service_edge_url, sota_enable, sota_callback_url, sota_service_id, sota_chunk_size, media_root) = get_settings()
+        conf = get_settings()
 
-        rvi_logger.info('RVI Server: Configuration: ' + 
-            'RVI_SERVICE_EDGE_URL: '  + service_edge_url + ', ' +
-            'RVI_SOTA_ENABLE: '       + sota_enable + ', ' +
-            'RVI_SOTA_CALLBACK_URL: ' + sota_callback_url + ', ' +
-            'RVI_SOTA_SERVICE_ID: '   + sota_service_id + ', ' +
-            'RVI_SOTA_CHUNK_SIZE: '   + str(sota_chunk_size) + ', ' +
-            'MEDIA_ROOT: '            + media_root
+        rvi_logger.info('RVI Server: General Configuration: ' + 
+            'RVI_SERVICE_EDGE_URL: '  + conf['SERVICE_EDGE_URL']  + ', ' +
+            'MEDIA_ROOT: '            + conf['MEDIA_ROOT']
             )
 
         # setup RVI Service Edge
-        rvi_logger.info('RVI Server: Setting up outbound connection to RVI Service Edge at %s', service_edge_url)
-        self.rvi_service_edge = jsonrpclib.Server(service_edge_url)
+        rvi_logger.info('RVI Server: Setting up outbound connection to RVI Service Edge at %s', conf['SERVICE_EDGE_URL'])
+        self.rvi_service_edge = jsonrpclib.Server(conf['SERVICE_EDGE_URL'])
 
-        if sota_enable == 'True':
-            # enable SOTA services
+        # SOTA Startup
+        if conf['SOTA_ENABLE'] == 'True':
+            # log SOTA configuration
+            rvi_logger.info('RVI Server: SOTA Configuration: ' + 
+                'RVI_SOTA_CALLBACK_URL: ' + conf['SOTA_CALLBACK_URL'] + ', ' +
+                'RVI_SOTA_SERVICE_ID: '   + conf['SOTA_SERVICE_ID']   + ', ' +
+                'RVI_SOTA_CHUNK_SIZE: '   + str(conf['SOTA_CHUNK_SIZE'])
+                )
             # start the SOTA callback server
             try:
-                rvi_logger.info('RVI Server: Starting SOTA Callback Server on %s with service id %s.', sota_callback_url, sota_service_id)
-                self.sota_cb_server = SOTACallbackServer(self.rvi_service_edge, sota_service_id, sota_callback_url)
+                rvi_logger.info('RVI Server: Starting SOTA Callback Server on %s with service id %s.', conf['SOTA_CALLBACK_URL'], conf['SOTA_SERVICE_ID'])
+                self.sota_cb_server = SOTACallbackServer(self.rvi_service_edge, conf['SOTA_CALLBACK_URL'], conf['SOTA_SERVICE_ID'])
                 self.sota_cb_server.start()
                 rvi_logger.info('RVI Server: SOTA Callback Server started.')
             except Exception as e:
@@ -113,7 +121,7 @@ class RVIServer(Daemon):
             # start SOTA Transmission Server
             try:
                 rvi_logger.info('RVI Server: Starting SOTA Transmission Server.')
-                self.sota_tx_server = SOTATransmissionServer(self.rvi_service_edge, sota_service_id, sota_chunk_size)
+                self.sota_tx_server = SOTATransmissionServer(self.rvi_service_edge, conf['SOTA_SERVICE_ID'], conf['SOTA_CHUNK_SIZE'])
                 self.sota_tx_server.start()
                 rvi_logger.info('RVI Server: SOTA Transmission Server started.')
             except Exception as e:
@@ -122,6 +130,29 @@ class RVIServer(Daemon):
     
             # wait for SOTA transmission server to come up    
             time.sleep(0.5)
+            
+        # Tracking Startup
+        if conf['TRACKING_ENABLE'] == 'True':
+            # log Tracking configuration
+            rvi_logger.info('RVI Server: Tracking Configuration: ' + 
+                'RVI_TRACKING_CALLBACK_URL: ' + conf['TRACKING_CALLBACK_URL'] + ', ' +
+                'RVI_TRACKING_SERVICE_ID: '   + conf['TRACKING_SERVICE_ID']
+                )
+            # start the Tracking callback server
+            try:
+                rvi_logger.info('RVI Server: Starting Tracking Callback Server on %s with service id %s.', conf['TRACKING_CALLBACK_URL'], conf['TRACKING_SERVICE_ID'])
+                self.tracking_cb_server = TrackingCallbackServer(self.rvi_service_edge, conf['TRACKING_CALLBACK_URL'], conf['TRACKING_SERVICE_ID'])
+                self.tracking_cb_server.start()
+                rvi_logger.info('RVI Server: Tracking Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Tracking Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for SOTA callback server to come up    
+            time.sleep(0.5)
+
+        else:
+            rvi_logger.info('RVI Server: Tracking not enabled')
 
         # catch signals for proper shutdown
         for sig in (SIGABRT, SIGTERM, SIGINT):
@@ -135,7 +166,7 @@ class RVIServer(Daemon):
                 # close the connection on us, ping the server to check if
                 # the connection is still up.
                 if (connection.connection is not None):
-                    if (connection.is_usable()): 
+                    if (connection.is_usable() == True): 
                         rvi_logger.debug('RVI Server: Database connection is up.')
                     else:
                         rvi_logger.error('RVI Server: Database connection is down.')

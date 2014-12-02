@@ -100,7 +100,7 @@ class GPSCollector(Daemon):
                 
                 # process GPS data
                 session = self.gps_poller.session
-                if (session.status == STATUS_NO_FIX) and not self.nofix:
+                if (session.fix.mode == MODE_NO_FIX) and not self.nofix:
                     logger.info("%s: Waiting for GPS to fix...", MY_NAME)
                     continue
                 
@@ -114,7 +114,8 @@ class GPSCollector(Daemon):
                     location.loc_time = session.utc
                     location.loc_latitude = session.fix.latitude
                     location.loc_longitude = session.fix.longitude
-                    location.loc_altitude = session.fix.altitude
+                    if (session.fix.mode == MODE_3D):
+                        location.loc_altitude = session.fix.altitude
                     location.loc_speed = session.fix.speed
                     location.loc_climb = session.fix.climb
                     location.loc_track = session.fix.track
