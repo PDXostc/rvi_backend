@@ -86,7 +86,7 @@
                     for (i = 0; i < features.length; i++) {
                         var track = features[i].geometry.coordinates;
                         var veh_info = features[i].properties.vehicle_info;
-                        if (location != null) {
+                        if (track.length > 0) {
                             var marker = L.marker(track[0]);
                             var popup = L.popup();
                             marker.bindPopup(popup);
