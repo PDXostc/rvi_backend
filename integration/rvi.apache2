@@ -1,0 +1,20 @@
+WSGIPythonPath /var/www/rvibackend/:/var/www/rvibackend/web/
+<VirtualHost *:80>
+
+    Alias /static/ /var/www/rvibackend/web/staticroot/
+
+    WSGIScriptAlias / /var/www/rvibackend/web/rvi/wsgi.py
+
+    <Directory /var/www/rvibackend/web>
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    <Directory /var/www/rvibackend/web/rvi>
+        <Files wsgi.py>
+             Order deny,allow
+             Allow from all
+        </Files>
+     </Directory>
+</VirtualHost>
+
