@@ -92,28 +92,28 @@ class Waypoints(models.Model):
         """
         Returns the waypoints as LineString object for direct use with GeoJSON.
         """
-        geom = {'type': 'LineString', 'coordinates': [list(e) for e in self.select_locations().values_list('loc_longitude','loc_latitude')]}
+        geom = {'type': 'LineString', 'coordinates': [list(e) for e in self.select_locations().values_list('loc_longitude','loc_latitude','loc_altitude','loc_time','loc_speed','loc_climb','loc_odometer')]}
         return (geom)
         
     @property
     def start_location(self):
         """
-        Returns the start location or first waypoint.
+        Returns the start location or first waypoint of the list.
         Note: We need to flip latitude and longitude as Leaflet expects latitude first.
         """
         locations = self.select_locations()
         if len(locations) > 0:
-            return list(locations.values_list('loc_latitude','loc_longitude'))[0]
+            return list(locations.values_list('loc_latitude','loc_longitude','loc_time','loc_speed'))[0]
             
     @property
-    def last_location(self):
+    def end_location(self):
         """
-        Returns the last location or last waypoint.
+        Returns end last location or last waypoint of the list.
         Note: We need to flip latitude and longitude as Leaflet expects latitude first.
         """
         locations = self.select_locations()
         if len(locations) > 0:
-            return list(locations.values_list('loc_latitude','loc_longitude'))[-1]
+            return list(locations.values_list('loc_latitude','loc_longitude','loc_time','loc_speed'))[-1]
             
     @property
     def location_info(self):
