@@ -21,6 +21,7 @@ from django.conf import settings
 # The backend server daemon depends on the Django ORM and uses settings
 # from DJANGO_SETTINGS_MODULE. Append the relative path to the web
 # backend to the Python search path for modules.
+sys.path.append('..')
 sys.path.append('../web')
 
 # set the default Django settings module

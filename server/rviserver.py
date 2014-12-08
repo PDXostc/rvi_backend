@@ -23,13 +23,13 @@ import django
 from django.conf import settings
 from django.db import connection
 
-from util.daemon import Daemon
+import __init__
 
+from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
 
 
-import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
 from __init__ import __SOTA_LOGGER__ as sota_logger
 
