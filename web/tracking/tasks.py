@@ -27,7 +27,7 @@ logger = logging.getLogger('rvi')
 transaction_id = 0
 
 
-def subscribe(vehicle, channels, interval=5000):
+def subscribe(vehicle, channels, interval=5):
     """
     Subscribe to reporting channels on a vehicle
     :param vehicle:  Vehicle object
