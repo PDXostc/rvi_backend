@@ -163,6 +163,7 @@ class Position(models.Model):
             geom = {'type': 'Point', 'coordinates': [position[0].loc_longitude,position[0].loc_latitude]}
         else:
             geom = {'type': 'Point', 'coordinates': [0,51.48]}
+            #geom = {'type': 'Point', 'coordinates': []}
         return (geom)
         
     @property

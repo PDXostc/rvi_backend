@@ -1,85 +1,71 @@
-{% load leaflet_tags %}
+<html>
+    <body>
+        <iframe id="map" src="/tracking/location" width="1000" height="700">
+			<p>Your browser does not support iframes.</p>
+        </iframe>
+        <p>
+			Map:
+            <select id="maps" onchange="updateMap()">
+                {% for map in maps %}
+                    <option value="{{map.id}}">{{map.name|capfirst}}</option>
+                {% endfor %}
+            </select>        
+			Vehicle:
+            <select id="vehicles" onchange="updateMap()">
+                <option value="">--------</option>
+                {% for vehicle in vehicles %}
+                    <option value="{{vehicle.id}}">{{vehicle.veh_name|capfirst}}</option>
+                {% endfor %}
+            </select>
+            From:
+            <input type="date" id="from_date" onchange="updateMap()">
+            <input type="time" id="from_time" onchange="updateMap()">
+            To:
+            <input type="date" id="to_date" onchange="updateMap()">     
+            <input type="time" id="to_time" onchange="updateMap()">
+        </p>
+    </body>
+    
+    <script>
+		function updateMap() {
+		    var map_frame = document.getElementById("map")
+		    var map = document.getElementById("maps").value + "/"
+		    var vehicle = document.getElementById("vehicles").value
+		    if (vehicle) {
+				vehicle = vehicle + "/"
+			}
 
-{% block extra_assets %}
-    {% leaflet_js %}
-    {% leaflet_css %}
-{% endblock %}
+		    var from_date = document.getElementById("from_date").value
+			var from_time = document.getElementById("from_time").value
+            if (from_date) {
+  	            if (from_time) {
+				    from_date = from_date + "+" + from_time + ":00"
+			    }
+			    else {
+				    from_date = from_date + "+" + "00:00:00"				
+			    }
+		    }
 
-{% block content %}
-    <html>
-        <style>
+		    var to_date = document.getElementById("to_date").value
+			var to_time = document.getElementById("to_time").value
+		    if (to_date) {
+				to_date = "_" + to_date
+  	            if (to_time) {
+				    to_date = to_date + "+" + to_time + ":00"
+		        }
+		        else {
+				    to_date = to_date + "+" + "23:59:59"
+			    }
+			}
 
-            .leaflet-container {  /* all maps */
-                width:  600px;
-                height: 400px;
-            }
-
-            #specialbigmap {
-               height: 800px;
-            }
-
-        </style>
-
-        <body>
-            <h1>Vehicle Locations</h1>
-            {% leaflet_map "main" callback="main_map_init" %}
-        
-            <script type="text/javascript">
-                function main_map_init(map, options) {
-                    var last_locations = {{ last_locations|safe }};
-                    var all_locations = {{ all_locations|safe }};
-                    var vehicles = {{ vehicles|safe }};
-                    var latitude = {{ latitude|safe }};
-                    var longitude = {{ longitude|safe }};
-                    
-                    // put markers on last locations
-                    for (var i in last_locations) {
-                        var loc_fields = last_locations[i].fields;
-                        var marker = L.marker([loc_fields.loc_latitude, loc_fields.loc_longitude])
-                        for (var j in vehicles) {
-                            var veh_pk = vehicles[j].pk;
-                            if (veh_pk == loc_fields.loc_vehicle) {
-                                var veh_fields = vehicles[j].fields;
-                                var popup = L.popup()
-                                    .setContent("<b>" + veh_fields.veh_name + "</b> <br>" +
-                                                "Time: " + loc_fields.loc_time + "<br>" +
-                                                "Speed: " + loc_fields.loc_speed + "km/h <br>" +
-                                                "Odometer: " + loc_fields.loc_odometer  + "km <br>"
-                                    );
-                                marker.bindPopup(popup);
-                                break;
-                            }
-                        }
-                        marker.addTo(map)
-                    }
-
-                    // draw waypoints
-                    var waypoints = [];
-                    var points = []
-                    var vehicle = -1;
-                    var index = 0;
-                    waypoints[index] = points;
-                    for (var i in all_locations) {
-                        var loc_fields = all_locations[i].fields;
-                        if ((vehicle != -1) && (vehicle != loc_fields.loc_vehicle)) {
-                            index++;
-                            points = [];
-                            waypoints[index] = points;
-                        }
-                        var waypoint = L.latLng(loc_fields.loc_latitude, loc_fields.loc_longitude);
-                        points[points.length] = waypoint;
-                        vehicle = loc_fields.loc_vehicle;
-                    }
-                    for (var i = 0; i < waypoints.length; i++) {   
-                        var track = L.polyline(waypoints[i], {color: 'red'});
-                        track.addTo(map);
-                    }
-                
-                    map.setView([latitude, longitude], 1);
-                    
-                }
-            </script>
-        </body>
-
-    </html>
-{% endblock %}
+            var target = map_frame.src = "/tracking/"
+		               + map
+		               + vehicle
+		               + from_date
+            if (map != "location/") {
+				target = target + to_date
+		    }
+		    map_frame.src = target
+	    }
+    </script>
+</html>
