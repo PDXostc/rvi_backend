@@ -38,12 +38,11 @@ class Vehicle(models.Model):
         if self.veh_picture:
             return self.veh_picture.url
         else:
-            return settings.MEDIA_URL + settings.DEFAULT_VEHICLE_IMAGE
-        
+            return settings.MEDIA_URL + settings.DEFAULT_VEHICLE_IMAGE    
     
     def get_name(self):
-		return 	self.veh_name
-    
+        return self.veh_name
+		
     def __unicode__(self):
 		return 	self.veh_name
 		
