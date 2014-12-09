@@ -74,13 +74,13 @@ def report(timestamp, vin, data):
     for channel in data:
         key = channel['channel']
         value = channel['value']
-        if key == 'waypoint':
+        if key == 'location':
             location.loc_latitude = value['lat']
             location.loc_longitude = value['lon']
             location.loc_altitude = value['alt']
         elif key == 'speed':
             location.loc_speed = float(value)
-        elif key == 'odo':
+        elif key == 'odometer':
             location.loc_odometer = float(value)
 
     location.save()
