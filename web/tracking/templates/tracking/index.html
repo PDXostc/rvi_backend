@@ -4,68 +4,102 @@
 			<p>Your browser does not support iframes.</p>
         </iframe>
         <p>
-			Map:
-            <select id="maps" onchange="updateMap()">
-                {% for map in maps %}
-                    <option value="{{map.id}}">{{map.name|capfirst}}</option>
-                {% endfor %}
-            </select>        
-			Vehicle:
-            <select id="vehicles" onchange="updateMap()">
-                <option value="">--------</option>
-                {% for vehicle in vehicles %}
-                    <option value="{{vehicle.id}}">{{vehicle.veh_name|capfirst}}</option>
-                {% endfor %}
-            </select>
-            From:
-            <input type="date" id="from_date" onchange="updateMap()">
-            <input type="time" id="from_time" onchange="updateMap()">
-            To:
-            <input type="date" id="to_date" onchange="updateMap()">     
-            <input type="time" id="to_time" onchange="updateMap()">
+			<fieldset id="fs-map" class="input-group">
+			    <label for="maps" class="input-wrapper">
+				    <span><b>Map:</b></span>
+                    <select id="maps" onchange="updateMap()">
+                        {% for map in maps %}
+                            <option value="{{map.id}}">{{map.name|capfirst}}</option>
+                        {% endfor %}
+                     </select>
+                </label>
+                 
+                <label for="vehicles" class="input-wrapper">
+                    <span><b>Vehicle:</b></span>
+                    <select id="vehicles" onchange="updateMap()">
+                        <option value="">--------</option>
+                        {% for vehicle in vehicles %}
+                            <option value="{{vehicle.id}}">{{vehicle.veh_name|capfirst}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                 
+                <label for="from_date" class="input-wrapper">
+				    <span id="from_text"><b>At:</b></span>
+                    <input type="date" id="from_date" onchange="updateMap()">
+                    <input type="time" id="from_time" onchange="updateMap()">
+                </label>
+            
+                <Label id="to_label" for="to_date" style="visibility:hidden" class="input-wrapper">
+					<span id="to_text"><b>To:</b></span>
+                    <input type="date" id="to_date" visible="false" onchange="updateMap()">     
+                    <input type="time" id="to_time" visible="false" onchange="updateMap()">
+                </Label>
+            </fieldset>
         </p>
     </body>
     
     <script>
 		function updateMap() {
-		    var map_frame = document.getElementById("map")
-		    var map = document.getElementById("maps").value + "/"
-		    var vehicle = document.getElementById("vehicles").value
+		    var map_frame = document.getElementById("map");
+		    var map = document.getElementById("maps").value + "/";
+		    var vehicle = document.getElementById("vehicles").value;
 		    if (vehicle) {
-				vehicle = vehicle + "/"
+				vehicle = vehicle + "/";
 			}
 
-		    var from_date = document.getElementById("from_date").value
-			var from_time = document.getElementById("from_time").value
+		    var from_date = document.getElementById("from_date").value;
+			var from_time = document.getElementById("from_time").value;
             if (from_date) {
   	            if (from_time) {
-				    from_date = from_date + "+" + from_time + ":00"
+				    from_date = from_date + "+" + from_time + ":00";
 			    }
 			    else {
-				    from_date = from_date + "+" + "00:00:00"				
+				    from_date = from_date + "+" + "00:00:00";
 			    }
 		    }
 
-		    var to_date = document.getElementById("to_date").value
-			var to_time = document.getElementById("to_time").value
+		    var to_date = document.getElementById("to_date").value;
+			var to_time = document.getElementById("to_time").value;
 		    if (to_date) {
-				to_date = "_" + to_date
+				to_date = "_" + to_date;
   	            if (to_time) {
-				    to_date = to_date + "+" + to_time + ":00"
+				    to_date = to_date + "+" + to_time + ":00";
 		        }
 		        else {
-				    to_date = to_date + "+" + "23:59:59"
+				    to_date = to_date + "+" + "23:59:59";
 			    }
 			}
-
+			
             var target = map_frame.src = "/tracking/"
 		               + map
 		               + vehicle
-		               + from_date
+		               + from_date;
             if (map != "location/") {
-				target = target + to_date
+				target = target + to_date;
+				document.getElementById("to_label").style.visibility = "visible";
+				setSpanText(document.getElementById("from_text"), "From:");
 		    }
-		    map_frame.src = target
+		    else {
+				document.getElementById("to_label").style.visibility = "hidden";
+				setSpanText(document.getElementById("from_text"), "At:");
+			}
+		    map_frame.src = target;
 	    }
+	    
+	    function setSpanText(span, text) {
+		    while (span.firstChild) {
+				span.removeChild(span.firstChild);
+			}
+			var ts = document.createElement("b");
+			var te = document.createTextNode(text);
+			ts.appendChild(te);
+			span.appendChild(ts);
+		}
+		
+		function onLoad() {
+			document.getElementById("to_label").style.visibility = "hidden";
+			setSpanText(document.getElementById("from_text"), "At:");
+		}
     </script>
 </html>
