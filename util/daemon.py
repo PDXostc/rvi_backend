@@ -122,11 +122,12 @@ class Daemon(object):
                 time.sleep(0.1)
         except OSError, err:
             err = str(err)
-            if err.find("Daemon: No such process") > 0:
+            if err.find("No such process") > 0:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                print str(err)
+                message = "Daemon: Error shutting down: %s\n"
+                sys.stderr.write(message % err)
                 sys.exit(1)
  
     def restart(self):
