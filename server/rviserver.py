@@ -48,6 +48,10 @@ def get_settings():
         # get settings from configuration
         # service edge url
         conf = {}
+        
+        conf['DB_PING_INTERVAL'] = int(get_setting("RVI_DB_PING_INTERVAL", 10))
+        conf['DB_CLOSE_TIMEOUT'] = int(get_setting("RVI_DB_CLOSE_TIMEOUT", 3600))
+        
         conf['SERVICE_EDGE_URL']  = get_setting("RVI_SERVICE_EDGE_URL")
         conf['MEDIA_ROOT']        = get_setting("MEDIA_ROOT", ".")
 
@@ -159,20 +163,30 @@ class RVIServer(Daemon):
             signal(sig, self.cleanup)
 
         # main execution loop
+        timeout = conf['DB_CLOSE_TIMEOUT']
         while True:
             try:
-                time.sleep(10)
+                time.sleep(conf['DB_PING_INTERVAL'])
                 # If we are idle too long the database server may
                 # close the connection on us, ping the server to check if
                 # the connection is still up.
                 if (connection.connection is not None):
                     if (connection.is_usable() == True): 
                         rvi_logger.debug('RVI Server: Database connection is up.')
+                        # Close connection if open longer than the timeout
+                        timeout -= conf['DB_PING_INTERVAL']
+                        if (timeout <= 0):
+                            connection.close()
+                            timeout = conf['DB_CLOSE_TIMEOUT']
+                            rvi_logger.debug('RVI Server: Idle Timeout: closed database connection.')
                     else:
                         rvi_logger.error('RVI Server: Database connection is down.')
                         connection.close()
                 else:    
                     rvi_logger.error('RVI Server: Database connection is closed.')
+                    # As long as the connection is closed reset the timeout
+                    timeout = conf['DB_CLOSE_TIMEOUT']
+                    
             except KeyboardInterrupt:
                 print ('\n')
                 break
