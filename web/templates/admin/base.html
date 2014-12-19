@@ -19,19 +19,24 @@
 
 
 {% block page_header %}
-   {% if not is_popup %}<h1 class="page-header">Site Administration</h1>{% endif %}
+   {% if not is_popup %}
+    <div class="page-header">
+      <h1>Site Administration</h1>
+    </div>
+   {% endif %}
 {% endblock %}
 
 {% block page_content %}
 <!-- Container -->
-<div id="container">
+<!-- <div id="container"> -->
+  <div class="container">
 
     {% if not is_popup %}
 
     {% block breadcrumbs %}
     <div class="breadcrumbs">
     <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-    {% if title %} &rsaquo; {{ title }}{% endif %}
+    {% if title %} {{ title }}{% endif %}
     </div>
     {% endblock %}
     {% endif %}
@@ -46,6 +51,7 @@
 
     <!-- Content -->
     <div id="content" class="{% block coltype %}colM{% endblock %}">
+    <!-- <div id="content" class="content"> -->
         {% block pretitle %}{% endblock %}
         {% block content_title %}{% if title %}<h2>{{ title }}</h2>{% endif %}{% endblock %}
         {% block content %}
@@ -53,7 +59,7 @@
         {{ content }}
         {% endblock %}
         {% block sidebar %}{% endblock %}
-        <br class="clear" />
+        <!-- <br class="clear" /> -->
     </div>
     <!-- END Content -->
 

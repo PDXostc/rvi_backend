@@ -32,13 +32,13 @@ form h4 {
 
 label {
     font-weight: normal !important;
-    color: #666;
-    font-size: 12px;
+    /* color: #666; */
+    font-size: 1.5em;
 }
 
 .required label, label.required {
     font-weight: bold !important;
-    color: #333 !important;
+    /* color: #333 !important; */
 }
 
 /* RADIO BUTTONS */
@@ -68,7 +68,7 @@ form ul.inline li {
     display: block;
     padding: 3px 10px 0 0;
     float: left;
-    width: 8em;
+    /* width: 8em; */
     word-wrap: break-word;
 }
 
@@ -164,11 +164,11 @@ fieldset.monospace textarea {
 /* SUBMIT ROW */
 
 .submit-row {
-    padding: 5px 7px;
+    padding: 5px 0 5px 7px;
     text-align: right;
-    background: white url(../img/nav-bg.gif) 0 100% repeat-x;
-    border: 1px solid #ccc;
-    margin: 5px 0;
+    /* background: white url(../img/nav-bg.gif) 0 100% repeat-x; */
+    /* border: 1px solid #ccc; */
+    /* margin: 5px 0; */
     overflow: hidden;
 }
 
@@ -283,7 +283,7 @@ body.popup .submit-row {
 
 .inline-related fieldset {
     margin: 0;
-    background: #fff;
+    background: #222;
     border: none;
     width: 100%;
 }
@@ -295,7 +295,7 @@ body.popup .submit-row {
     text-align: left;
     font-weight: bold;
     background: #bcd;
-    color: #fff;
+    color: #222;
 }
 
 .inline-group .tabular fieldset.module {
