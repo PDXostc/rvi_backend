@@ -6,51 +6,40 @@
     {% leaflet_css %}
 {% endblock %}
 
-{% block content %}
-    <html>
-        <style>
-            .leaflet-container {  /* all maps */
-                width:  100%;
-                height: 100%;
+{% block map_style %}
+    <style>
+        .leaflet-container {  /* all maps */
+            width:  100%;
+            height: 100%;
+         }
+    </style>
+{% endblock %}
+
+{% block map_view %}
+    <script type="text/javascript">
+        var positions = {{ position|geojsonfeature:"vehicle_info"|safe }};
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.vehicle_info) {
+                var veh_info = feature.properties.vehicle_info;
+                var popup_content = "<p><img src=" + veh_info[1] + " height='50px'></p><p>" + "<b>" + veh_info[0] +"</b>" +
+                                    "<br>Time: " + veh_info[2] + "<br>Speed: " + Math.round(veh_info[3] * 3.6) + " km/h";
+                layer.bindPopup(popup_content);
             }
-
-            body {
-                padding: 0;
-                margin: 0;
-            }
-        </style>
-
-        <body>
-        
-            <script type="text/javascript">
-                var positions = {{ position|geojsonfeature:"vehicle_info"|safe }};
-
-                function onEachFeature(feature, layer) {
-                    if (feature.properties && feature.properties.vehicle_info) {
-                        var veh_info = feature.properties.vehicle_info;
-                        var popup_content = "<p><img src=" + veh_info[1] + " height='50px'></p><p>" + "<b>" + veh_info[0] +"</b>" +
-                                            "<br>Time: " + veh_info[2] + "<br>Speed: " + Math.round(veh_info[3] * 3.6) + " km/h";
-                        layer.bindPopup(popup_content);
-                    }
-                }
+        }
                 
-                function main_map_init(map, options) {
-                    // place markers
-                    var markers = L.geoJson(positions, {onEachFeature: onEachFeature})
-                    //var markers = L.geoJson(positions)
+        function main_map_init(map, options) {
+            // place markers
+            var markers = L.geoJson(positions, {onEachFeature: onEachFeature});
+            //var markers = L.geoJson(positions)
                     
-                    // set map viewport
-                    var group = new L.featureGroup([markers])
-                    map.fitBounds(group.getBounds())
-                    markers.addTo(map)
-
-                    
-                }
-            </script>
+            // set map viewport
+            var group = new L.featureGroup([markers]);
+            map.fitBounds(group.getBounds());
+            markers.addTo(map);
+        }
+    </script>
             
-        </body>
+    {% leaflet_map "main" callback="main_map_init" %}
 
-        {% leaflet_map "main" callback="main_map_init" %}
-
-    </html>
 {% endblock %}

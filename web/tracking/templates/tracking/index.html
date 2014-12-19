@@ -1,21 +1,34 @@
-<html>
-    <body>
-        <iframe id="map" src="/tracking/location" width="1000" height="700">
+{% extends "rvi/base.html" %}
+
+{% load bootstrap3 %}
+
+
+{% block page_header %}
+   <h1 class="page-header">{{ title }}</h1>
+{% endblock %}
+
+{% block page_content %}
+
+        <iframe id="map" src="/tracking/location" width="100%"  height="650">
 			<p>Your browser does not support iframes.</p>
         </iframe>
         <p>
+
+
 			<fieldset id="fs-map" class="input-group">
+              <h1>
 			    <label for="maps" class="input-wrapper">
-				    <span><b>Map:</b></span>
-                    <select id="maps" onchange="updateMap()">
+				    <span class="label label-default">Map</span>
+                    <select class="dropdown" id="maps" onchange="updateMap()">
                         {% for map in maps %}
                             <option value="{{map.id}}">{{map.name|capfirst}}</option>
                         {% endfor %}
                      </select>
                 </label>
+                     
                  
                 <label for="vehicles" class="input-wrapper">
-                    <span><b>Vehicle:</b></span>
+                    <span class="label label-default">Vehicle</span>
                     <select id="vehicles" onchange="updateMap()">
                         <option value="">--------</option>
                         {% for vehicle in vehicles %}
@@ -25,20 +38,23 @@
                 </label>
                  
                 <label for="from_date" class="input-wrapper">
-				    <span id="from_text"><b>At:</b></span>
+				    <span class="label label-default" id="from_text">At</span>
                     <input type="date" id="from_date" onchange="updateMap()">
                     <input type="time" id="from_time" onchange="updateMap()">
                 </label>
             
                 <Label id="to_label" for="to_date" style="visibility:hidden" class="input-wrapper">
-					<span id="to_text"><b>To:</b></span>
+					<span class="label label-default" id="to_text">To</span>
                     <input type="date" id="to_date" visible="false" onchange="updateMap()">     
                     <input type="time" id="to_time" visible="false" onchange="updateMap()">
                 </Label>
+              </h1>    
+
             </fieldset>
         </p>
-    </body>
-    
+{% endblock %}
+
+{% block site_script %}    
     <script>
 		function updateMap() {
 		    var map_frame = document.getElementById("map");
@@ -78,11 +94,11 @@
             if (map != "location/") {
 				target = target + to_date;
 				document.getElementById("to_label").style.visibility = "visible";
-				setSpanText(document.getElementById("from_text"), "From:");
+				setSpanText(document.getElementById("from_text"), "From");
 		    }
 		    else {
 				document.getElementById("to_label").style.visibility = "hidden";
-				setSpanText(document.getElementById("from_text"), "At:");
+				setSpanText(document.getElementById("from_text"), "At");
 			}
 		    map_frame.src = target;
 	    }
@@ -99,7 +115,7 @@
 		
 		function onLoad() {
 			document.getElementById("to_label").style.visibility = "hidden";
-			setSpanText(document.getElementById("from_text"), "At:");
+			setSpanText(document.getElementById("from_text"), "At");
 		}
     </script>
-</html>
+{% endblock %}

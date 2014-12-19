@@ -70,7 +70,14 @@ urlpatterns = patterns('',
     url(r'^location/(?P<vehicle_id>\d+)/$', views.location, name='location'),
 
 
-    url(r'^$', views.index, name='index'),
+    url(r'^realtime/$', views.realtime, name='realtime'),
+
+    url(r'^realtime/(?P<vehicle_id>\d+)/$', views.realtime, name='realtime'),
+
+
+    url(r'^test/$', views.test, name='test'),
+
+    url(r'^$', views.index, name='tracking_index'),
 
 
 )

@@ -1,0 +1,92 @@
+{% extends "rvi/base.html" %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block page_content %}
+
+  <div class="page-header">
+    <h1>{{ title }}</h1>
+  </div>
+
+      <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">RVI Status</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Vehicles</h3>
+            </div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Make</th>
+                      <th>Model</th>
+                      <th>VIN</th>
+                      <th>RVI Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for vehicle in vehicles %}
+                    <tr>
+                      <td>{{vehicle.veh_name|capfirst}}</td>
+                      <td>{{vehicle.veh_make|capfirst}}</td>
+                      <td>{{vehicle.veh_model|capfirst}}</td>
+                      <td>{{vehicle.veh_vin}}</td>
+                      <td>{{vehicle.veh_rvistatus_text}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Updates</h3>
+            </div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Vehicle</th>
+                      <th>Package</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for update in updates %}
+                    <tr>
+                      <td>{{update.upd_vehicle|capfirst}}</td>
+                      <td>{{update.upd_package|capfirst}}</td>
+                      <td>{{update.upd_status_text}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+{% endblock %}
+
+{% block site_script %}    
+{% endblock %}

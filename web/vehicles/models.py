@@ -13,6 +13,12 @@ from django.core.exceptions import ValidationError
 from djgeojson.fields import PointField
 from django.conf import settings
 
+class RVIStatus:
+    """
+    Status values for RVI
+    """
+    OFFLINE  = "OF"
+    ONLINE   = "ON"
 
 def validate_veh_year(year):
     """
@@ -26,6 +32,10 @@ class Vehicle(models.Model):
     """
     Data model for Vehicle
     """
+    RVI_STATUS = (
+        (RVIStatus.OFFLINE,  "Offline"),
+        (RVIStatus.ONLINE,   "Online"),
+    )
     veh_name = models.CharField('Vehicle Name', max_length=256)
     veh_make = models.CharField('Vehicle Make', max_length=256)
     veh_model = models.CharField('Vehicle Model', max_length=256)
@@ -33,12 +43,30 @@ class Vehicle(models.Model):
     veh_vin = models.CharField('Vehicle VIN', max_length=256)
     veh_year = models.CharField('Vehicle Model Year', max_length=4,null=True,blank=True, validators=[validate_veh_year])
     veh_rvibasename = models.CharField('RVI Basename', max_length=256)
+    veh_rvistatus = models.CharField('RVI Status',
+                                  max_length=2,
+                                  choices=RVI_STATUS,
+                                  default=RVIStatus.OFFLINE)
 
+    @property
+    def veh_rvistatus_text(self):
+        return dict(self.RVI_STATUS)[self.veh_rvistatus]
+    
     def get_picture(self):
         if self.veh_picture:
             return self.veh_picture.url
         else:
-            return settings.MEDIA_URL + settings.DEFAULT_VEHICLE_IMAGE    
+            return settings.MEDIA_URL + settings.DEFAULT_VEHICLE_IMAGE
+            
+    def list_picture(self):
+        return u'<img src="%s" width="50" />' % self.get_picture()
+    list_picture.short_description = "Vehicle Image"
+    list_picture.allow_tags = True
+    
+    def detail_picture(self):
+        return u'<img src="%s" width="75" />' % self.get_picture()
+    detail_picture.short_description = ""
+    detail_picture.allow_tags = True
     
     def get_name(self):
         return self.veh_name

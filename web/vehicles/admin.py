@@ -21,7 +21,7 @@ class VehicleAdmin(admin.ModelAdmin):
     """
     fieldsets = [
         (None,                  {'fields': ['veh_name']}),
-        ('Vehicle Information', {'fields': ['veh_make', 'veh_model', 'veh_vin', 'veh_year', 'veh_picture']}),
+        ('Vehicle Information', {'fields': ['veh_make', 'veh_model', 'veh_vin', 'veh_year', ('veh_picture', 'detail_picture')]}),
         ('RVI Information',     {'fields': ['veh_rvibasename']}),
     ]
 
@@ -38,6 +38,8 @@ class VehicleAdmin(admin.ModelAdmin):
     unsubscribe_location.short_description = "Unsubscribe from Location"
 
     actions = [subscribe_location, unsubscribe_location]
+    list_display = ('veh_name', 'veh_make', 'veh_model', 'veh_vin', 'veh_rvistatus', 'list_picture')
+    readonly_fields = ('detail_picture',)
 
 
 admin.site.register(Vehicle, VehicleAdmin)

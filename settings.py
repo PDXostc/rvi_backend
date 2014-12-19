@@ -49,8 +49,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'leaflet',
     'djgeojson',
+    'rvi',
     'vehicles',
     'sota',
     'dblog',
@@ -65,6 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'rvi.urls'
@@ -171,8 +174,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
+STATICFILES_DIRS = (
+    os.path.join(WEB_DIR, 'static'),
+)
 STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
 STATIC_URL = '/static/'
+
+# Bootstrap 3 Configuration
+from bootstrap3.bootstrap import BOOTSTRAP3
+BOOTSTRAP3['jquery_url'] = 'http://code.jquery.com/jquery-2.1.1.min.js'
 
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.

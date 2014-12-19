@@ -19,9 +19,10 @@ urlpatterns = patterns('',
 
     url(r'^tracking/', include('tracking.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
 
     # for now redirect root to admin
-    url(r'^', include(admin.site.urls)),
+    #url(r'^', include(admin.site.urls)),
 )
 
 # uploaded files
