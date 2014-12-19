@@ -1,0 +1,95 @@
+{% load staticfiles %}
+{% load leaflet_tags %}
+{% load geojson_tags %}
+
+{% block extra_assets %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+{% endblock %}
+
+{% block content %}
+    <html>
+        <style>
+            .leaflet-container {  /* all maps */
+                width:  100%;
+                height: 100%;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+
+        <body>
+            <script src="{% static 'tracking/tracking.js' %}"></script>
+            
+            <script type="text/javascript">
+                var waypoints = {{ waypoints|geojsonfeature:"vehicle_info"|safe }};
+
+                var markers = [];
+                
+                function animate() {
+                    for (i = 0; i < markers.length; i++) {
+                        var marker = markers[i];
+                        var track = marker.track[marker.cnt];
+                        marker.marker.setLatLng(L.latLng(track[1], track[0]));
+                        marker.popup.setContent(formatPopupContent(marker.vehicle, track));
+                        if (++(marker.cnt) >= marker.track.length) {
+                            marker.cnt = 0;
+                        }
+                    }
+                }
+
+                // event handlers for waypoints
+                function onWaypointClick(e) {
+                    var feature = e.target.feature;
+                    var i = getNearest(feature.geometry.coordinates, [e.latlng.lng, e.latlng.lat]);
+                    var popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(formatPopupContent(feature.properties.vehicle_info, feature.geometry.coordinates[i]));
+                    e.target._map.openPopup(popup);
+                }
+                function onEachFeature(feature, layer) {
+                    layer.on('click', onWaypointClick);
+                }
+
+                function main_map_init(map, options) {
+
+                    var fgroup = [];
+
+                    // place makers
+                    var features = waypoints.features;
+                    for (i = 0; i < features.length; i++) {
+                        var track = features[i].geometry.coordinates;
+                        var veh_info = features[i].properties.vehicle_info;
+                        if (track.length > 0) {
+                            var marker = L.marker(track[0]);
+                            var popup = L.popup();
+                            marker.bindPopup(popup);
+                            marker.addTo(map);
+                            markers.push({marker: marker, popup: popup, track: track, cnt: 0, vehicle: veh_info});
+                            fgroup.push(marker);
+                        }
+                    }
+
+                    if (fgroup.length > 1) {
+                        map.fitBounds(L.featureGroup(fgroup).getBounds());
+                    }
+                    else {
+                        var latlng = fgroup[0].latlng
+                        map.setView(latlng, 13);
+                    }
+                    
+                    // start animation
+                    setInterval(animate, 200);
+
+                }
+            </script>
+            
+        </body>
+
+        {% leaflet_map "main" callback="main_map_init" %}
+
+    </html>
+{% endblock %}

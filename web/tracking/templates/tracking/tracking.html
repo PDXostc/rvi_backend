@@ -1,3 +1,4 @@
+{% load staticfiles %}
 {% load leaflet_tags %}
 {% load geojson_tags %}
 
@@ -6,112 +7,80 @@
     {% leaflet_css %}
 {% endblock %}
 
-{% block content %}
-    <html>
-        <style>
-            .leaflet-container {  /* all maps */
-                width:  100%;
-                height: 100%;
-            }
 
-            body {
-                padding: 0;
-                margin: 0;
-            }
-        </style>
+{% block map_style %}
+    <style>
+        .leaflet-container {  /* all maps */
+            width:  100%;
+            height: 100%;
+         }
+    </style>
+{% endblock %}
 
-        <body>
+{% block map_view %}
         
-            <script type="text/javascript">
-                var waypoints = {{ waypoints|geojsonfeature:"vehicle_info"|safe }};
+    <script src="{% static 'tracking/js/tracking.js' %}"></script>
 
+    <script type="text/javascript">
+        var waypoints = {{ waypoints|geojsonfeature:"vehicle_info"|safe }};
 
-                function formatPopupContent(vehicle, track) {
-                    var text = "<p><img src=" + vehicle[1] + " height='50px'></p><p>" + "<b>" + vehicle[0] +"</b>" + 
-                               "<br>Time: " + track[3] +
-                               "<br>Speed: " + Math.round(track[4] * 3.6) + " km/h" + 
-                               "<br>Altitude: " + track[2] + " m" +
-                               "<br>Climb: " + track[5] + " m/s" +
-                               "<br>Odometer: " + track[6] + " km";
-                    return text;
-                }
-                
-                function getNearest(coordinates, point) {
-                    var x = (coordinates[0][0] - point[0]);
-                    var y =  (coordinates[0][1] - point[1]);
-                    var d = {index: 0, distance: x*x + y*y};
-                    var nd = 0;
-                    for (i = 1; i < coordinates.length; i++) {
-                        x = (coordinates[i][0] - point[0]);
-                        y =  (coordinates[i][1] - point[1]);
-                        nd = x*x + y*y;
-                        if (nd < d.distance) {
-                            d = {index: i, distance: nd};
-                        }
-                    }
-                    return d.index;
-                }
-                
-                // event handlers for waypoints
-                function onWaypointClick(e) {
-                    var feature = e.target.feature;
-                    var i = getNearest(feature.geometry.coordinates, [e.latlng.lng, e.latlng.lat]);
-                    var popup = L.popup()
-                        .setLatLng(e.latlng)
-                        .setContent(formatPopupContent(feature.properties.vehicle_info, feature.geometry.coordinates[i]));
-                    e.target._map.openPopup(popup);
-                }
-                function onEachFeature(feature, layer) {
-                    layer.on('click', onWaypointClick);
-                }
+        // event handlers for waypoints
+        function onWaypointClick(e) {
+            var feature = e.target.feature;
+            var i = getNearest(feature.geometry.coordinates, [e.latlng.lng, e.latlng.lat]);
+            var popup = L.popup()
+                 .setLatLng(e.latlng)
+                 .setContent(formatPopupContent(feature.properties.vehicle_info, feature.geometry.coordinates[i]));
+            e.target._map.openPopup(popup);
+        }
+        function onEachFeature(feature, layer) {
+            layer.on('click', onWaypointClick);
+        }
 
-                function main_map_init(map, options) {
+        function main_map_init(map, options) {
 
-                    // place makers
-                    var features = waypoints.features;
-                    for (i = 0; i < features.length; i++) {
-                        var track = features[i].geometry.coordinates;
-                        var veh_info = features[i].properties.vehicle_info;
-                        if (track.length > 0) {
-                            // start marker
-                            var marker = L.marker(L.latLng(track[0][1], track[0][0]), {
-                                title: "Start Location"
-                            });
-                            marker.bindPopup(formatPopupContent(veh_info, track[0]));
-                            marker.addTo(map);
-                            // end marker
-                            var marker = L.marker(L.latLng(track[track.length-1][1], track[track.length-1][0]), {
-                                title: "End Location"
-                            });
-                            marker.bindPopup(formatPopupContent(veh_info, track[track.length-1]));
-                            marker.addTo(map);                            
-                        }
-                    }
-                    
-                    // waypoints line style
-                    var lineStyle = {
-                        "color": "Red",
-                        "weight": 5,
-                        "opacity": 0.65
-                    };
-                    
-                    // create waypoints
-                    var tracks = L.geoJson(waypoints, {
-                        style: lineStyle,
-                        onEachFeature: onEachFeature
+            // place makers
+            var features = waypoints.features;
+            for (i = 0; i < features.length; i++) {
+                var track = features[i].geometry.coordinates;
+                var veh_info = features[i].properties.vehicle_info;
+                if (track.length > 0) {
+                    // start marker
+                    var marker = L.marker(L.latLng(track[0][1], track[0][0]), {
+                        title: "Start Location"
                     });
-
-                    // set map viewport
-                    var group = new L.featureGroup([tracks]);
-                    map.fitBounds(group.getBounds());
-                    tracks.addTo(map);
-                    
+                    marker.bindPopup(formatPopupContent(veh_info, track[0]));
+                    marker.addTo(map);
+                    // end marker
+                    var marker = L.marker(L.latLng(track[track.length-1][1], track[track.length-1][0]), {
+                        title: "End Location"
+                    });
+                    marker.bindPopup(formatPopupContent(veh_info, track[track.length-1]));
+                    marker.addTo(map);                            
                 }
-            </script>
+            }
+                    
+            // waypoints line style
+            var lineStyle = {
+                "color": "Red",
+                "weight": 5,
+                "opacity": 0.65
+            };
+                    
+            // create waypoints
+            var tracks = L.geoJson(waypoints, {
+                style: lineStyle,
+                onEachFeature: onEachFeature
+            });
+
+            // set map viewport
+            var group = new L.featureGroup([tracks]);
+            map.fitBounds(group.getBounds());
+            tracks.addTo(map);
+                    
+        }
+    </script>
             
-        </body>
+    {% leaflet_map "main" callback="main_map_init" %}
 
-        {% leaflet_map "main" callback="main_map_init" %}
-
-    </html>
 {% endblock %}

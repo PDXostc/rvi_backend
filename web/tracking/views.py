@@ -20,7 +20,6 @@ from vehicles.models import Vehicle
 def get_waypoints(vehicle_id=-1, from_date='1970-01-01', to_date='9999-12-31', from_time='00:00:00', to_time='23:59:59'):
     range_start = from_date + ' ' + from_time
     range_end   = to_date + ' ' + to_time
-    print(range_start, range_end)
     Waypoints.set_time_utc(range_start, range_end)
     if vehicle_id == -1:
         return Waypoints.objects.all()
@@ -82,11 +81,35 @@ def index(request):
     maps = [{'id':'location','name':'Location'},{'id':'tracking','name':'Tracking'},{'id':'replay','name':'Replay'}]
     vehicles = Vehicle.objects.all()
     
-    print vehicles
-
     context = RequestContext(request, {
+        'title' : 'Tracking',
         'maps': maps,
         'vehicles': vehicles,
     })
     
     return HttpResponse(template.render(context))
+
+
+
+def realtime(request, vehicle_id=-1):
+    template = loader.get_template('tracking/realtime.html')
+    
+    waypoints = get_waypoints(vehicle_id)
+    
+    context = RequestContext(request, {
+        'waypoints': waypoints,
+    })
+
+    return HttpResponse(template.render(context))
+
+
+def test(request):
+    template = loader.get_template('tracking/test.html')
+    
+    context = RequestContext(request, {
+    })
+
+    return HttpResponse(template.render(context))
+
+
+

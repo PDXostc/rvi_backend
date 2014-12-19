@@ -90,6 +90,10 @@ class Update(models.Model):
     upd_timeout = models.DateTimeField('Valid Until')
     upd_retries = models.IntegerField('Maximum Retries', validators=[validate_upd_retries], default="0")
     
+    @property
+    def upd_status_text(self):
+        return dict(self.UPDATE_STATUS)[self.upd_status]
+    
     def __unicode__(self):
         """
         Returns the Update name.
