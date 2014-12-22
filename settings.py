@@ -43,7 +43,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
-    'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'leaflet',
     'djgeojson',
     'rvi',
@@ -181,9 +181,22 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
 STATIC_URL = '/static/'
 
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # Bootstrap 3 Configuration
-from bootstrap3.bootstrap import BOOTSTRAP3
-BOOTSTRAP3['jquery_url'] = 'http://code.jquery.com/jquery-2.1.1.min.js'
+BOOTSTRAP3 = {
+'jquery_url': '//code.jquery.com/jquery-2.1.1.min.js',
+'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
+'css_url': None,
+'theme_url': None,
+'javascript_url': None,
+'javascript_in_head': False,
+'include_jquery': True,
+}
+
 
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.
