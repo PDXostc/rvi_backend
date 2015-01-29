@@ -112,9 +112,13 @@ OpenSuse:
 
     sudo zypper in mariadb
 
-Debian/Ubuntu:
+Debian:
 
     sudo apt-get install mariadb
+    
+Ubuntu:
+
+    sudo apt-get install mysql-server
     
 To access MySQL databases an API driver is required. There are several options. We
 are using [MySQL Connector/Python](http://dev.mysql.com/downloads/connector/python)
@@ -130,9 +134,13 @@ OpenSuse:
 
     sudo zypper in mysql-connector-python
     
-Debian/Ubuntu:
+Debian:
 
     sudo apt-get install mysql-connector-python
+
+Ubuntu:
+
+    sudo apt-get install python-mysqldb
 
 
 ### Database Server Startup
@@ -225,13 +233,25 @@ The RVI Backend requires additional Python modules to function:
 
     sudo pip install jsonfield
 
-1. Django Leaflet
+3. Django Leaflet
 
     sudo pip install django-leaflet
     
-2. Django GeoJSON
+4. Django GeoJSON
 
     sudo pip install django-geojson
+    
+5. Python World Timezone Definitions
+
+    sudo pip install pytz
+    
+6. Python JSON-RPC Library
+
+    sudo pip install jsonrpclib
+    
+7. Django Bootstrap3 Library
+
+    sudo pip install django-bootstrap3
         
 
 ### RVI Backend Installation
