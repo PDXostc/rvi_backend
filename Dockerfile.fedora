@@ -1,0 +1,35 @@
+# Dockerfile for rvitools on Fedora
+# Version 0.1
+
+# Fedora base image
+FROM fedora
+MAINTAINER Rudolf J Streif
+
+# Update base image
+RUN yum update -y
+
+# Install system packages
+RUN yum install -y python-pip erlang gpsd-libs
+
+# Install Python packages
+RUN pip install pytz peewee kafka-python jsonrpclib
+
+# Environment
+ENV rvihome=/home/rvi rvitools=rvitools datacollector=datacollector testdata=testdata
+
+# Create RVI home directory and rvitools directories
+RUN mkdir -p ${rvihome}/${rvitools}
+
+# Install test data
+RUN mkdir -p ${rvihome}/${rvitools}/${testdata}
+ADD testdata/cabspottingdata.tar.gz ${rvihome}/${rvitools}/${testdata}
+
+# Install rvitools datacollector
+RUN mkdir -p ${rvihome}/${rvitools}/${datacollector}
+COPY datacollector/*.py ${rvihome}/${rvitools}/${datacollector}/
+
+# Start datacollector by default
+WORKDIR ${rvihome}/${rvitools}/${datacollector}
+CMD ["/usr/bin/python", "datacollector.py", "fg"]
+
+    
