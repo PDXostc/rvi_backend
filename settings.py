@@ -60,6 +60,8 @@ INSTALLED_APPS = (
     'tracking',
 )
 
+#INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,6 +92,23 @@ DATABASES = {
 }
 
 
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_cassandra_engine',
+        'NAME': 'rvi',
+        'HOST': 'localhost',
+        'OPTIONS': {
+            'replication': {
+                'strategy_class': 'SimpleStrategy',
+                'replication_factor': 1,
+            },
+        },
+    },
+}
+"""
+
+
 # Logging
 # https://docs.djangoproject.com/en/1.7/topics/logging/
 
@@ -110,25 +129,25 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-             'level': 'DEBUG',
+             'level': 'INFO',
              'class': 'logging.StreamHandler',
              'formatter': 'simple',
         },
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
             'formatter': 'verbose',
         },
         'db_general': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'dblog.handlers.DBHandler',
             'model': 'dblog.models.GeneralLog',
             'expiry': 0,
             'formatter': 'verbose',
         },
         'db_sota': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'dblog.handlers.SotaHandler',
             'model': 'dblog.models.SotaLog',
             'expiry': 0,
@@ -217,18 +236,27 @@ LEAFLET_CONFIG = {
 LEAFLET_ANIMATION_INTERVAL = "100"
 
 # RVI Server Daemon Configuration
-RVI_DB_PING_INTERVAL = '10'
-RVI_DB_CLOSE_TIMEOUT = '3600'
+RVI_DB_PING_INTERVAL = 10
+RVI_DB_CLOSE_TIMEOUT = 3600
 RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
 
 # SOTA
-RVI_SOTA_ENABLE = 'True'
+RVI_SOTA_ENABLE = True
 RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
-RVI_SOTA_CHUNK_SIZE = '65536'
+RVI_SOTA_CHUNK_SIZE = 65536
 
 # Tracking
-RVI_TRACKING_ENABLE = 'True'
+RVI_TRACKING_SOURCE_GPS = True
+RVI_TRACKING_ENABLE = True
 RVI_TRACKING_CALLBACK_URL = 'http://127.0.0.1:20002'
 RVI_TRACKING_SERVICE_ID = '/logging'
+
+RVI_TRACKING_DB_PUBLISH = False
+
+RVI_TRACKING_MQ_PUBLISH = True
+RVI_TRACKING_MQ_URL = "192.168.100.144:9092"
+RVI_TRACKING_MQ_REPORT_FLAT = True
+#RVI_TRACKING_MQ_TOPIC = "rvi"
+RVI_TRACKING_MQ_TOPIC = "gps_trace"
 
