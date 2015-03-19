@@ -28,6 +28,7 @@ import __init__
 from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
+from server.utils import get_settings
 
 
 from __init__ import __RVI_LOGGER__ as rvi_logger
@@ -35,36 +36,6 @@ from __init__ import __SOTA_LOGGER__ as sota_logger
 
 import sota.models
 
-def get_setting(name, default=None):
-    try:
-        value = getattr(settings, name, default)
-    except AttributeError:
-        rvi_logger.error('RVI Server: %s not defined. Check settings!', name)
-        sys.exit(1)
-    return value
-        
-
-def get_settings():
-        # get settings from configuration
-        # service edge url
-        conf = {}
-        
-        conf['DB_PING_INTERVAL'] = int(get_setting("RVI_DB_PING_INTERVAL", 10))
-        conf['DB_CLOSE_TIMEOUT'] = int(get_setting("RVI_DB_CLOSE_TIMEOUT", 3600))
-        
-        conf['SERVICE_EDGE_URL']  = get_setting("RVI_SERVICE_EDGE_URL")
-        conf['MEDIA_ROOT']        = get_setting("MEDIA_ROOT", ".")
-
-        conf['SOTA_ENABLE']       = get_setting("RVI_SOTA_ENABLE", "True")
-        conf['SOTA_CALLBACK_URL'] = get_setting("RVI_SOTA_CALLBACK_URL")
-        conf['SOTA_SERVICE_ID']   = get_setting("RVI_SOTA_SERVICE_ID", "/sota")
-        conf['SOTA_CHUNK_SIZE']   = int(get_setting("RVI_SOTA_CHUNK_SIZE", "131072"))
-
-        conf['TRACKING_ENABLE']       = get_setting("RVI_TRACKING_ENABLE", "True")
-        conf['TRACKING_CALLBACK_URL'] = get_setting("RVI_TRACKING_CALLBACK_URL")
-        conf['TRACKING_SERVICE_ID']   = get_setting("RVI_TRACKING_SERVICE_ID", "/logging")
-
-        return conf
 
 
 class RVIServer(Daemon):
@@ -102,7 +73,7 @@ class RVIServer(Daemon):
         self.rvi_service_edge = jsonrpclib.Server(conf['SERVICE_EDGE_URL'])
 
         # SOTA Startup
-        if conf['SOTA_ENABLE'] == 'True':
+        if conf['SOTA_ENABLE'] == True:
             # log SOTA configuration
             rvi_logger.info('RVI Server: SOTA Configuration: ' + 
                 'RVI_SOTA_CALLBACK_URL: ' + conf['SOTA_CALLBACK_URL'] + ', ' +
@@ -136,7 +107,7 @@ class RVIServer(Daemon):
             time.sleep(0.5)
             
         # Tracking Startup
-        if conf['TRACKING_ENABLE'] == 'True':
+        if conf['TRACKING_ENABLE'] == True:
             # log Tracking configuration
             rvi_logger.info('RVI Server: Tracking Configuration: ' + 
                 'RVI_TRACKING_CALLBACK_URL: ' + conf['TRACKING_CALLBACK_URL'] + ', ' +
@@ -178,7 +149,7 @@ class RVIServer(Daemon):
                         if (timeout <= 0):
                             connection.close()
                             timeout = conf['DB_CLOSE_TIMEOUT']
-                            rvi_logger.debug('RVI Server: Idle Timeout: closed database connection.')
+                            rvi_logger.info('RVI Server: Idle Timeout: closed database connection.')
                     else:
                         rvi_logger.error('RVI Server: Database connection is down.')
                         connection.close()
