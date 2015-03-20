@@ -1,0 +1,35 @@
+# Dockerfile for rvitools on Ubuntu
+# Version 0.1
+
+# Ubuntu base image
+FROM ubuntu
+MAINTAINER Rudolf J Streif
+
+# Update base image
+RUN apt-get update -y
+
+# Install system packages
+RUN apt-get install -y python-pip erlang-base python-gps
+
+# Install Python packages
+RUN pip install pytz peewee kafka-python jsonrpclib
+
+# Environment
+ENV rvihome=/home/rvi rvitools=rvitools datacollector=datacollector testdata=testdata
+
+# Create RVI home directory and rvitools directory
+RUN mkdir -p ${rvihome}/${rvitools}
+
+# Install test data
+RUN mkdir -p ${rvihome}/${rvitools}/${testdata}
+ADD testdata/cabspottingdata.tar.gz ${rvihome}/${rvitools}/${testdata}
+
+# Install rvitools datacollector
+RUN mkdir -p ${rvihome}/${rvitools}/${datacollector}
+COPY datacollector/*.py ${rvihome}/${rvitools}/${datacollector}/
+
+# Start datacollector by default
+WORKDIR ${rvihome}/${rvitools}/${datacollector}
+CMD ["/usr/bin/python", "datacollector.py", "fg"]
+
+    
