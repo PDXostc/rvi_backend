@@ -4,54 +4,50 @@
 
 
 {% block page_header %}
-   <h1 class="page-header">{{ title }}</h1>
+	<div class="page-header">
+    <h1>{{ title }}</h1>
+  </div>
 {% endblock %}
 
 {% block page_content %}
 
-        <iframe id="map" src="/tracking/location" width="100%"  height="650">
-			<p>Your browser does not support iframes.</p>
-        </iframe>
-        <p>
+      <iframe id="map" src="/tracking/location" width="100%"  height="650">
+				<p>Your browser does not support iframes.</p>
+      </iframe>
 
-
-			<fieldset id="fs-map" class="input-group">
-              <h1>
-			    <label for="maps" class="input-wrapper">
-				    <span class="label label-default">Map</span>
-                    <select class="dropdown" id="maps" onchange="updateMap()">
-                        {% for map in maps %}
-                            <option value="{{map.id}}">{{map.name|capfirst}}</option>
-                        {% endfor %}
-                     </select>
-                </label>
-                     
+			<fieldset id="fs-map">
+        <div class="tracking_input">
+			    <label for="maps" class="input-wrapper">Map</label>
+				   <!--  <span class="label label-default">Map</span> -->
+            <select class="dropdown" id="maps" onchange="updateMap()">
+              {% for map in maps %}
+                <option value="{{map.id}}">{{map.name|capfirst}}</option>
+              {% endfor %}
+             </select>
+         <!--  </label>   -->                   
                  
-                <label for="vehicles" class="input-wrapper">
-                    <span class="label label-default">Vehicle</span>
-                    <select id="vehicles" onchange="updateMap()">
-                        <option value="">--------</option>
-                        {% for vehicle in vehicles %}
-                            <option value="{{vehicle.id}}">{{vehicle.veh_name|capfirst}}</option>
-                        {% endfor %}
-                    </select>
-                </label>
+          <label for="vehicles" class="input-wrapper">Vehicle</label>
+           <!--  <span class="label label-default">Vehicle</span> -->
+            <select id="vehicles" onchange="updateMap()">
+            	<option value="">--------</option>
+              	{% for vehicle in vehicles %}
+              		<option value="{{vehicle.id}}">{{vehicle.veh_name|capfirst}}</option>
+              	{% endfor %}
+            </select>
                  
-                <label for="from_date" class="input-wrapper">
-				    <span class="label label-default" id="from_text">At</span>
-                    <input type="date" id="from_date" onchange="updateMap()">
-                    <input type="time" id="from_time" onchange="updateMap()">
-                </label>
+          <label for="from_date" class="input-wrapper">From</label>
+				   <!--  <span class="label label-default" id="from_text">At</span> -->
+            <input type="date" id="from_date" onchange="updateMap()">
+            <input type="time" id="from_time" onchange="updateMap()">
             
-                <Label id="to_label" for="to_date" style="visibility:hidden" class="input-wrapper">
-					<span class="label label-default" id="to_text">To</span>
-                    <input type="date" id="to_date" visible="false" onchange="updateMap()">     
-                    <input type="time" id="to_time" visible="false" onchange="updateMap()">
-                </Label>
-              </h1>    
+          <label for="to_date" style="visibility:hidden" class="input-wrapper">To</label>
+						<!-- <span class="label label-default" id="to_text">To</span> -->
+            <input type="date" id="to_date" visible="false" onchange="updateMap()">     
+            <input type="time" id="to_time" visible="false" onchange="updateMap()">
+        </div>   
 
-            </fieldset>
-        </p>
+      </fieldset>
+
 {% endblock %}
 
 {% block site_script %}    
