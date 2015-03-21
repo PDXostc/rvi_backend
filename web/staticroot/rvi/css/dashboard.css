@@ -1,14 +1,19 @@
+/*The styles from the top down to DJANGO Admin styles are being duplicated in 
+web/static/rvi/css/dashboard.css, which is the appropriate place for css
+Commenting these out and moving/adding them to the other file.*/
+
+
 /*
  * Base structure
  */
  
-html {
+/*html {
   position: relative;
   min-height: 100%;
-}
+}*/
 
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
+/*body {
   padding-top: 50px;
   padding-bottom: 60px;
 }
@@ -23,31 +28,31 @@ h1 {
     color: #666;
     padding: 0 6px 0 0;
     margin: 0 0 .2em 0;
-}
+}*/
 
 /*
  * Global add-ons
  */
 
-.sub-header {
+/*.sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
-}
+}*/
 
 /*
  * Top navigation
  * Hide default border to remove 1px line.
  */
-.navbar-fixed-top {
+/*.navbar-fixed-top {
   border: 0;
-}
+}*/
 
 /*
  * Sidebar
  */
 
 /* Hide for mobile, show later */
-.sidebar {
+/*.sidebar {
   display: none;
 }
 @media (min-width: 768px) {
@@ -60,16 +65,16 @@ h1 {
     display: block;
     padding: 20px;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #f5f5f5;
+    overflow-y: auto;*/ /* Scrollable contents if viewport is shorter than content. */
+/*    background-color: #f5f5f5;
     border-right: 1px solid #eee;
   }
-}
+}*/
 
 /* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
+/*.nav-sidebar {
+  margin-right: -21px; *//* 20px padding + 1px border */
+/*  margin-bottom: 20px;
   margin-left: -20px;
 }
 .nav-sidebar > li > a {
@@ -83,12 +88,12 @@ h1 {
   color: #fff;
   background-color: #428bca;
 }
-
+*/
 /*
  * Main content
  */
 
-.main {
+/*.main {
   padding: 20px;
 }
 @media (min-width: 768px) {
@@ -99,28 +104,28 @@ h1 {
 }
 .main .page-header {
   margin-top: 0;
-}
+}*/
 
 
 /*
  * Footer
  */
 
-.footer {
+/*.footer {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 100%;*/
   /* Set the fixed height of the footer here */
-  height: 60px;
+/*  height: 60px;
   background-color: #f5f5f5;
-}
+}*/
 
 
 /*
  * Placeholder dashboard ideas
  */
 
-.placeholders {
+/*.placeholders {
   margin-bottom: 30px;
   text-align: center;
 }
@@ -134,7 +139,7 @@ h1 {
   display: inline-block;
   border-radius: 50%;
 }
-
+*/
 
 /*
     DJANGO Admin styles
@@ -143,7 +148,7 @@ h1 {
 
 /* LINKS */
 
-a:link, a:visited {
+/*a:link, a:visited {
     color: #5b80b2;
     text-decoration: none;
 }
@@ -159,11 +164,11 @@ a img {
 a.section:link, a.section:visited {
     color: #fff;
     text-decoration: none;
-}
+}*/
 
 /* GLOBAL DEFAULTS */
 
-p, ol, ul, dl {
+/*p, ol, ul, dl {
     margin: .2em 0 .8em 0;
 }
 
@@ -229,7 +234,7 @@ ul.plainlist li {
 
 li ul {
     margin-bottom: 0;
-}
+}*/
 
 /*
 li, dt, dd {
@@ -238,7 +243,7 @@ li, dt, dd {
 }
 */
 
-dt {
+/*dt {
     font-weight: bold;
     margin-top: 4px;
 }
@@ -292,11 +297,11 @@ hr {
     padding: 0;
     font-size: 1px;
     line-height: 1px;
-}
+}*/
 
 /* TEXT STYLES & MODIFIERS */
 
-.small {
+/*.small {
     font-size: 11px;
 }
 
@@ -366,11 +371,11 @@ p img, h1 img, h2 img, h3 img, h4 img, td img {
 
 .nowrap {
     white-space: nowrap;
-}
+}*/
 
 /* TABLES */
 
-table {
+/*table {
     border-collapse: collapse;
     border-color: #ccc;
 }
@@ -437,11 +442,11 @@ tr.alt {
 
 .row2 {
     background: #fff;
-}
+}*/
 
 /* SORTABLE TABLES */
 
-thead th {
+/*thead th {
     padding: 2px 5px;
     line-height: normal;
 }
@@ -527,7 +532,7 @@ table thead th.sorted .sortoptions a.descending:hover {
 
 /* ORDERABLE TABLES */
 
-table.orderable tbody tr td:hover {
+/*table.orderable tbody tr td:hover {
     cursor: move;
 }
 
@@ -539,12 +544,12 @@ table.orderable tbody tr td:first-child {
 
 table.orderable-initalized .order-cell, body>tr>td.order-cell {
     display: none;
-}
+}*/
 
 
 /* FORM DEFAULTS */
 
-input, textarea, select, .form-row p {
+/*input, textarea, select, .form-row p {
     margin: 2px 0;
     padding: 2px 3px;
     vertical-align: middle;
@@ -571,10 +576,10 @@ select {
     font-weight: bold;
     font-size: 16px;
 }
+*/
+/* FORM BUTTONS */
 
-* FORM BUTTONS */
-
-.button, input[type=submit], input[type=button], .submit-row input {
+/*.button, input[type=submit], input[type=button], .submit-row input {
     background: #fff url(../img/nav-bg.gif) bottom repeat-x;
     padding: 3px 5px;
     color: black;
@@ -610,12 +615,12 @@ select {
     background-image: url(../img/default-bg.gif);
     background-position: bottom;
     opacity: 0.4;
-}
+}*/
 
 
 /* MODULES */
 
-.module {
+/*.module {
     border: 1px solid #ccc;
     margin-bottom: 5px;
     background: #fff;
@@ -650,11 +655,11 @@ select {
 
 .module table {
     border-collapse: collapse;
-}
+}*/
 
 /* MESSAGES & ERRORS */
 
-ul.messagelist {
+/*ul.messagelist {
     padding: 0;
     margin: 0;
 }
@@ -755,11 +760,11 @@ div.system-message p.system-message-title {
 .description {
     font-size: 12px;
     padding: 5px 0 0 12px;
-}
+}*/
 
 /* BREADCRUMBS */
 
-div.breadcrumbs {
+/*div.breadcrumbs {
     background: #fff url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
     padding: 2px 8px 3px 8px;
     font-size: 11px;
@@ -767,11 +772,11 @@ div.breadcrumbs {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #ddd;
     text-align: left;
-}
+}*/
 
 /* ACTION ICONS */
 
-.addlink {
+/*.addlink {
     padding-left: 12px;
     background: url(../img/icon_addlink.gif) 0 .2em no-repeat;
 }
@@ -792,11 +797,11 @@ a.deletelink:link, a.deletelink:visited {
 
 a.deletelink:hover {
     color: #993333;
-}
+}*/
 
 /* OBJECT TOOLS */
 
-.object-tools {
+/*.object-tools {
     font-size: 10px;
     font-weight: bold;
     font-family: Arial,Helvetica,sans-serif;
@@ -846,21 +851,21 @@ a.deletelink:hover {
 .object-tools a.addlink {
     background: #999 url(../img/tooltag-add.png) 95% center no-repeat;
     padding-right: 26px;
-}
+}*/
 
 /* OBJECT HISTORY */
 
-table#change-history {
+/*table#change-history {
     width: 100%;
 }
 
 table#change-history tbody th {
     width: 16em;
-}
+}*/
 
 /* PAGE STRUCTURE */
 
-#container {
+/*#container {
     position: relative;
     width: 100%;
     min-width: 760px;
@@ -886,11 +891,11 @@ table#change-history tbody th {
 #footer {
     clear: both;
     padding: 10px;
-}
+}*/
 
 /* COLUMN TYPES */
 
-.colMS {
+/*.colMS {
     margin-right: 20em !important;
 }
 
@@ -920,11 +925,11 @@ table#change-history tbody th {
 
 .dashboard #content {
     width: 500px;
-}
+}*/
 
 /* HEADER */
 
-#header {
+/*#header {
     width: 100%;
     background: #417690;
     color: #ffc;
@@ -970,11 +975,11 @@ table#change-history tbody th {
     padding: 1.2em 10px;
     font-size: 11px;
     text-align: right;
-}
+}*/
 
 /* SIDEBAR */
 
-#content-related h3 {
+/*#content-related h3 {
     font-size: 12px;
     color: #666;
     margin-bottom: 3px;
@@ -987,5 +992,5 @@ table#change-history tbody th {
 #content-related .module h2 {
     background: #eee url(../img/nav-bg.gif) bottom left repeat-x;
     color: #666;
-}
+}*/
 
