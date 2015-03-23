@@ -107,7 +107,7 @@ h1 {
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     /*background-color: #f5f5f5;*/
-    border-right: 1px solid rgba(178, 240, 255, 0.5);
+    /*border-right: 1px solid rgba(178, 240, 255, 0.5);*/
     flex: none;
   }
 }
@@ -505,7 +505,7 @@ thead th.optional {
 }
 
 fieldset table {
-    border-right: 1px solid #eee;
+    /*border-right: 1px solid #eee;*/
 }
 .row {
   display: -webkit-flex;
@@ -651,7 +651,7 @@ input, textarea, select, .form-row p {
     vertical-align: middle;
     font-weight: normal;
     font-size: 2rem;
-    color: rgba(255,255,255,.8);
+    color: rgba(255,255,255,.5);
     padding: 10px;
     margin: 10px;
     border: none;
@@ -781,7 +781,18 @@ input[type="submit"] {
     white-space: nowrap;
 }
 
-#recent-actions-module {
+.module h2 {
+    background-color: rgba(0, 0 , 0, .4);
+}
+
+.module a.addlink::before {
+    content: "\0002b";
+    color: #99FF66;
+    font-weight: bold;
+    padding-right: 2px;
+}
+
+#recent-actions-module, .module.aligned {
     background-color: rgba(128, 128, 128, .8); 
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 1), inset 0 0 6em 2em rgba(0, 0, 0, .5);
 }
@@ -821,7 +832,7 @@ ul.messagelist li.error {
     font-weight: bold;
     display: block;
     padding: 5px 5px 4px 25px;
-    margin: 0 0 3px 0;
+    margin: 0 0 3px 10px;
     border: 1px solid #c22;
     color: #c11;
     background: #ffefef url(../img/icon_error.gif) 5px .38em no-repeat;
@@ -831,18 +842,23 @@ ul.messagelist li.error {
     border-radius: 1px;
 }
 
+#content-main .errornote {
+margin: 0 0 10px 0px;
+} 
+
 ul.errorlist {
-    margin: 0 0 4px !important;
+    margin: 30px 10px 0 10px;
     padding: 0 !important;
     color: #fff;
     background: #c11;
+    width: 100%;
 }
 
 ul.errorlist li {
     font-size: 12px !important;
     display: block;
     padding: 5px 5px 4px 7px;
-    margin: 3px 0 0 0;
+    margin: 30px 10px 0 10px !important;
 }
 
 ul.errorlist li:first-child {
@@ -863,8 +879,21 @@ td ul.errorlist li {
     margin: 0 !important;
 }
 
+.field-box .errorlist {
+    width: 89%;
+}
+
+.field-box.field-upd_timeout.errors .errorlist {
+    width: 100%;
+    margin-left: 0;
+}
+
+.field-box.field-upd_retries.errors .errorlist {
+    width: 93%;
+}
+
 .errors, .form-row.errors {
-    background: #ffefef;
+    /*background: #ffefef;*/
 }
 
 .form-row.errors {
@@ -1042,12 +1071,12 @@ table#change-history tbody th {
     float: left;
     margin-right: 20px;
 }
-#content-main a.addlink::before {
+/*#content-main a.addlink::before {
     content: "\0002b";
     color: #99FF66;
     font-weight: bold;
     padding-right: 2px;
-}
+}*/
 #content-main .changelink {
     float: right;
 }
@@ -1271,4 +1300,8 @@ option {
 .text-muted {
   color: #777;
   font-size: 2.5rem;
+}
+
+.timezonewarning {
+    font-style: italic;
 }

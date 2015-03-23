@@ -6,7 +6,7 @@
     overflow: hidden;
     padding: 8px 12px;
     font-size: 11px;
-    border-bottom: 1px solid #eee;
+    /*border-bottom: 1px solid #eee;*/
 }
 
 .form-row img, .form-row input {
@@ -15,7 +15,7 @@
 
 form .form-row p {
     padding-left: 0;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .hidden {
@@ -65,9 +65,9 @@ form ul.inline li {
 /* ALIGNED FIELDSETS */
 
 .aligned label {
-    display: block;
-    padding: 3px 10px 0 0;
-    float: left;
+    display: inline-block;
+    /*padding: 10px 0 3px 0;*/
+    float: none;
     /* width: 8em; */
     word-wrap: break-word;
 }
@@ -83,8 +83,9 @@ form ul.inline li {
 }
 
 form .aligned p, form .aligned ul {
-    margin-left: 7em;
-    padding-left: 30px;
+    /*margin-left: 7em;*/
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 form .aligned table p {
@@ -103,7 +104,7 @@ form .aligned p.help {
 }
 
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField {
-    width: 610px;
+    /*width: 610px;*/
 }
 
 .checkbox-row p.help {
@@ -204,7 +205,8 @@ body.popup .submit-row {
 }
 
 .vDateField, .vTimeField {
-    margin-right: 2px;
+    margin-right: 10px;
+    width: 50%
 }
 
 .vDateField {
@@ -251,7 +253,7 @@ body.popup .submit-row {
 
 .inline-group {
     padding: 0;
-    border: 1px solid #ccc;
+    border: 1px solid #fff;
     margin: 10px 0;
 }
 
@@ -269,7 +271,7 @@ body.popup .submit-row {
     padding: 3px 5px;
     font-size: 11px;
     background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
 }
 
 .inline-related h3 span.delete {
@@ -300,7 +302,7 @@ body.popup .submit-row {
 
 .inline-group .tabular fieldset.module {
     border: none;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
 }
 
 .inline-related.tabular fieldset.module table {
@@ -318,7 +320,7 @@ body.popup .submit-row {
 .inline-group .tabular tr td.original {
     padding: 2px 0 0 0;
     width: 0;
-    _position: relative;
+    position: relative;
 }
 
 .inline-group .tabular th.original {
@@ -335,7 +337,7 @@ body.popup .submit-row {
     font-size: 9px;
     font-weight: bold;
     color: #666;
-    _width: 700px;
+    width: 700px;
 }
 
 .inline-group ul.tools {
