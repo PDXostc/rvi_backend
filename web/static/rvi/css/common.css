@@ -372,7 +372,7 @@ textarea,
   font-family: inherit;
 }
 
-::-webkit-input-placeholder {
+::-webkit-input-placeholder, ::-moz-placeholder, placeholder  {
    color: #444;
 }
 

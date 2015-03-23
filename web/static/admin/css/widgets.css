@@ -15,6 +15,7 @@
     width: 400px;
     text-align: center;
     margin-bottom: 5px;
+    padding-left: 10px;
 }
 
 .selector-chosen select {
@@ -26,13 +27,13 @@
 }
 
 .selector .selector-available h2 {
-    background: white url(../img/nav-bg.gif) bottom left repeat-x;
-    color: #666;
+    /* background: white url(../img/nav-bg.gif) bottom left repeat-x; */
+    /* color: #666; */
 }
 
 .selector .selector-filter {
-    background: white;
-    border: 1px solid #ccc;
+    /* background: white; */
+    /* border: 1px solid #ccc; */
     border-width: 0 1px;
     padding: 3px;
     color: #999;
