@@ -27,26 +27,27 @@ body.login {
 
 .login .form-row {
     padding: 4px 0;
-    float: left;
+    /*float: left;*/
     width: 100%;
+    clear: both;
 }
 
 .login .form-row label {
     /* padding-right: 0.5em; */
     /* line-height: 2em; */
     font-size: 2em;
-    /* clear: both; */
+     clear: both; 
     /* color: #333; */
+    /*width: 0;*/
 }
 
 .login .form-row #id_username, .login .form-row #id_password {
-    /* clear: both; */
+     clear: both; 
     padding: 6px;
     width: 100%;
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            
-    /* box-sizing: border-box; */
+    -moz-box-sizing: border-box;            
+    box-sizing: border-box; 
 }
 
 .login span.help {

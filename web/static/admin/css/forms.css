@@ -15,7 +15,13 @@
 
 form .form-row p {
     padding-left: 0;
-    font-size: 13px;
+    font-size: 1.25em;
+}
+
+.form-row.field-upd_status.field-upd_timeout.field-upd_retries p,
+.form-row.field-loc_vehicle.field-loc_time p {
+    margin-left: 21em;
+    margin-top: -2.25em;
 }
 
 .hidden {
@@ -39,8 +45,11 @@ label {
 .required label, label.required {
     font-weight: bold !important;
     /* color: #333 !important; */
+    text-align: left;
 }
-
+.required::before {
+    content:  "\2736";
+}
 /* RADIO BUTTONS */
 
 form ul.radiolist li {
@@ -68,8 +77,9 @@ form ul.inline li {
     display: inline-block;
     /*padding: 10px 0 3px 0;*/
     float: none;
-    /* width: 8em; */
+    width: 15em; 
     word-wrap: break-word;
+    text-align: right;
 }
 
 .aligned ul label {
@@ -78,14 +88,18 @@ form ul.inline li {
     width: auto;
 }
 
+.aligned .form-row input {
+    /*width: 20em;*/
+}
+
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
     width: 350px;
 }
 
 form .aligned p, form .aligned ul {
-    /*margin-left: 7em;*/
-    padding-left: 15px;
-    padding-right: 15px;
+    /* margin-left: 7em; */
+/*    padding-left: 5px;
+    padding-right: 15px;*/
 }
 
 form .aligned table p {
@@ -94,7 +108,7 @@ form .aligned table p {
 }
 
 form .aligned p.help {
-    padding-left: 38px;
+    padding-left: 38px; 
 }
 
 .aligned .vCheckboxLabel {
@@ -104,7 +118,7 @@ form .aligned p.help {
 }
 
 .colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField {
-    /*width: 610px;*/
+    width: auto;
 }
 
 .checkbox-row p.help {
@@ -113,8 +127,17 @@ form .aligned p.help {
 }
 
 fieldset .field-box {
-    float: left;
     margin-right: 20px;
+}
+
+.aligned .field-box label {
+    display: inline-block;
+    float: none;
+    word-wrap: break-word;
+}
+
+.aligned .field-box input {
+    width: auto;
 }
 
 /* WIDE FIELDSETS */
@@ -124,11 +147,11 @@ fieldset .field-box {
 }
 
 form .wide p {
-    margin-left: 15em;
+    margin-left: 18em;
 }
 
 form .wide p.help {
-    padding-left: 38px;
+    /* padding-left: 38px; */
 }
 
 .colM fieldset.wide .vLargeTextField, .colM fieldset.wide .vXMLLargeTextField {
