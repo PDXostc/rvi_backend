@@ -38,6 +38,10 @@ h1 {
     margin: 0 0 .2em 0;
 }
 
+h2 {
+    max-width: 800px;
+}
+
 /*
  * Global add-ons
  */
@@ -56,40 +60,89 @@ h1 {
   -webkit-display: flex;
   display: flex;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 .navbar-header {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 5rem;
 }
-@media (max-width: 1370px) {
-    .navbar-header {
-      font-size: 3rem;
-      margin-left: 20px;
-    }
-}
-.navbar-fixed-top {
-  border: 0;
-}
-
 .navbar-brand {
     padding-left: 25px;
 }
+.header a.navbar-brand {
+    margin-left: 0;
+}
+.navbar-fixed-top {
+  border: 0;}
 
-#navbar {
+.navbar-collapse {
     display: flex;
     justify-content: flex-end;
     align-content: center;
     align-items: center;
 }
+form.navbar-form.navbar-right {
+    display: none;
+}
+
+@media (max-width: 1370px) {
+    .container-fluid {
+        display: inline-block;
+    }
+    .navbar-header {
+        font-size: 4rem;
+        margin-left: 20px;
+        display: flex;
+        justify-content: space-between;
+        /*flex-direction: row-reverse;*/
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        align-items: center;
+    }
+    .navbar-brand {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-header {
+        flex-direction: row-reverse;
+    }
+    .navbar-collapse {
+        margin-right: 15px;
+    }
+    .collapse {
+        display: none;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .navbar-form {
+        min-width: 200px;
+    }
+}
+
+
+
+.navbar-nav {
+    min-width: 464px;
+}
 
 .navbar-right {
-  display: flex;
-  font-size: 2rem;
+  display: flex;    
+  -webkit-flex-direction: row;    
+  flex-direction: row;    
+  -webkit-justify-content: flex-end;    
+  justify-content: flex-end;
 }
 
 .navbar-nav > li {
   font-size: 2rem;
+  display: inline-block;
 }
 /*
  * Sidebar
@@ -157,6 +210,7 @@ h1 {
   flex-grow: 1;
   padding-right: 10px;
   flex: 1 0 auto;
+  /*overflow: scroll;*/
 }
 @media (min-width: 768px) {
   .main {
@@ -413,6 +467,10 @@ p.mini {
 
 img.help-tooltip {
     cursor: help;
+    background-color: #eee; 
+    padding: 9px;
+    border-radius: 5px;
+    margin-top: 2px;
 }
 
 p img, h1 img, h2 img, h3 img, h4 img, td img {
@@ -511,6 +569,14 @@ thead th.optional {
 fieldset table {
     /*border-right: 1px solid #eee;*/
 }
+@media (max-width: 1190px) {
+    .main .row .main .row {
+        display: block;
+    }
+    .panel-info {
+        margin-left: 0;
+    }
+}
 .row {
   display: -webkit-flex;
   display: flex;
@@ -519,8 +585,9 @@ fieldset table {
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
-  /* flex: 1 0 auto; */
+   flex: 1 0 auto; 
 }
+
 tr.row-label td {
     font-size: 9px;
     padding-top: 2px;
@@ -669,7 +736,7 @@ textarea {
 
 input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"],
 textarea, select, .vTextField {
-    /* border: 1px solid #ccc; */
+    min-width: 160px; 
 }
 
 input[type="date"], input[type="time"] {
@@ -1026,13 +1093,17 @@ a.deletelink:hover {
     padding-right: 26px;
 }
 
-.object-tools a.addlink {
+.object-tools a.addlink, a.historylink {
     background-color: #000;
     padding-right: 26px;
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 .object-tools a.addlink::after {
     content: "\0002b";
+}
+
+a.historylink {
+    margin-left: -5.4em;
 }
 
 /* OBJECT HISTORY */
@@ -1069,6 +1140,7 @@ table#change-history tbody th {
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch; 
+  align-items: center;
 }
 #content {
     background: #222;
@@ -1117,6 +1189,11 @@ table#change-history tbody th {
     padding-right: 2px;
 }
 
+@media (max-width: 768px) {
+    .container-fluid {
+        display: inline-block;
+    }
+}
 /* COLUMN TYPES */
 
 .colMS {
