@@ -60,9 +60,14 @@ March 2015*/
 }
 
 /* Root Elements ******************************************/
-
 html {
   font-size: 8px;
+}
+
+@media (max-width: 960px) {
+  html {
+    font-size: 6px;
+  }
 }
 
 /* Body */
@@ -669,7 +674,7 @@ ul, ol {
   display: none;
 }
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
   width: 11px;
   margin-top: 20px;
 }
@@ -705,7 +710,7 @@ ul, ol {
   border-bottom: none;
   width: 8px;
   height: 8px;
-}
+}*/
 
 
 /**********************************************************/
