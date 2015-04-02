@@ -28,7 +28,8 @@ ADD testdata/cabspottingdata.tar.gz ${rvihome}/${rvitools}/${testdata}
 RUN mkdir -p ${rvihome}/${rvitools}/${datacollector}
 COPY datacollector/*.py ${rvihome}/${rvitools}/${datacollector}/
 
-# Start datacollector by default
+# Start datacollector by default and run it in the foreground, if started in the
+# background the shell will exit and with it the Docker container.
 WORKDIR ${rvihome}/${rvitools}/${datacollector}
 CMD ["/usr/bin/python", "datacollector.py", "fg"]
 
