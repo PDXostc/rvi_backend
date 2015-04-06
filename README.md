@@ -28,6 +28,9 @@ RVI-BE consists of two components:
 *Server* is a daemon process that receives and processes asynchronous
 messages received via RVI from vehicles and other devices.
 
+There are also various tools and integration files that help with
+development and deployment.
+
 
 READER ASSUMPTIONS
 ------------------
