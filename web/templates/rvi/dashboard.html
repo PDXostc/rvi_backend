@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% load url from future %}
 
-{% load bootstrap3 %}
+<!-- {% load bootstrap3 %} -->
 {% load admin_static %}{% load firstof from future %}
 
 {% load i18n %}
@@ -20,7 +20,7 @@
     <title>{% block title %}Remote Vehicle Interaction{% endblock %}</title>
 
     <!-- Custom styles for this template -->
-    <!-- <link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet">
     <link href="{% static 'rvi/css/dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'rvi/css/common.css' %}" rel="stylesheet">
     {% block extra_site_head %}{% endblock %}
