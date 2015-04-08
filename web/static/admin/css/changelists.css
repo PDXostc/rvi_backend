@@ -13,7 +13,7 @@
 .change-list .hiddenfields { display:none; }
 
 .change-list .filtered table {
-    border-right: 1px solid #ddd;
+    /*border-right: 1px solid #ddd;*/
 }
 
 .change-list .filtered {
@@ -34,12 +34,14 @@
 }
 #changelist-form {
     margin-top: 5em;
-    margin-left: -34em;
+    margin-right: 2em;
+    float: none;
 }
 
 #changelist-form .results {
   overflow-x: auto;
-  float: left;
+  /*float: left;*/
+  margin-left: 10px;
 }
 
 #changelist .toplinks {
@@ -308,10 +310,10 @@ form#changelist-search > label {
 
 #changelist .actions {
     /* color: #999; */
-    padding: 3px;
-    border: 1px solid rgba(255, 255, 255, .5);
+ /*   padding: 3px;
+    border: 1px solid rgba(255, 255, 255, .5);*/
     /* width: 100%; */
-    margin-bottom: 20px;
+    margin-bottom: .5em;
 }
 
 #changelist .actions.selected {
@@ -343,6 +345,8 @@ form#changelist-search > label {
     /* font-size: 11px; */
     /* margin-left: 0.5em; */
     /* float: left; */
+    border: 1px solid rgba(255, 255, 255, .5);
+    padding: 0 .5em;
 }
 
 #changelist #action-toggle {
