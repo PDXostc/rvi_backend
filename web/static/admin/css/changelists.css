@@ -196,7 +196,8 @@ form#changelist-search > label {
     list-style-type: none;
     margin-left: 0;
     padding-left: 20px;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    line-height: 3rem;
 }
 
 #changelist-filter a {
@@ -260,8 +261,8 @@ form#changelist-search > label {
 
 .paginator a:link, .paginator a:visited {
     padding: 2px 6px;
-    border: solid 1px #ccc;
-    background: white;
+    border: 1px solid rgba(255, 255, 255, .8);
+    /*background: white;*/
     text-decoration: none;
 }
 
@@ -283,7 +284,7 @@ form#changelist-search > label {
 .paginator .this-page {
     padding: 2px 6px;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 1em;
     vertical-align: top;
 }
 
@@ -327,7 +328,7 @@ form#changelist-search > label {
 #changelist .actions span.clear,
 #changelist .actions span.question {
     /* font-size: 11px; */
-    margin: 0 0.5em;
+    margin: 0 1em;
     display: none;
 }
 
