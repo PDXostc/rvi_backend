@@ -1,4 +1,4 @@
-Copyright (C) 2014, Jaguar Land Rover
+Copyright (C) 2014, 2015 Jaguar Land Rover
 
 This document is licensed under Creative Commons
 Attribution-ShareAlike 4.0 International.
@@ -27,6 +27,9 @@ RVI-BE consists of two components:
 
 *Server* is a daemon process that receives and processes asynchronous
 messages received via RVI from vehicles and other devices.
+
+There are also various tools and integration files that help with
+development and deployment.
 
 
 READER ASSUMPTIONS

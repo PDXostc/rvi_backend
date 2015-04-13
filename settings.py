@@ -38,6 +38,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = False
 
+# We allow all hosts to connect
 ALLOWED_HOSTS = ['*']
 
 # Application definition
