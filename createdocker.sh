@@ -1,6 +1,7 @@
 #!/bin/sh
 # (c) 2015, Jaguar Land Rover, Rudolf J Streif
 # Create Docker images for different base OS
+# We currently support Fedora and Ubuntu only.
 
 test -z "$1" && echo "No target OS specified [fedora, ubuntu]." && exit 1
 

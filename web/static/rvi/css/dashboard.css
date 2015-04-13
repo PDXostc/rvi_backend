@@ -62,11 +62,22 @@ h2 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 .navbar-header {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 5rem;
 }
+@media (max-width: 1370px) {
+    .navbar-header {
+      font-size: 3rem;
+      margin-left: 20px;
+    }
+}
+.navbar-fixed-top {
+  border: 0;
+}
+
 .navbar-brand {
     padding-left: 25px;
 }
@@ -210,7 +221,6 @@ form.navbar-form.navbar-right {
   flex-grow: 1;
   padding-right: 10px;
   flex: 1 0 auto;
-  /*overflow: scroll;*/
 }
 @media (min-width: 768px) {
   .main {
