@@ -1,8 +1,9 @@
 /* SELECTOR (FILTER INTERFACE) */
 
 .selector {
-    width: 840px;
-    float: left;
+/*    width: 840px;
+    float: left;*/
+
 }
 
 .selector select {
@@ -24,7 +25,11 @@ select.filtered {
     width: 400px;
     text-align: center;
     margin-bottom: 5px;
-    padding-left: 10px;
+    margin-left: 20px;
+}
+
+.selector-chosen {
+    margin-left: 2px;
 }
 
 .selector-chosen select {
@@ -65,7 +70,7 @@ select.filtered {
     float: left;
     width: 22px;
     background-color: #eee;
-    /* border-radius: 10px; */
+     border-radius: 5px; 
     margin: 8.5em 5px 0 5px;
     padding: 0;
 }
@@ -265,7 +270,7 @@ p.file-upload {
     line-height: 20px;
     margin: 0;
     padding: 0;
-    color: #666;
+    /*color: #666;*/
     font-size: 11px;
     font-weight: bold;
 }
