@@ -7,16 +7,7 @@
 
 .selector select {
     width: 400px;
-    height: 262px;
-}
-
-select#id_permissions_to {
-    max-height: 326px;
-}
-
-select.filtered {
-    margin-left: 0;
-    margin-top: 10px;
+    height: 17.2em;
 }
 
 .selector-available, .selector-chosen {
@@ -45,8 +36,8 @@ select.filtered {
     /* border: 1px solid #ccc; */
     border-width: 0 1px;
     padding: 3px;
-    /* color: #999; */
-    font-size: .75em;
+    color: #999;
+    font-size: 10px;
     margin: 0;
     text-align: left;
 }
@@ -58,15 +49,15 @@ select.filtered {
 }
 
 .selector .selector-available input {
-    /*width: 360px;*/
+    width: 360px;
 }
 
 .selector ul.selector-chooser {
     float: left;
     width: 22px;
     background-color: #eee;
-    /* border-radius: 10px; */
-    margin: 8.5em 5px 0 5px;
+    border-radius: 10px;
+    margin: 10em 5px 0 5px;
     padding: 0;
 }
 
@@ -77,7 +68,8 @@ select.filtered {
 }
 
 .selector select {
-    /*margin-bottom: 10px;*/
+    margin-bottom: 10px;
+    margin-top: 0;
 }
 
 .selector-add, .selector-remove {
@@ -115,7 +107,7 @@ a.selector-chooseall, a.selector-clearall {
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
-    color: #53b5ce;
+    color: #666;
 }
 
 a.selector-chooseall {
@@ -127,38 +119,29 @@ a.selector-clearall {
 }
 
 a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
-    color: #fff;
+    color: #036;
 }
 
 a.selector-chooseall {
-    /* background: url(../img/selector-icons.gif) right -263px no-repeat; */
+    background: url(../img/selector-icons.gif) right -263px no-repeat;
     cursor: default;
 }
 
 a.active.selector-chooseall {
-    /* background: url(../img/selector-icons.gif) right -289px no-repeat; */
+    background: url(../img/selector-icons.gif) right -289px no-repeat;
     cursor: pointer;
-}
-a.active.selector-chooseall::after,
-a.selector-chooseall::after {
-    content: "\025B8";
-    padding-left: 5px;
 }
 
 a.selector-clearall {
-    /*background: url(../img/selector-icons.gif) left -211px no-repeat;*/
+    background: url(../img/selector-icons.gif) left -211px no-repeat;
     cursor: default;
 }
 
 a.active.selector-clearall {
-    /*background: url(../img/selector-icons.gif) left -237px no-repeat;*/
+    background: url(../img/selector-icons.gif) left -237px no-repeat;
     cursor: pointer;
 }
-a.selector-clearall::before, 
-a.active.selector-clearall::before {
-    content: "\025C2";
-    padding-right: 5px;
-}
+
 /* STACKED SELECTORS */
 
 .stacked {
@@ -226,7 +209,7 @@ p.datetime {
     line-height: 20px;
     margin: 0;
     padding: 0;
-    /*color: #666;*/
+    color: #666;
     font-size: 11px;
     font-weight: bold;
 }
