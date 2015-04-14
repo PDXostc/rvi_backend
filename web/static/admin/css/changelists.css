@@ -156,12 +156,23 @@ input[type=checkbox] {
     /* float: left; */
 }
 
+#toolbar img {
+    background-color: #eee;      
+    padding: 9px;      
+    border-radius: 5px;
+    margin-top: 3px;
+}
+
 #changelist #changelist-search img {
      vertical-align: middle; 
 }
 form#changelist-search > label {
     display: inline;
     float: left;
+}
+
+.field-not_expired img {
+    border-radius: 5px;
 }
 
 /* FILTER COLUMN */
@@ -213,8 +224,10 @@ form#changelist-search > label {
     margin-left: -5px;
 }
 #changelist-filter li.selected::before {
-    content:  "\2192";
+    content: "\025B8";
     padding-right: 4px;
+    font-weight: bold;
+    font-size: 1.25em;
 }
 #changelist-filter li.selected a {
     color: #fff !important;
