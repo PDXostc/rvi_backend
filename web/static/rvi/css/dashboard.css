@@ -50,6 +50,116 @@ h2 {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+.open-menu {
+   display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    display: block;
+    padding: 0 35px 20px 0;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    flex: none;
+  }
+}
+/* Sidebar navigation */
+.nav-sidebar {
+  color: #b2f0ff;
+  text-transform: uppercase;
+}
+
+.nav-sidebar > li {
+  padding: 10px 0;
+}
+
+.nav-sidebar > li > a {
+  color: #b2f0ff;
+}
+.nav-sidebar > li > a:hover,
+.nav-sidebar > li > a:focus  {
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  /*background-color: #428bca;*/
+} 
+@media (max-width: 768px) {
+  .show_sidebar {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    display: block;
+  }
+  .sidebar {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    position: absolute;
+    width: 225px;
+    left: 0;
+    background: #000;
+    overflow-y: auto;
+    border-right: 1px solid rgba(178, 240, 255, .8);
+    border-bottom: 1px solid rgba(178, 240, 255, .8);
+  }
+  .open-menu {
+     display: block; 
+     font-size: 5rem;
+  }
+  .header a.open-menu {
+    margin-right: 40px;
+  }
+  a#sidebar_menu {
+    text-decoration: none;
+  }
+  .header a.navbar-brand {
+    text-align: center;
+  }
+  .navbar-toggle::after {
+    content: "\025BE";
+  }
+  .nav-sidebar > li {
+    border-bottom: 4px solid rgba(255, 255, 255, .2);
+    margin-left: -40px;
+    padding-left: 40px;
+  }
+ /* .nav-sidebar > li a {
+    color: #fff;
+  }*/
+  .nav-sidebar > li:last-child {
+    border-bottom: none;
+  }
+  .nav-sidebar {
+    border-bottom: 4px solid rgba(255, 255, 255, .2);
+  }
+  .nav-sidebar:last-child {
+    border-bottom: none;
+  }
+  .navbar-inverse .navbar-toggle {
+    border: 1px solid rgba(255, 255, 255, .6);
+    padding: 0 10px;
+    color: rgba(255, 255, 255, .8);
+    font-size: 5rem;
+    box-shadow: none;
+    border-radius: 1px;
+  }
+
+
+}
 
 /*
  * Top navigation
@@ -155,59 +265,23 @@ form.navbar-form.navbar-right {
   font-size: 2rem;
   display: inline-block;
 }
-/*
- * Sidebar
- */
 
-/* Hide for mobile, show later */
-.sidebar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .sidebar {
-/*    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;*/
-    display: block;
-    padding: 0 35px 20px 0;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    /*background-color: #f5f5f5;*/
-    /*border-right: 1px solid rgba(178, 240, 255, 0.5);*/
-    flex: none;
+@media (max-width: 480px) {
+  .navbar-inverse .navbar-toggle {
+    border: none;
   }
-}
+  .navbar-nav {
+    min-width: 0;
+  }
+  .navbar-right {
+    display: block;
+    text-align: right;
+  }
+  .header a.navbar-brand {
+    font-size: 3rem;
+  }
 
-/* Sidebar navigation */
-.nav-sidebar {
-  color: #b2f0ff;
-  text-transform: uppercase;
 }
-
-.nav-sidebar > li {
-  padding: 10px 0;
-}
-
-.nav-sidebar > li > a {
-/*  padding-right: 20px;
-  padding-left: 20px;*/
-  color: #b2f0ff;
-}
-.nav-sidebar > li > a:hover,
-.nav-sidebar > li > a:focus  {
-  text-decoration: none;
-  color: #fff;
-}
-
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  /*background-color: #428bca;*/
-}
-
 /*
  * Main content
  */
@@ -220,6 +294,7 @@ form.navbar-form.navbar-right {
   -webkit-flex-grow: 1;  
   flex-grow: 1;
   padding-right: 10px;
+  padding-left: 10px;
   flex: 1 0 auto;
 }
 @media (min-width: 768px) {
@@ -1401,4 +1476,19 @@ option {
 
 .timezonewarning {
     font-style: italic;
+}
+@media (max-width: 768px) {
+  .container h1 {
+    font-size: 5rem;
+  }
+  .container h2 {
+    font-size: 4rem;
+  }
+  .container h3 {
+    font-size: 3rem;
+  }
+  .module h2 {
+    font-size: 2rem;
+  }
+
 }
