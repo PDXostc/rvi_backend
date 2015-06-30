@@ -1,375 +1,335 @@
 /* CHANGELISTS */
 
 #changelist {
-    /* position: relative; */
-    /* width: 100%; */
-    display: inline-block;
+  display: inline-block;
 }
 
 #changelist table {
-    width: 100%;
+  width: 100%;
 }
 
-.change-list .hiddenfields { display:none; }
+.change-list .hiddenfields {
+  display: none;
+}
 
 .change-list .filtered table {
-    /*border-right: 1px solid #ddd;*/
 }
 
 .change-list .filtered {
-    min-height: 400px;
+  min-height: 400px;
 }
 
 .change-list .filtered {
-    /* background: white url(../img/changelist-bg.gif) top right repeat-y !important; */
+  /* background: white url(../img/changelist-bg.gif) top right repeat-y !important; */
 }
 
-.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull {
-    margin-right: 20px !important;
-    width: auto !important;
+.change-list .filtered .results,
+.change-list .filtered .paginator,
+.filtered #toolbar,
+.filtered div.xfull {
+  width: auto !important;
+  margin-right: 20px !important;
 }
 
 .change-list .filtered table tbody th {
-    padding-right: 1em;
+  padding-right: 1em;
 }
 #changelist-form {
-    margin-top: 5em;
-    margin-right: 2em;
-    float: none;
+  float: none;
+  margin-top: 5em;
+  margin-right: 2em;
 }
 
 #changelist-form .results {
   overflow-x: auto;
-  /*float: left;*/
   margin-left: 10px;
 }
 
 #changelist .toplinks {
-    border-bottom: 1px solid #ccc !important;
+  border-bottom: 1px solid #ccc !important;
 }
 
 #changelist .paginator {
-    /* color: #fff; */
-    /* border-top: 1px solid #eee; */
-    /* border-bottom: 1px solid #eee; */
-    /* background: white url(../img/nav-bg.gif) 0 180% repeat-x; */
-    /* overflow: hidden; */
-    /* margin-left: 0; */
-    /* margin-top: 2em; */
+  min-width: 400px;
 }
 
 .change-list .filtered .paginator {
-    /* border-right: 1px solid #ddd; */
 }
 
 /* CHANGELIST TABLES */
 
 #changelist table thead th {
-    /* padding: 0; */
-    white-space: nowrap;
-    /* vertical-align: middle; */
+  white-space: nowrap;
 }
 
 #changelist table thead th.action-checkbox-column {
-    width: 1.5em;
-    text-align: center;
+  width: 1.5em;
+  text-align: center;
 }
 .action-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: #000;
-    border: 1px solid #cacece;
-    padding: 9px;
-    display: inline-block;
-    position: relative;
-    width: 26px;
-    height: 26px;
+  position: relative;
+  display: inline-block;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  padding: 9px;
+  border: 1px solid #cacece;
+  background-color: #000;
+
+  appearance: none;
 }
 
 .action-select:checked {
-    background-color: #e9ecee;
-    border: 1px solid #adb8c0;
-    color: #99a1a7;
+  color: #99a1a7;
+  border: 1px solid #adb8c0;
+  background-color: #e9ecee;
 }
 
 .action-select:checked:after {
-    content: '\2714';
-    font-size: 1.5em;
-    color: #fff;
-    background-color: #000;
-    border: 1px solid #adb8c0;   
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    top: -1px;
-    left: -1px;
+  font-size: 1.5em;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 26px;
+  height: 26px;
+  content: '\2714';
+  color: #fff;
+  border: 1px solid #adb8c0;
+  background-color: #000;
 }
 
 .field-update_name > a {
-    margin-left: 5px;
-    margin-right: 10px;
+  margin-right: 10px;
+  margin-left: 5px;
 }
 
-#changelist table tbody td, #changelist table tbody th {
-    /* border-left: 1px solid rgba(255, 255, 255, .25); */
+#changelist table tbody td,
+#changelist table tbody th {
 }
 
-#changelist table tbody td:first-child, #changelist table tbody th:first-child {
-    /* border-left: 0; */
-    /* border-right: 1px solid rgba(255, 255, 255, .25); */
+#changelist table tbody td:first-child,
+#changelist table tbody th:first-child {
 }
 
 #changelist table tbody td.action-checkbox {
-    text-align:center;
+  text-align: center;
 }
 
 #changelist table tfoot {
-    color: #666;
+  color: #666;
 }
 
 /* TOOLBAR */
 #toolbar {
-    float: left;
+  float: left;
 }
 
 #toolbar label {
-    display: inline;
+  display: inline;
 }
 
 #changelist #toolbar {
-    padding: 3px;
-    background: #222;
- /*   float: left; 
-    position: relative; 
-    display: inline-block;*/
-    max-height: 5em;
-    float: left;
-    display: inline;
+  display: inline;
+  float: left;
+  max-height: 5em;
+  padding: 3px;
+  background: #222;
 }
 
 #changelist #toolbar form input {
-    /* font-size: 2rem; */
-    /* padding: 5px 11px; */
-    /* display: inline; */
 }
 
 #changelist #toolbar form #searchbar {
-    /* padding: 5px; */
-    /* float: left; */
 }
 
 #toolbar img {
-    background-color: #eee;      
-    padding: 9px;      
-    border-radius: 5px;
-    margin-top: 3px;
+  margin-top: 3px;
+  padding: 9px;
+  border-radius: 5px;
+  background-color: #eee;
 }
 
 #changelist #changelist-search img {
-     vertical-align: middle; 
+  vertical-align: middle;
 }
 form#changelist-search > label {
-    display: inline;
-    float: left;
+  display: inline;
+  float: left;
 }
 
 .field-not_expired img {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 /* FILTER COLUMN */
 
 #changelist-filter {
-    /* z-index: 1000; */
-    border: 1px solid rgba(255,255,255, 0.5);
-    background: #000;
-    margin: 0;
-    float: right;
+  float: right;
+  margin: 0;
+  border: 1px solid rgba(255,255,255, .5);
+  background: #000;
 }
 
 #changelist-filter h2 {
-    font-size: 2rem;
-    padding-left: 10px;
-    /* border: 1px solid rgba(255,255,255, 0.25); */
+  font-size: 2rem;
+  padding-left: 10px;
 }
 
 #changelist-filter h3 {
-    font-size: 3rem;
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255, 0.25);
-    padding-bottom: 20px;
+  font-size: 3rem;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255, .25);
 }
 
 #changelist-filter ul {
-    padding-left: 0;
-    margin-left: 10px;
+  margin-left: 10px;
+  padding-left: 0;
 }
 
 #changelist-filter li {
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 20px;
-    font-size: 2rem;
-    line-height: 3rem;
+  font-size: 2rem;
+  line-height: 3rem;
+  margin-left: 0;
+  padding-left: 20px;
+  list-style-type: none;
 }
 
 #changelist-filter a {
-    color: #53b5ce;
+  color: #53b5ce;
 }
 
 #changelist-filter a:hover {
-    color: #fff;
+  color: #fff;
 }
 
 #changelist-filter li.selected {
-    padding-left: 5px;
-    margin-left: -5px;
+  margin-left: -5px;
+  padding-left: 5px;
 }
 #changelist-filter li.selected::before {
-    content: "\025B8";
-    padding-right: 4px;
-    font-weight: bold;
-    font-size: 1.25em;
+  font-size: 1.25em;
+  font-weight: bold;
+  padding-right: 4px;
+  content: '\025B8';
 }
 #changelist-filter li.selected a {
-    color: #fff !important;
+  color: #fff !important;
 }
 
 /* DATE DRILLDOWN */
 
 .change-list ul.toplinks {
-    display: block;
-    /*background: white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
-    border-top: 1px solid white;*/
-    float: left;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100%;
+  display: block;
+  /*background: white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;*/
+  float: left;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .change-list ul.toplinks li {
-    padding: 3px 6px;
-    font-weight: bold;
-    list-style-type: none;
-    display: inline-block;
+  font-weight: bold;
+  display: inline-block;
+  padding: 3px 6px;
+  list-style-type: none;
 }
 
 .change-list ul.toplinks .date-back a {
-    color: #999;
+  color: #999;
 }
 
 .change-list ul.toplinks .date-back a:hover {
-    color: #036;
+  color: #036;
 }
 
 /* PAGINATOR */
 
 .paginator {
-    /* font-size: 11px; */
-    /* padding-top: 3px; */
-    /* padding-bottom: 10px; */
-    line-height: 3em;
-    margin: 0;
-    /* border-top: 1px solid #ddd; */
-    /* margin-left: -66px; */
+  line-height: 3em;
+  margin: 0;
 }
 
-.paginator a:link, .paginator a:visited {
-    padding: 2px 6px;
-    border: 1px solid rgba(255, 255, 255, .8);
-    /*background: white;*/
-    text-decoration: none;
+.paginator a:link,
+.paginator a:visited {
+  padding: 2px 6px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, .8);
 }
 
 .paginator a.showall {
-    padding: 0 !important;
-    border: none !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .paginator a.showall:hover {
-    color: #036 !important;
-    background: transparent !important;
+  color: #036 !important;
+  background: transparent !important;
 }
 
 .paginator .end {
-    border-width: 2px !important;
-    margin-right: 6px;
+  margin-right: 6px;
+  border-width: 2px !important;
 }
 
 .paginator .this-page {
-    padding: 2px 6px;
-    font-weight: bold;
-    font-size: 1em;
-    vertical-align: top;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 2px 6px;
+  vertical-align: top;
 }
 
 .paginator a:hover {
-    color: white;
-    background: #5b80b2;
-    border-color: #036;
+  color: white;
+  border-color: #036;
+  background: #5b80b2;
 }
 
 /* ACTIONS */
 
 .filtered .actions {
-    /* margin-right: 160px !important; */
-    /* border-right: 1px solid #ddd; */
 }
 
 #changelist table input {
-    margin: 0;
+  margin: 0;
 }
 
 #changelist table tbody tr.selected {
-    /*background-color: #FFFFCC;*/
 }
 
 #changelist .actions {
-    /* color: #999; */
- /*   padding: 3px;
-    border: 1px solid rgba(255, 255, 255, .5);*/
-    /* width: 100%; */
-    margin-bottom: .5em;
+  margin-bottom: .5em;
 }
 
 #changelist .actions.selected {
-    background: #fffccf;
-    border-top: 1px solid #fffee8;
-    border-bottom: 1px solid #edecd6;
+  border-top: 1px solid #fffee8;
+  border-bottom: 1px solid #edecd6;
+  background: #fffccf;
 }
 
 #changelist .actions span.all,
 #changelist .actions span.action-counter,
 #changelist .actions span.clear,
 #changelist .actions span.question {
-    /* font-size: 11px; */
-    margin: 0 1em;
-    display: none;
+  display: none;
+  margin: 0 1em;
 }
 
 #changelist .actions:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 #changelist .actions select {
-    /* border: 1px solid #aaa; */
-    /* margin-left: 0.5em; */
-    /* padding: 1px 2px; */
 }
 
 #changelist .actions label {
-    /* font-size: 11px; */
-    /* margin-left: 0.5em; */
-    /* float: left; */
-    border: 1px solid rgba(255, 255, 255, .5);
-    padding: 0 .5em;
+  padding: 0 .5em;
+  border: 1px solid rgba(255, 255, 255, .5);
 }
 
 #changelist #action-toggle {
-    display: none;
+  display: none;
 }
 
 #changelist .actions .button {
-    /* font-size: 11px; */
-    /* padding: 1px 2px; */
 }
