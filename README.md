@@ -160,7 +160,7 @@ Debian/Ubuntu (distributions using SysV Init):
 
     sudo update-rc.d mysql defaults
     
-*Note:* The command above for Debian/Ubuntu uses 'mysql' although the it is the
+*Note:* The command above for Debian/Ubuntu uses 'mysql' although it is the
 MariaDB Server that will be started.
 
 
@@ -184,12 +184,12 @@ the MySQL shell typically as *root* user.
         mysql> update mysql.user set password = PASSWORD('newpwd') where user = 'root';
         mysql> flush privileges;
    
-2. Remove anonymous accounts
+2. Remove anonymous accounts, if they exist
 
         mysql> drop user ''@'localhost';
         mysql> drop user ''@'hostname';
 
-3. Drop test database
+3. Drop test database, if it exists
 
         mysql> drop database test;  
    
@@ -261,15 +261,15 @@ The RVI Backend requires additional Python modules to function:
 
 1. Clone the RVI Backend Repository from GitHub
 
-        git clone https://github.com/PDXostc/rvibackend.git rvibackend
+        git clone https://github.com/PDXostc/rvi_backend.git rvibackend
     
 2. Set PYTHONPATH
 
    For the RVI Backend to find the Python modules you will need to set the
    environment variable PYTHONPATH. Add to the *.bashrc* file in your home
-   directory:
+   directory, replacing <path>/<to> with your path:
    
-        PYTHONPATH="${PYTHONPATH}:/<path>/<to>/rvibackend"
+        PYTHONPATH="${PYTHONPATH}:/<path>/<to>/rvi_backend"
         export PYTHONPATH
 
    Source the file to make the setting become active for your current terminal:
@@ -287,7 +287,7 @@ The RVI Backend requires additional Python modules to function:
     This will access the MariaDB database server. If you set the database up according
     to the above instructions this will work right out of the box. If you did change
     user name and/or password when setting up the database then you will need to modify
-    the file *rvibackend/settings.py* accordingly.
+    the file *rvibackend/settings.py* accordingly. You may also need to restart the database server. Ubuntu users would type *sudo service mysql restart* in the terminal.
 
 4. Create the Admin User for the RVI Backend
 
