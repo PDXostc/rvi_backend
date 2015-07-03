@@ -10,19 +10,23 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 
 from django.contrib import admin
 from vehicles.models import Vehicle
+from security.models import JSONWebKey
 import tracking.tasks
 
 
 location_channels = ['location', 'speed', 'odometer']
+
 
 class VehicleAdmin(admin.ModelAdmin):
     """
     Administration view for Vehicles.
     """
     fieldsets = [
-        (None,                  {'fields': ['veh_name']}),
-        ('Vehicle Information', {'fields': ['veh_make', 'veh_model', 'veh_vin', 'veh_year', ('veh_picture', 'detail_picture')]}),
-        ('RVI Information',     {'fields': ['veh_rvibasename']}),
+        (None,                   {'fields': ['veh_name']}),
+        ('Vehicle Information',  {'fields': ['veh_make', 'veh_model', 'veh_vin', 'veh_year', ('veh_picture', 'detail_picture')]}),
+        ('Account Information',  {'fields': ['account']}),
+        ('RVI Information',      {'fields': ['veh_rvibasename']}),
+        ('Security Information', {'fields': ['veh_key']}),
     ]
 
     def subscribe_location(self, request, vehicles):
@@ -38,7 +42,7 @@ class VehicleAdmin(admin.ModelAdmin):
     unsubscribe_location.short_description = "Unsubscribe from Location"
 
     actions = [subscribe_location, unsubscribe_location]
-    list_display = ('veh_name', 'veh_make', 'veh_model', 'veh_vin', 'veh_rvistatus', 'list_picture')
+    list_display = ('veh_name', 'veh_make', 'veh_model', 'veh_vin', 'veh_rvistatus', 'list_account', 'list_picture')
     readonly_fields = ('detail_picture',)
 
 
