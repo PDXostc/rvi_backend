@@ -258,7 +258,7 @@ The RVI Backend requires additional Python modules to function:
 
 8. JWT Library
 
-        sudo pip install jwt
+        sudo pip install pyjwt
 
 9. Cryptography Library
 
