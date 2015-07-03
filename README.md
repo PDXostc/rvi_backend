@@ -215,7 +215,7 @@ the MySQL shell typically as *root* user.
 To install Django you need to have *pip* installed on your system as explained
 earlier. We are using Django version 1.7.
 
-    sudo pip install django==1.7
+    sudo pip install django==1.7.1
 
 Verify installation with:
 
@@ -230,31 +230,43 @@ The RVI Backend requires additional Python modules to function:
 
 1. Pillow Imaging Library
 
-    sudo pip install pillow
+        sudo pip install pillow
 
 2. JSONField Module
 
-    sudo pip install jsonfield
+        sudo pip install jsonfield
 
 3. Django Leaflet
 
-    sudo pip install django-leaflet
+        sudo pip install django-leaflet
     
 4. Django GeoJSON
 
-    sudo pip install django-geojson
+        sudo pip install django-geojson
     
 5. Python World Timezone Definitions
 
-    sudo pip install pytz
+        sudo pip install pytz
     
 6. Python JSON-RPC Library
 
-    sudo pip install jsonrpclib
+        sudo pip install jsonrpclib
     
 7. Django Bootstrap3 Library
 
-    sudo pip install django-bootstrap3
+        sudo pip install django-bootstrap3
+
+8. JWT Library
+
+        sudo pip install jwt
+
+9. Cryptography Library
+
+   The Cryptography library requires the libffi development library, 
+   libffi-devel on Fedora and OpenSUSE, libffi-dev on Debian and Ubuntu, to
+   be installed. Install it first, then install
+
+        sudo pip install cryptography
         
 
 ### RVI Backend Installation
