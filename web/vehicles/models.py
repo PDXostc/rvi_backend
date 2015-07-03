@@ -12,6 +12,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from djgeojson.fields import PointField
 from django.conf import settings
+from util.user import Account
+from security.models import JSONWebKey
 
 class RVIStatus:
     """
@@ -28,7 +30,7 @@ def validate_veh_year(year):
     if not year.isdigit():
         raise ValidationError("Model year must be a number.")
 
-class Vehicle(models.Model):
+class Vehicle(Account):
     """
     Data model for Vehicle
     """
@@ -42,11 +44,13 @@ class Vehicle(models.Model):
     veh_picture = models.ImageField('Vehicle Picture', null=True, blank=True)
     veh_vin = models.CharField('Vehicle VIN', max_length=256)
     veh_year = models.CharField('Vehicle Model Year', max_length=4,null=True,blank=True, validators=[validate_veh_year])
-    veh_rvibasename = models.CharField('RVI Basename', max_length=256)
+    veh_rvibasename = models.CharField('RVI Domain', max_length=256)
     veh_rvistatus = models.CharField('RVI Status',
                                   max_length=2,
                                   choices=RVI_STATUS,
                                   default=RVIStatus.OFFLINE)
+    veh_key = models.OneToOneField(JSONWebKey, verbose_name = 'Key', null=True)
+
 
     @property
     def veh_rvistatus_text(self):
@@ -68,8 +72,16 @@ class Vehicle(models.Model):
     detail_picture.short_description = ""
     detail_picture.allow_tags = True
     
+    def list_account(self):
+        return self.account.username
+    list_account.short_description = "Account"
+    list_account.allow_tags = True
+    
     def get_name(self):
         return self.veh_name
+        
+    def get_rvi_id(self):
+        return self.veh_rvibasename + '/vin/' + self.veh_vin
 		
     def __unicode__(self):
 		return 	self.veh_name
