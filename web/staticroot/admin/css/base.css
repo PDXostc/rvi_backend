@@ -611,7 +611,7 @@ div.system-message p.system-message-title {
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background: #fff url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
+    /*background: #fff url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;*/
     padding: 2px 8px 3px 8px;
     font-size: 11px;
     color: #999;
