@@ -1,13 +1,23 @@
 /* SELECTOR (FILTER INTERFACE) */
 
 .selector {
-    width: 840px;
-    float: left;
+/*    width: 840px;
+    float: left;*/
+
 }
 
 .selector select {
     width: 400px;
-    height: 17.2em;
+    height: 262px;
+}
+
+select#id_permissions_to {
+    max-height: 326px;
+}
+
+select.filtered {
+    margin-left: 0;
+    margin-top: 10px;
 }
 
 .selector-available, .selector-chosen {
@@ -15,6 +25,11 @@
     width: 400px;
     text-align: center;
     margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+.selector-chosen {
+    margin-left: 2px;
 }
 
 .selector-chosen select {
@@ -26,17 +41,17 @@
 }
 
 .selector .selector-available h2 {
-    background: white url(../img/nav-bg.gif) bottom left repeat-x;
-    color: #666;
+    /* background: white url(../img/nav-bg.gif) bottom left repeat-x; */
+    /* color: #666; */
 }
 
 .selector .selector-filter {
-    background: white;
-    border: 1px solid #ccc;
+    /* background: white; */
+    /* border: 1px solid #ccc; */
     border-width: 0 1px;
     padding: 3px;
-    color: #999;
-    font-size: 10px;
+    /* color: #999; */
+    font-size: .75em;
     margin: 0;
     text-align: left;
 }
@@ -48,15 +63,15 @@
 }
 
 .selector .selector-available input {
-    width: 360px;
+    /*width: 360px;*/
 }
 
 .selector ul.selector-chooser {
     float: left;
     width: 22px;
     background-color: #eee;
-    border-radius: 10px;
-    margin: 10em 5px 0 5px;
+     border-radius: 5px; 
+    margin: 8.5em 5px 0 5px;
     padding: 0;
 }
 
@@ -67,8 +82,7 @@
 }
 
 .selector select {
-    margin-bottom: 10px;
-    margin-top: 0;
+    /*margin-bottom: 10px;*/
 }
 
 .selector-add, .selector-remove {
@@ -106,7 +120,7 @@ a.selector-chooseall, a.selector-clearall {
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
-    color: #666;
+    color: #53b5ce;
 }
 
 a.selector-chooseall {
@@ -118,29 +132,38 @@ a.selector-clearall {
 }
 
 a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
-    color: #036;
+    color: #fff;
 }
 
 a.selector-chooseall {
-    background: url(../img/selector-icons.gif) right -263px no-repeat;
+    /* background: url(../img/selector-icons.gif) right -263px no-repeat; */
     cursor: default;
 }
 
 a.active.selector-chooseall {
-    background: url(../img/selector-icons.gif) right -289px no-repeat;
+    /* background: url(../img/selector-icons.gif) right -289px no-repeat; */
     cursor: pointer;
+}
+a.active.selector-chooseall::after,
+a.selector-chooseall::after {
+    content: "\025B8";
+    padding-left: 5px;
 }
 
 a.selector-clearall {
-    background: url(../img/selector-icons.gif) left -211px no-repeat;
+    /*background: url(../img/selector-icons.gif) left -211px no-repeat;*/
     cursor: default;
 }
 
 a.active.selector-clearall {
-    background: url(../img/selector-icons.gif) left -237px no-repeat;
+    /*background: url(../img/selector-icons.gif) left -237px no-repeat;*/
     cursor: pointer;
 }
-
+a.selector-clearall::before, 
+a.active.selector-clearall::before {
+    content: "\025C2";
+    padding-right: 5px;
+}
 /* STACKED SELECTORS */
 
 .stacked {
@@ -208,7 +231,7 @@ p.datetime {
     line-height: 20px;
     margin: 0;
     padding: 0;
-    color: #666;
+    /*color: #666;*/
     font-size: 11px;
     font-weight: bold;
 }
@@ -247,7 +270,7 @@ p.file-upload {
     line-height: 20px;
     margin: 0;
     padding: 0;
-    color: #666;
+    /*color: #666;*/
     font-size: 11px;
     font-weight: bold;
 }
