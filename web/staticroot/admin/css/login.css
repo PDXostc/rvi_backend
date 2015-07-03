@@ -1,48 +1,53 @@
 /* LOGIN FORM */
 
 body.login {
-    background: #eee;
+    /* background: #eee; */
 }
 
 .login #container {
-    background: white;
-    border: 1px solid #ccc;
-    width: 28em;
+    /* background: white; */
+    /* border: 1px solid #ccc; */
+    /* width: 28em; */
     min-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* margin-top: 100px; */
+    /* margin: 0 auto; */ 
+    /* max-width: 846px; */
 }
 
 .login #content-main {
-    width: 100%;
+    /* width: 100%; */
+    /*max-width: 600px;*/
 }
 
 .login form {
-    margin-top: 1em;
+    /* margin-top: 1em; */
 }
 
 .login .form-row {
     padding: 4px 0;
-    float: left;
+    /*float: left;*/
     width: 100%;
+    clear: both;
 }
 
 .login .form-row label {
-    padding-right: 0.5em;
-    line-height: 2em;
-    font-size: 1em;
-    clear: both;
-    color: #333;
+    /* padding-right: 0.5em; */
+    /* line-height: 2em; */
+    font-size: 2em;
+     clear: both; 
+    /* color: #333; */
+    /*width: 0;*/
 }
 
 .login .form-row #id_username, .login .form-row #id_password {
-    clear: both;
+     clear: both; 
     padding: 6px;
     width: 100%;
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;            
+    box-sizing: border-box; 
 }
 
 .login span.help {
