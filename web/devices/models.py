@@ -42,7 +42,7 @@ class Device(Account):
 		return 	self.dev_name
 
     def get_rvi_id(self):
-        return self.dev_rvibasename + '/mobile/' + self.dev_imei
+        return self.dev_rvibasename + '/mobile/' + self.dev_uuid
 		
 
 
