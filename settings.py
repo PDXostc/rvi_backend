@@ -59,6 +59,8 @@ INSTALLED_APPS = (
     'sota',
     'dblog',
     'tracking',
+    'devices',
+    'security',
 )
 
 #INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
@@ -91,23 +93,6 @@ DATABASES = {
         'CHARSET': 'utf8',
     },
 }
-
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_cassandra_engine',
-        'NAME': 'rvi',
-        'HOST': 'localhost',
-        'OPTIONS': {
-            'replication': {
-                'strategy_class': 'SimpleStrategy',
-                'replication_factor': 1,
-            },
-        },
-    },
-}
-"""
 
 
 # Logging
@@ -218,6 +203,13 @@ BOOTSTRAP3 = {
 }
 
 
+# Server Key File
+RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
+
+# Server Signature Algorithm (default: RS256)
+RVI_BACKEND_ALG_SIG = 'RS256'
+
+
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.
 # For running as a daemon you must use an absolute path.
@@ -246,6 +238,9 @@ RVI_SOTA_ENABLE = False
 RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
 RVI_SOTA_CHUNK_SIZE = 65536
+
+# Device Management
+RVI_DM_SERVICE_ID = '/dm'
 
 # Tracking
 #RVI_TRACKING_SOURCE_GPS = True
