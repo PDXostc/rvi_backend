@@ -3,410 +3,420 @@
 /* FORM ROWS */
 
 .form-row {
-    overflow: hidden;
-    padding: 8px 12px;
-    font-size: 11px;
-    /*border-bottom: 1px solid #eee;*/
+  font-size: 11px;
+  overflow: hidden;
+  padding: 8px 12px;
+  /*border-bottom: 1px solid #eee;*/
 }
 
-.form-row img, .form-row input {
-    vertical-align: middle;
+.form-row img,
+.form-row input {
+  vertical-align: middle;
 }
 
 form .form-row p {
-    padding-left: 0;
-    font-size: 1.25em;
+  font-size: 1.25em;
+  line-height: 1em;
+  padding-left: 0;
 }
 
 /*.form-row.field-upd_status.field-upd_timeout.field-upd_retries p,
 .form-row.field-loc_vehicle.field-loc_time p, .form-row.field-time p {*/
 .form-row p {
-    margin-left: 21em;
-    margin-top: -2em;
+  margin-top: -.5em;
+  margin-left: 21em;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 /* FORM LABELS */
 
 form h4 {
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 label {
-    font-weight: normal !important;
-    /* color: #666; */
-    font-size: 1.5em;
+  /* color: #666; */
+  font-size: 1.5em;
+  font-weight: normal !important;
 }
 
-.required label, label.required {
-    font-weight: bold !important;
-    /* color: #333 !important; */
-    text-align: left;
+.required label,
+label.required {
+  font-weight: bold !important;
+  /* color: #333 !important; */
+  text-align: left;
 }
 .required::before {
-    content:  "\2736";
+  content: '\2736';
 }
 /* RADIO BUTTONS */
 
 form ul.radiolist li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 form ul.radiolist label {
-    float: none;
-    display: inline;
+  display: inline;
+  float: none;
 }
 
 form ul.inline {
-    margin-left: 0;
-    padding: 0;
+  margin-left: 0;
+  padding: 0;
 }
 
 form ul.inline li {
-    float: left;
-    padding-right: 7px;
+  float: left;
+  padding-right: 7px;
 }
 
 /* ALIGNED FIELDSETS */
 
 .aligned label {
-    display: inline-block;
-    /*padding: 10px 0 3px 0;*/
-    float: none;
-    width: 15em; 
-    word-wrap: break-word;
-    text-align: right;
+  display: inline-block;
+  /*padding: 10px 0 3px 0;*/
+  float: none;
+  width: 15em;
+  text-align: right;
+  word-wrap: break-word;
 }
 
 .aligned ul label {
-    display: inline;
-    float: none;
-    width: auto;
+  display: inline;
+  float: none;
+  width: auto;
 }
 
 .aligned .form-row input {
-    /*width: 20em;*/
+  /*width: 20em;*/
 }
 
-.colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField {
-    width: 350px;
+.colMS .aligned .vLargeTextField,
+.colMS .aligned .vXMLLargeTextField {
+  width: 350px;
 }
 
-form .aligned p, form .aligned ul {
-    /* margin-left: 7em; */
-/*    padding-left: 5px;
+form .aligned p,
+form .aligned ul {
+  /* margin-left: 7em; */
+  /*    padding-left: 5px;
     padding-right: 15px;*/
 }
 
 form .aligned table p {
-    margin-left: 0;
-    padding-left: 0;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 form .aligned p.help {
-    padding-left: 38px; 
+  padding-left: 38px;
 }
 
 .aligned .vCheckboxLabel {
-    float: none !important;
-    display: inline;
-    padding-left: 4px;
+  display: inline;
+  float: none !important;
+  padding-left: 4px;
 }
 
-.colM .aligned .vLargeTextField, .colM .aligned .vXMLLargeTextField {
-    width: auto;
+.colM .aligned .vLargeTextField,
+.colM .aligned .vXMLLargeTextField {
+  width: auto;
 }
 
 .checkbox-row p.help {
-    margin-left: 0;
-    padding-left: 0 !important;
+  margin-left: 0;
+  padding-left: 0 !important;
 }
 
 fieldset .field-box {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .aligned .field-box label {
-    display: inline-block;
-    float: none;
-    word-wrap: break-word;
+  display: inline-block;
+  float: none;
+  word-wrap: break-word;
 }
 
 .aligned .field-box input {
-    width: auto;
+  width: auto;
 }
 
 /* WIDE FIELDSETS */
 
 .wide label {
-    width: 15em !important;
+  width: 15em !important;
 }
 
 form .wide p {
-    margin-left: 18em;
+  margin-left: 18em;
 }
 
 form .wide p.help {
-    /* padding-left: 38px; */
+  /* padding-left: 38px; */
 }
 
-.colM fieldset.wide .vLargeTextField, .colM fieldset.wide .vXMLLargeTextField {
-    width: 450px;
+.colM fieldset.wide .vLargeTextField,
+.colM fieldset.wide .vXMLLargeTextField {
+  width: 450px;
 }
 
 /* COLLAPSED FIELDSETS */
 
 fieldset.collapsed * {
-    display: none;
+  display: none;
 }
 
-fieldset.collapsed h2, fieldset.collapsed {
-    display: block !important;
+fieldset.collapsed h2,
+fieldset.collapsed {
+  display: block !important;
 }
 
 fieldset.collapsed h2 {
-    background-image: url(../img/nav-bg.gif);
-    background-position: bottom left;
-    color: #999;
+  color: #999;
+  background-image: url(../img/nav-bg.gif);
+  background-position: bottom left;
 }
 
 fieldset.collapsed .collapse-toggle {
-    background: transparent;
-    display: inline !important;
+  display: inline !important;
+  background: transparent;
 }
 
 /* MONOSPACE TEXTAREAS */
 
 fieldset.monospace textarea {
-    font-family: "Bitstream Vera Sans Mono",Monaco,"Courier New",Courier,monospace;
+  font-family: 'Bitstream Vera Sans Mono',Monaco,'Courier New',Courier,monospace;
 }
 
 /* SUBMIT ROW */
 
 .submit-row {
-    /*padding: 5px 0 5px 7px;*/
-    text-align: right;
-    /* background: white url(../img/nav-bg.gif) 0 100% repeat-x; */
-    /* border: 1px solid #ccc; */
-    /* margin: 5px 0; */
-    overflow: hidden;
+  /* background: white url(../img/nav-bg.gif) 0 100% repeat-x; */
+  /* border: 1px solid #ccc; */
+  /* margin: 5px 0; */
+  overflow: hidden;
+  /*padding: 5px 0 5px 7px;*/
+  text-align: right;
 }
 
 body.popup .submit-row {
-    overflow: auto;
+  overflow: auto;
 }
 
 .submit-row input {
-    margin: 0 0 0 5px;
+  margin: 0 0 0 5px;
 }
 
 .submit-row p {
-    /*margin: 0.3em;*/
+  /*margin: 0.3em;*/
 }
 
 .submit-row p.deletelink-box {
-    float: left;
+  float: left;
 }
 
 .submit-row .deletelink {
-    background: url(../img/icon_deletelink.gif) 0 50% no-repeat;
-    padding-left: 14px;
+  padding-left: 14px;
+  background: url(../img/icon_deletelink.gif) 0 50% no-repeat;
 }
 
 .deletelink-box {
-    font-weight: bold;  
-    text-transform: uppercase;  
-    border: 1px solid rgba(255, 255, 255, .5); 
-    background-color: rgba(0, 0, 0, 0.8); 
-    vertical-align: middle;  
-    font-size: 2rem;  
-    padding: 10px;   
-    margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 10px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, .5);
+  background-color: rgba(0, 0, 0, .8);
 }
 /* CUSTOM FORM FIELDS */
 
 .vSelectMultipleField {
-    vertical-align: top !important;
+  vertical-align: top !important;
 }
 
 .vCheckboxField {
-    border: none;
+  border: none;
 }
 
-.vDateField, .vTimeField {
-    margin-right: 10px;
-    width: 50%
+.vDateField,
+.vTimeField {
+  width: 50%;
+  margin-right: 10px;
 }
 
 .vDateField {
-    min-width: 6.85em;
+  min-width: 6.85em;
 }
 
 .vTimeField {
-    min-width: 4.7em;
+  min-width: 4.7em;
 }
 
 .vURLField {
-    width: 30em;
+  width: 30em;
 }
 
-.vLargeTextField, .vXMLLargeTextField {
-    width: 48em;
+.vLargeTextField,
+.vXMLLargeTextField {
+  width: 48em;
 }
 
 .flatpages-flatpage #id_content {
-    height: 40.2em;
+  height: 40.2em;
 }
 
 .module table .vPositiveSmallIntegerField {
-    width: 2.2em;
+  width: 2.2em;
 }
 
 .vTextField {
-    width: 20em;
+  /*width: 20em;*/
 }
 
 .vIntegerField {
-    width: 5em;
+  width: 5em;
 }
 
 .vBigIntegerField {
-    width: 10em;
+  width: 10em;
 }
 
 .vForeignKeyRawIdAdminField {
-    width: 5em;
+  width: 5em;
 }
 
 /* INLINES */
 
 .inline-group {
-    padding: 0;
-    border: 1px solid #fff;
-    margin: 10px 0;
+  margin: 10px 0;
+  padding: 0;
+  border: 1px solid #fff;
 }
 
 .inline-group .aligned label {
-    width: 8em;
+  width: 8em;
 }
 
 .inline-related {
-    position: relative;
+  position: relative;
 }
 
 .inline-related h3 {
-    margin: 0;
-    color: #666;
-    padding: 3px 5px;
-    font-size: 11px;
-    background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
-    /*border-bottom: 1px solid #ddd;*/
+  font-size: 11px;
+  margin: 0;
+  padding: 3px 5px;
+  color: #666;
+  background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
+  /*border-bottom: 1px solid #ddd;*/
 }
 
 .inline-related h3 span.delete {
-    float: right;
+  float: right;
 }
 
 .inline-related h3 span.delete label {
-    margin-left: 2px;
-    font-size: 11px;
+  font-size: 11px;
+  margin-left: 2px;
 }
 
 .inline-related fieldset {
-    margin: 0;
-    background: #222;
-    border: none;
-    width: 100%;
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: #222;
 }
 
 .inline-related fieldset.module h3 {
-    margin: 0;
-    padding: 2px 5px 3px 5px;
-    font-size: 11px;
-    text-align: left;
-    font-weight: bold;
-    background: #bcd;
-    color: #222;
+  font-size: 11px;
+  font-weight: bold;
+  margin: 0;
+  padding: 2px 5px 3px 5px;
+  text-align: left;
+  color: #222;
+  background: #bcd;
 }
 
 .inline-group .tabular fieldset.module {
-    border: none;
-    /*border-bottom: 1px solid #ddd;*/
+  border: none;
+  /*border-bottom: 1px solid #ddd;*/
 }
 
 .inline-related.tabular fieldset.module table {
-    width: 100%;
+  width: 100%;
 }
 
 .last-related fieldset {
-    border: none;
+  border: none;
 }
 
 .inline-group .tabular tr.has_original td {
-    padding-top: 2em;
+  padding-top: 2em;
 }
 
 .inline-group .tabular tr td.original {
-    padding: 2px 0 0 0;
-    width: 0;
-    position: relative;
+  position: relative;
+  width: 0;
+  padding: 2px 0 0 0;
 }
 
 .inline-group .tabular th.original {
-    width: 0px;
-    padding: 0;
+  width: 0;
+  padding: 0;
 }
 
 .inline-group .tabular td.original p {
-    position: absolute;
-    left: 0;
-    height: 1.1em;
-    padding: 2px 7px;
-    overflow: hidden;
-    font-size: 9px;
-    font-weight: bold;
-    color: #666;
-    width: 700px;
+  /*font-size: 9px;*/
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+  width: 700px;
+  height: 1.1em;
+  padding: 2px 7px;
+  color: #666;
 }
 
 .inline-group ul.tools {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .inline-group ul.tools li {
-    display: inline;
-    padding: 0 5px;
+  display: inline;
+  padding: 0 5px;
 }
 
 .inline-group div.add-row,
 .inline-group .tabular tr.add-row td {
-    color: #666;
-    padding: 3px 5px;
-    border-bottom: 1px solid #ddd;
-    background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
+  padding: 3px 5px;
+  color: #666;
+  border-bottom: 1px solid #ddd;
+  background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
 }
 
 .inline-group .tabular tr.add-row td {
-    padding: 4px 5px 3px;
-    border-bottom: none;
+  padding: 4px 5px 3px;
+  border-bottom: none;
 }
 
 .inline-group ul.tools a.add,
 .inline-group div.add-row a,
 .inline-group .tabular tr.add-row td a {
-    background: url(../img/icon_addlink.gif) 0 50% no-repeat;
-    padding-left: 14px;
-    font-size: 11px;
-    outline: 0; /* Remove dotted border around link */
+  font-size: 11px;
+  padding-left: 14px;
+  outline: 0; /* Remove dotted border around link */
+  background: url(../img/icon_addlink.gif) 0 50% no-repeat;
 }
 
 .empty-form {
-    display: none;
+  display: none;
 }
