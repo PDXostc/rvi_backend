@@ -15,16 +15,25 @@
 }
 
 form .form-row p {
-  font-size: 1.25em;
+  font-size: 1.5em;
   line-height: 1em;
-  padding-left: 0;
+  margin-top: -2em;
+  padding: .25em;
 }
 
 /*.form-row.field-upd_status.field-upd_timeout.field-upd_retries p,
 .form-row.field-loc_vehicle.field-loc_time p, .form-row.field-time p {*/
 .form-row p {
   margin-top: -.5em;
-  margin-left: 21em;
+  margin-left: 17em;
+}
+
+.form-row input[type="checkbox"] {
+    margin-top: .75em;
+}
+
+.form-row .checkbox-row input[type="checkbox"] {
+    margin-top: -.25em;
 }
 
 .hidden {
@@ -111,6 +120,11 @@ form .aligned ul {
 form .aligned table p {
   margin-left: 0;
   padding-left: 0;
+}
+
+table .form-row p {
+  margin-top: .35em;
+  margin-left: 0;
 }
 
 form .aligned p.help {
@@ -373,13 +387,13 @@ body.popup .submit-row {
 }
 
 .inline-group .tabular td.original p {
-  /*font-size: 9px;*/
   font-weight: bold;
+  font-style: italic;
   position: absolute;
-  left: 0;
+  left: 12px;
   overflow: hidden;
   width: 700px;
-  height: 1.1em;
+  height: 2em;
   padding: 2px 7px;
   color: #666;
 }
