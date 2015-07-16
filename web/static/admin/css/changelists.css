@@ -290,6 +290,10 @@ form#changelist-search > label {
 .filtered .actions {
 }
 
+#changelist input[type="checkbox"] {
+    margin: 4px 0 0;
+}
+
 #changelist table input {
   margin: 0;
 }
