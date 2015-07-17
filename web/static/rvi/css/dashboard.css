@@ -63,7 +63,6 @@ h2 {
 }
 @media (min-width: 768px) {
   .sidebar {
-    display: block;
     padding: 0 35px 20px 0;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -1152,9 +1151,7 @@ a.deletelink:hover {
 
 .object-tools li {
     display: block;
-    float: left;
     margin-left: 5px;
-    height: 16px;
 }
 
 .object-tools a {
