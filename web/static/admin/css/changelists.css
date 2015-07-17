@@ -43,6 +43,7 @@
 #changelist-form .results {
   overflow-x: auto;
   margin-left: 10px;
+  max-width: 950px;
 }
 
 #changelist .toplinks {
