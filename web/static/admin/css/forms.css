@@ -5,8 +5,8 @@
 .form-row {
   font-size: 11px;
   overflow: hidden;
+  max-width: 900px;
   padding: 8px 12px;
-  /*border-bottom: 1px solid #eee;*/
 }
 
 .form-row img,
@@ -28,12 +28,14 @@ form .form-row p {
   margin-left: 17em;
 }
 
-.form-row input[type="checkbox"] {
-    margin-top: .75em;
+.form-row input[type='checkbox'] {
+  margin-top: .75em;
 }
 
-.form-row .checkbox-row input[type="checkbox"] {
-    margin-top: -.25em;
+.form-row .checkbox-row input[type='checkbox'] {
+  width: 1em;
+  margin-top: -.25em;
+  margin-left: 15.25em;
 }
 
 .hidden {
@@ -102,7 +104,7 @@ form ul.inline li {
 }
 
 .aligned .form-row input {
-  /*width: 20em;*/
+  width: 20em;
 }
 
 .colMS .aligned .vLargeTextField,
@@ -128,7 +130,20 @@ table .form-row p {
 }
 
 form .aligned p.help {
-  padding-left: 38px;
+  font-size: 1.25em;
+  font-style: italic;
+  line-height: 1.25em;
+  max-width: 20em;
+  margin-top: 0;
+  margin-left: 20em;
+}
+
+.form-row.field-groups p.help,
+.form-row.field-user_permissions p.help,
+.form-row.field-permissions p.help {
+  max-width: 40em;
+  margin-left: 20px;
+  text-align: left;
 }
 
 .aligned .vCheckboxLabel {
@@ -433,4 +448,14 @@ body.popup .submit-row {
 
 .empty-form {
   display: none;
+}
+
+div#id_password {
+  font-size: 2.25rem;
+  font-weight: normal;
+  display: inline-block;
+  max-width: 20em;
+  padding: 10px;
+  vertical-align: middle;
+  color: rgba(255,255,255,.5);
 }
