@@ -1,4 +1,4 @@
-WSGIPythonPath /var/www/rvibackend/:/var/www/rvibackend/web/
+WSGIPythonPath /var/www/rvibackend/web/:/var/www/rvibackend/
 <VirtualHost *:80>
 
     Alias /static/ /var/www/rvibackend/web/staticroot/

@@ -11,7 +11,7 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 import datetime, pytz, uuid, jwt
 from django.db import models
 from django.utils.safestring import mark_safe
-from util.user import Account
+from common.user import Account
 from vehicles.models import Vehicle
 from security.models import JSONWebKey
 

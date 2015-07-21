@@ -267,6 +267,14 @@ The RVI Backend requires additional Python modules to function:
    be installed. Install it first, then install
 
         sudo pip install cryptography
+
+10. Kafka Library
+
+        sudo pip install python-kafka
+        
+11. HBase Library
+
+        sudo pip install happybase
         
 
 ### RVI Backend Installation
