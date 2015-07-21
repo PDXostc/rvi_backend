@@ -6552,4 +6552,7 @@ button.close {
     display: none !important;
   }
 }
+
+/*To disable the less files generated from the bootstrap.css.map file, remove the following line:*/
+
 /*# sourceMappingURL=bootstrap.css.map */
