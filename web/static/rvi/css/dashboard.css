@@ -149,6 +149,9 @@ h1 {
   .header a.navbar-brand {
     text-align: center;
   }
+  .navbar-toggle {
+    display: flex;
+  }
   .navbar-toggle::after {
     content: "\025BE";
   }
