@@ -95,13 +95,19 @@ def notify_update(retry):
  
     # notify remote of pending file transfer
     transaction_id += 1
-    rvi_server.message(calling_service = rvi_service_id,
-                       service_name = dst_url + rvi_service_id + '/notify',
-                       transaction_id = str(transaction_id),
-                       timeout = int(retry.get_timeout_epoch()),
-                       parameters = [{ u'package': package_name },
-                                     { u'retry': retry.pk },
-                                    ])
+    try:
+        rvi_server.message(calling_service = rvi_service_id,
+                           service_name = dst_url + rvi_service_id + '/notify',
+                           transaction_id = str(transaction_id),
+                           timeout = int(retry.get_timeout_epoch()),
+                           parameters = [{ u'package': package_name },
+                                         { u'retry': retry.pk },
+                                        ])
+    except Exception as e:
+        logger.error('%s: Cannot send request: %s', retry, e)
+        set_status(retry, sota.models.Status.FAILED)
+        return False
+    
     logger.info('%s: Notified remote of pending file transfer.', retry)
     
     # done
