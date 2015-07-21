@@ -61,12 +61,17 @@ h2 {
 .open-menu {
    display: none;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .sidebar {
     padding: 0 35px 20px 0;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     flex: none;
+  }
+}
+@media (min-width: 769px) {
+  .sidebar {
+    display: block;
   }
 }
 /* Sidebar navigation */
