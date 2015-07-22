@@ -18,11 +18,17 @@ body {
   padding: 0;
   min-height: 100vh;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
+  -webkit-align-items: stretch;
   align-items: stretch;
+  -webkit-align-content: stretch;
   align-content: stretch;
+  -webkit-flex-grow: 1;
   flex-grow: 1;
 }
 
@@ -73,6 +79,8 @@ h1 {
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
+    -webkit-flex: none;
+    -ms-flex: none;
     flex: none;
   }
 }
@@ -83,6 +91,8 @@ h1 {
     padding: 0 35px 20px 0;
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-flex: none;
+    -ms-flex: none;
     flex: none;
   }
 }
@@ -150,6 +160,8 @@ h1 {
     text-align: center;
   }
   .navbar-toggle {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
   }
   .navbar-toggle::after {
@@ -177,6 +189,8 @@ h1 {
     padding: 0 10px;
     color: rgba(255, 255, 255, .8);
     font-size: 5rem;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
     box-shadow: none;
     border-radius: 1px;
   }
@@ -189,7 +203,8 @@ h1 {
  */
 
 .navbar {
-  -webkit-display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -225,9 +240,14 @@ h1 {
 }
 
 .navbar-collapse {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: flex-end;
   justify-content: flex-end;
+  -webkit-align-content: center;
   align-content: center;
+  -webkit-align-items: center;
   align-items: center;
 }
 
@@ -242,12 +262,14 @@ form.navbar-form.navbar-right {
   .navbar-header {
     font-size: 4rem;
     margin-left: 20px;
-    display: flex;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
     display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     -webkit-flex-grow: 1;
     flex-grow: 1;
+    -webkit-align-items: center;
     align-items: center;
   }
   .navbar-brand {
@@ -257,6 +279,7 @@ form.navbar-form.navbar-right {
 
 @media (max-width: 768px) {
   .navbar-header {
+    -webkit-flex-direction: row-reverse;
     flex-direction: row-reverse;
   }
   .navbar-collapse {
@@ -278,6 +301,8 @@ form.navbar-form.navbar-right {
 }
 
 .navbar-right {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: row;
   flex-direction: row;
@@ -313,12 +338,16 @@ form.navbar-form.navbar-right {
 
 .main {
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
   -webkit-flex-grow: 1;
   flex-grow: 1;
   padding-right: 10px;
   padding-left: 10px;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
 
@@ -350,6 +379,7 @@ form.navbar-form.navbar-right {
 
 #footer {
   -webkit-flex: none;
+  -ms-flex: none;
   flex: none;
 }
 
@@ -699,7 +729,9 @@ fieldset table {
 
 .row {
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: row;
   flex-direction: row;
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 auto;
@@ -952,14 +984,22 @@ input[type="submit"] {
   padding: 10px;
   margin-right: 20px;
   border: 1px solid rgba(255, 255, 255, 0.25);
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: row;
   flex-direction: row;
   width: 100%;
+  -webkit-align-content: stretch;
   align-content: stretch;
   -webkit-flex-grow: 1;
   flex-grow: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   background-color: #222;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
   box-shadow: none;
 }
 
@@ -1283,30 +1323,41 @@ table#change-history tbody th {
 /* PAGE STRUCTURE */
 
 .container {
-  -webkit-display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-align-content: stretch;
   align-content: stretch;
   /* Extra space in Cross Axis */
   -webkit-flex-grow: 1;
   flex-grow: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
 }
 
 .footer .container {
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-justify-content: center;
   justify-content: center;
 }
 
 .container-fluid {
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-grow: 1;
   flex-grow: 1;
+  -webkit-flex-direction: row;
   flex-direction: row;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
-  align-items: stretch;
+  -webkit-align-content: stretch;
   align-content: stretch;
+  -webkit-align-items: center;
   align-items: center;
 }
 
@@ -1519,17 +1570,26 @@ table#change-history tbody th {
 }
 
 .tracking_input {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  -webkit-display: flex;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
+  -webkit-flex-direction: row;
   flex-direction: row;
+  -webkit-align-content: center;
   align-content: center;
+  -webkit-align-items: center;
   align-items: center;
 }
 
 label.input-wrapper {
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+  -webkit-align-content: center;
   align-content: center;
 }
 
