@@ -1,93 +1,67 @@
-/**********************************************************
-Modified common.css from the DNA styleguide, designed and used for the Tizen Crosswalk platform
+/*Modified common.css from the DNA styleguide, designed and used for the Tizen Crosswalk platform
 Adjustments were made to suit the RVI admin web interface
 Accomodates flexbox layout where ever possible
-March 2015*
+March 2015*/
 
-last updated July 2015 
+/* Fonts **************************************************/
 
-***********************************************************/
-
-
-
-/* Resets *************************************************/
-
-:focus {
-  outline: none;
-}
-
-/* Prevents the selection of text on all but text inputs */
-
-:not(input):not(textarea) {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Resets :: end ******************************************/
-
-
-
-/* Fonts ***************************************************
-   Adobe Source Sans
-   SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
-   http://scripts.sil.org/OFL
-***********************************************************/
+/* Adobe Source Sans */
+/* SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007 */
+/* http://scripts.sil.org/OFL */
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 200;
   src: url(../fonts/SourceSansPro-ExtraLight.ttf) format(truetype);
+  font-weight: 200;
 }
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 300;
   src: url(../fonts/SourceSansPro-Light.ttf) format(truetype);
+  font-weight: 300;
 }
 
 @font-face {
   font-family: SourceSansPro;
+  src: url(../fonts/SourceSansPro-LightItalic.ttf) format(truetype);
   font-weight: 300;
   font-style: italic;
-  src: url(../fonts/SourceSansPro-LightItalic.ttf) format(truetype);
 }
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 400;
   src: url(../fonts/SourceSansPro-Regular.ttf) format(truetype);
+  font-weight: 400;
 }
 
 @font-face {
   font-family: SourceSansPro;
+  src: url(../fonts/SourceSansPro-Italic.ttf) format(truetype);
   font-weight: 400;
   font-style: italic;
-  src: url(../fonts/SourceSansPro-Italic.ttf) format(truetype);
 }
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 600;
   src: url(../fonts/SourceSansPro-Semibold.ttf) format(truetype);
+  font-weight: 600;
 }
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 700;
   src: url(../fonts/SourceSansPro-Bold.ttf) format(truetype);
+  font-weight: 700;
 }
 
 @font-face {
   font-family: SourceSansPro;
-  font-weight: 900;
   src: url(../fonts/SourceSansPro-Black.ttf) format(truetype);
+  font-weight: 900;
 }
-
 
 /* Root Elements ******************************************/
-
 html {
-  font-size: 9px;
+  font-size: 8px;
 }
 
 @media (max-width: 960px) {
@@ -96,134 +70,52 @@ html {
   }
 }
 
-
 /* Body */
 
 body {
   font-family: SourceSansPro, sans-serif;
-  position: relative;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
   margin: 0;
   padding: 0;
-  color: #fff;
-  background-color: rgb(0, 0, 0);
-}
-
-
-/* Sectioning Content and Div *****************************/
-
-div,
-nav,
-aside,
-article,
-section {
-  /* font-size: 3rem; */
-}
-
-* {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-input,
-textarea {
-  -webkit-user-select: auto;
-  user-select: auto;
-}
-
-
-/* Structural Elements ************************************/
-
-
-/*
-  These styles can only be used with
-  the HTML structure suggested in the Style Guide
-*/
-
-#center-panel {
+  background-color: rgb(0,0,0);
   position: relative;
   display: flex;
-  overflow: hidden;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  height: inherit;
+  flex-direction:column;
+  justify-content:space-between;
+  color: #fff;
 }
 
-.modal,
-#settings {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
+*{
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.modal {
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-
-.modal-content {
-  padding: 20px;
-  background-color: rgba(0, 0, 0, .8);
-}
-
-#app {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  background-color: transparent;
-}
-
-#agl-logo {
-  -webkit-flex: 3;
-  flex: 3;
-  -ms-flex: 3;
+input, textarea{
+  user-select: auto;
+  -webkit-user-select: auto;
 }
 
 
 /*Typography **********************************************/
 
-
 /* Headings */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
-  line-height: 1em;
-  margin: .5em 0;
   color: #fe9c00;
+  margin: .5em 0;
+  line-height: 1em;
 }
 
 h1 {
-  font-size: 6rem;
+  font-size: 7rem;
 }
 
 h2 {
-  font-size: 4.5rem;
+  font-size: 5rem;
 }
 
 h3 {
-  font-size: 4.25rem;
+  font-size: 5rem;
 }
 
 h4 {
@@ -234,34 +126,29 @@ h5 {
   font-size: 3.6rem;
 }
 
-h6,
-.label {
+h6, .label {
   font-size: 3rem;
   text-transform: uppercase;
 }
 
-
 /* Text */
 
-p,
-ul {
+p, ul {
   /* margin-bottom: 1em; */
 }
 
-p,
-ul,
-li,
+p, ul, li,
 .text-input {
-  font-size: 3rem;
   color: white;
-}
-
-.text-medium {
-  font-size: 3.2rem;
+  font-size: 3rem;
 }
 
 .text-large {
   font-size: 3.4rem;
+}
+
+.text-medium {
+  font-size: 3.2rem;
 }
 
 p.lead {
@@ -269,14 +156,11 @@ p.lead {
   font-weight: 300;
 }
 
-
 /* Anchors */
-
 
 /*a {
   color: inherit;
 }*/
-
 
 /* Lists */
 
@@ -289,32 +173,46 @@ li {
   /* margin-left: 1em; */
 }
 
-/* Text Overflow */
+/* Sectioning Content and Div *****************************/
 
-.ellipsis-one-line,
-.ellipsis-two-line,
-.ellipsis-three-line {
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+div, 
+nav,
+aside,
+article,
+section {
+  /* font-size: 3rem; */
 }
 
-.ellipsis-one-line {
-  -webkit-line-clamp: 1;
+/* Structural Elements ************************************/
+
+/*
+  These styles can only be used with
+  the HTML structure suggested in the Style Guide
+*/
+
+.modal,
+#settings {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  display: flex;
 }
 
-.ellipsis-two-line {
-  -webkit-line-clamp: 2;
+.modal {
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.ellipsis-three-line, {
-  -webkit-line-clamp: 3;
+#agl-logo {
+  flex: 3;
 }
-
-/* Typography :: end **************************************/
-
-
 
 /* Colors *************************************************/
 
@@ -359,11 +257,11 @@ li {
 }
 
 .yellow-viv {
-  color: #ff0;
+  color: #ffff00;
 }
 
 .yellow-viv-bg {
-  background-color: #ff0;
+  background-color: #ffff00;
 }
 
 .green-lt {
@@ -406,471 +304,71 @@ li {
   background-color: black;
 }
 
-
-/* Colors :: end ******************************************/
-
-
-/* Tables, currently not compatible with the modified bootstrap CSS *******/
-
-
-/*table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: transparent;
+.modal,
+#settings,
+.overlay-bg {
+  background-color: rgba(0,0,0,0.8);
 }
-
-th,
-td {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 10px;
-  font-size: 2rem;
-  text-align: left;
-  color: white;
-}
-
-th.no-flex,
-td.no-flex {
-  display: table-cell;
-}
-
-th {
-  font-weight: 100;
-  justify-content: flex-end;
-}
-
-td {
-  font-weight: 100;
-  justify-content: flex-start;
-}
-
-table tr {
-  display: flex;
-}
-
-tr:nth-child(even) {
-  background-color: rgba(255,211,140,.1);
-}
-
-table tr > :nth-child(1n) {
-  flex: 2;
-}
-
-table tr > :nth-child(n+2) {
-  flex: 1;
-}
-
-table.no-text-wrap td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}*/
-
-
-/* Tables :: end ******************************************/
-
 
 /* Controls ***********************************************/
-
 
 /* Buttons ************************************************/
 
 button,
 .button,
-.button-infill,
-.button-inshadow,
-.button-outline,
-.button-outshadow,
 input[type='button'] {
-  font-family: inherit;
-  font-size: 3rem;
-  font-weight: 600;
+  color: white;
   position: relative;
   display: inline-block;
-  margin: 20px;
+  font-size: 3rem;
+  font-weight: 600;
+  font-family: inherit;
   padding: 8px 20px 12px;
-  color: white;
+  margin: 20px;
   border-width: 1px;
   border-style: solid;
-  background-color: rgba(0, 0, 0, .8);
-  -webkit-box-shadow: inset 0 0 20px rgba(255, 255, 255, .9);
-  -moz-box-shadow: inset 0 0 20px rgba(255, 255, 255, .9);
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, .9);
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9);
 }
 
-/* Button Colors */
-
 .button-orange {
-  color: #fe9c00;
-  border-color: rgba(254, 156, 0, 0.5);
+  border-color: #fe9c00;
+  box-shadow: inset 0 0 20px rgba(254, 156, 0, 0.9);
 }
 
 .button-blue {
-  color: #b2f0ff;
-  border-color: rgba(178, 240, 255, 0.5);
+  border-color: #b2f0ff;
+  box-shadow: inset 0 0 20px rgba(178, 240, 255, 0.9);
 }
 
 .button-green {
-  color: #59ff00;
-  border-color: rgba(205, 255, 178, 0.5);
+  border-color: #59ff00;
+  box-shadow: inset 0 0 20px rgba(89, 255, 0, 0.9);
 }
 
 .button-yellow {
-  color: #ffffb2;
-  border-color: rgba(255, 255, 178, 0.5);
+  border-color: #ffff00;
+  box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.9);
 }
-
-
-/* Button Inshadow */
-
-.button-inshadow {
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.button-inshadow.button-orange {
-  box-shadow: inset 0 0 20px rgba(254, 156, 0, 0.5);
-}
-
-.button-inshadow.button-blue {
-  box-shadow: inset 0 0 20px rgba(178, 240, 255, 0.5);
-}
-
-.button-inshadow.button-green {
-  box-shadow: inset 0 0 20px rgba(89, 255, 0, 0.5);
-}
-
-.button-inshadow.button-yellow {
-  box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.5);
-}
-
-
-/* Button Outshadow */
-
-.button-outshadow {
-  box-shadow: 0 0 20px rgba(255, 255, 255, .5);
-}
-
-.button-outshadow.button-orange {
-  box-shadow: 0 0 20px rgba(254, 156, 0, .5);
-}
-
-.button-outshadow.button-blue {
-  box-shadow: 0 0 20px rgba(178, 240, 255, .5);
-}
-
-.button-outshadow.button-green {
-  box-shadow: 0 0 20px rgba(89, 255, 0, 0.5);
-}
-
-.button-outshadow.button-yellow {
-  box-shadow: 0 0 20px rgba(255, 255, 0, .5);
-}
-
-
-/* Button Infill */
-
-.button-infill {
-  background-color: rgba(128, 128, 128, .8);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 1), inset 0 0 6em 2em rgba(0, 0, 0, .5);
-  color: rgba(255, 255, 255, .8);
-}
-
-.button-infill.button-orange {
-  background-color: rgba(254, 156, 0, .8);
-}
-
-.button-infill.button-blue {
-  background-color: rgba(83, 181, 206, .8);
-}
-
-.button-infill.button-green {
-  background-color: rgba(89, 255, 0, .7);
-}
-
-.button-infill.button-yellow {
-  background-color: rgba(255, 255, 0, .8);
-}
-
-
-/* Clear Button */
-
-.clear-button::after {
-  font-size: 5rem;
+.clear-button::after { 
+  margin-left: -50px; 
+  content: "\00d7";
   line-height: 100px;
-  margin-left: -50px;
-  content: '\00d7';
-  color: gray;
-}
-
-
-/* Close button */
-
-.close-button {
-  position: relative;
-  top: 0;
-  right: 20px;
-  float: right;
-  padding: 10px;
-}
-
-.close-button::after {
   font-size: 5rem;
-  width: 26px;
-  height: 63px;
-  content: '\00d7';
-  cursor: pointer;
-  color: white;
+  color: gray; 
 }
-
-
-/* Buttons :: end *****************************************/
-
-
-/* Boxes **************************************************/
-
-.box-infill,
-.box-inshadow,
-.box-outline,
-.box-outshadow {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-color: rgba(255, 255, 255, 0.5);
-  border-style: solid;
-  border-width: 1px;
-  color: #fe9c00;
-  margin: 20px;
-  padding: 20px;
-}
-
-.box-inshadow {
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5);
-}
-
-.box-outshadow {
-  box-shadow: 0 0 20px rgba(255, 255, 255, .5);
-}
-
-.box-infill {
-  background-color: rgba(128, 128, 128, .8);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 1), inset 0 0 6em 2em rgba(0, 0, 0, .5);
-  color: rgba(255, 255, 255, .8);
-}
-
-.box-header {
-  background-color: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  border-color: inherit;
-  color: inherit;
-  margin: -20px -20px 10px;
-  padding: 20px;
-}
-
-.box-title {
-  color: inherit;
-  margin: 0;
-}
-
-.box-content {
-  margin: -20px;
-  padding: 20px;
-}
-
-
-/* Yellow */
-
-.box-yellow,
-.box-in-yellow,
-.box-out-yellow {
-  border-color: rgba(255, 255, 178, 0.5);
-  color: #FFFFb2;
-}
-
-.box-in-yellow {
-  box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.5);
-}
-
-.box-out-yellow {
-  box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
-}
-
-.box-infill-yellow {
-  background-color: rgba(255, 255, 0, .8);
-}
-
-
-/* Orange */
-
-.box-orange,
-.box-in-orange,
-.box-out-orange {
-  border-color: rgba(254, 156, 0, .5);
-  color: #FE9C00;
-}
-
-.box-in-orange {
-  box-shadow: inset 0 0 20px rgba(254, 156, 0, .5);
-}
-
-.box-out-orange {
-  box-shadow: 0 0 20px rgba(254, 156, 0, .5);
-}
-
-.box-infill-orange {
-  background-color: rgba(254, 156, 0, .8);
-}
-
-
-/* Blue */
-
-.box-blue,
-.box-in-blue,
-.box-out-blue {
-  border-color: rgba(178, 240, 255, .5);
-  color: #b2f0ff;
-}
-
-.box-in-blue {
-  box-shadow: inset 0 0 20px rgba(178, 240, 255, .5);
-}
-
-.box-out-blue {
-  box-shadow: 0 0 20px rgba(178, 240, 255, .5);
-}
-
-.box-infill-blue {
-  background-color: rgba(83, 181, 206, .8);
-}
-
-
-/* Green */
-
-.box-green,
-.box-in-green,
-.box-out-green {
-  border-color: rgba(205, 255, 178, 0.5);
-  color: #cdffb2;
-}
-
-.box-in-green {
-  box-shadow: inset 0 0 20px rgba(205, 255, 178, .5);
-}
-
-.box-out-green {
-  box-shadow: 0 0 20px rgba(205, 255, 178, .5);
-}
-
-.box-infill-green {
-  background-color: rgba(89, 255, 0, .7);
-}
-
-
-/* Boxes :: end *******************************************/
-
-
-/* Switches ***********************************************/
-
-.switch {
-  margin: 20px;
-}
-
-
-/* Sizes for switches */
-
-.switch-xsmall {
-  height: 50px;
-  width: 100px;
-}
-
-.switch-small {
-  height: 75px;
-  width: 150px;
-}
-
-.switch-medium {
-  height: 105px;
-  width: 210px;
-}
-
-.switch-large {
-  height: 150px;
-  width: 300px;
-}
-
-
-/* Switch Plate (long background hexagon) */
-
-.switch-plate {
-  align-items: center;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  box-sizing: border-box;
-  display: flex;
-  height: 100%;
-}
-
-
-/* On/Off Styles for Switch Plate */
-
-.off .switch-plate {
-  background-image: url('../images/switchplate_off.svg');
-  justify-content: flex-start;
-  padding-left: 10%;
-  padding-right: 0 !important;
-}
-
-.on .switch-plate {
-  background-image: url('../images/switchplate_on.svg');
-  justify-content: flex-end;
-  padding-left: 0 !important;
-  padding-right: 10%;
-}
-
-
-/* Switch Control (hexagon) */
-
-.switch-control {
-  background-image: url('../images/switchcontrol.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 80%;
-  width: 50%;
-}
-
-.switch-xsmall .switch-control {
-  -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.35));
-}
-
-.switch-small .switch-control {
-  -webkit-filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.35));
-}
-
-.switch-medium .switch-control {
-  -webkit-filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.35));
-}
-
-.switch-large .switch-control {
-  -webkit-filter: drop-shadow(8px 8px 8px rgba(0, 0, 0, 0.35));
-}
-
-
-/* Switches :: end ****************************************/
-
 
 /* Forms */
-
 
 /* Text Inputs */
 
 .text-input {
-  background-color: rgba(0, 0, 0, 0.8);
-  border: none;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 3rem;
-  margin: 10px;
+  font-size: 3rem; 
+  color: rgba(255,255,255,.8);
   padding: 20px;
+  margin: 10px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 input,
@@ -879,10 +377,8 @@ textarea,
   font-family: inherit;
 }
 
-::-webkit-input-placeholder,
-::-moz-placeholder,
-placeholder {
-  color: #444;
+::-webkit-input-placeholder, ::-moz-placeholder, placeholder  {
+   color: #444;
 }
 
 label {
@@ -899,399 +395,175 @@ label,
 .text-input:focus {
   outline: none;
   color: white;
-  -webkit-box-shadow: 0 0 20px rgba(255, 255, 255, .8);
-  -moz-box-shadow: 0 0 20px rgba(255, 255, 255, .8);
-  box-shadow: 0 0 20px rgba(255, 255, 255, .8);
+  box-shadow: 0 0 20px rgba(255,255,255,.8);
 }
 
-
-/* Input Group */
-/* A wrapper for grouping input fields, labels and other 
-   form content. Best used on unstyled block elements (eg. div) */ 
-
-.input-group {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.input-group label {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1;
-  flex: 1;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  -webkit-align-items: center;
-  align-items: center;
-  text-align: right;
-  -ms-flex: 1;
-}
+/* .input-group: A wrapper for grouping input fields, labels
+and other form content. Best used on block elements (eg. div) */ 
 
 .input-group label.left-label {
-  -webkit-justify-content: flex-start;
   justify-content: flex-start;
 }
 
-.input-group .text-input {
-  -webkit-flex: 2;
-  flex: 2;
-  -ms-flex: 2;
+.input-group label {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
 }
 
+.input-group {
+  display: flex;
+  justify-content: space-between;
+} 
+
+.input-group .text-input { 
+  flex: 2;
+}
+
+
 .input-yellow {
-  color: #ffffb2;
-  -webkit-box-shadow: 0 0 20px rgba(255, 255, 178, .8);
-  -moz-box-shadow: 0 0 20px rgba(255, 255, 178, .8);
-  box-shadow: 0 0 20px rgba(255, 255, 178, .8);
+  border-color: rgba(255, 255, 0, 0.5);
 }
 
 .input-yellow:focus {
-  -webkit-box-shadow: 0 0 20px rgba(255, 255, 0, .9);
-  -moz-box-shadow: 0 0 20px rgba(255, 255, 0, .9);
-  box-shadow: 0 0 20px rgba(255, 255, 0, .9);
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9); 
 }
 
 .input-blue {
-  border-color: rgba(178, 240, 255, .5);
+  border-color: rgba(178, 240, 255, 0.5);
 }
 
 .input-blue:focus {
-  -webkit-box-shadow: 0 0 20px rgba(255, 255, 0, .9);
-  -moz-box-shadow: 0 0 20px rgba(255, 255, 0, .9);
-  box-shadow: 0 0 20px rgba(178, 240, 255, .9);
+  box-shadow: 0 0 20px rgba(178, 240, 255, 0.9);
 }
 
-.input-green {
-  color: rgba(205, 255, 178, 0.8);
-}
+/* 
+  A wrapper for grouping input fields, labels and other
+  form content. Best used on block elements (eg. div)
+*/ 
 
-.input-green:focus {
-  color: #cdffb2;
-  box-shadow: 0 0 20px rgba(205, 255, 178, 0.8);
-}
-
-.input-orange {
-  color: rgba(255, 211, 140, 0.8);
-}
-
-.input-orange:focus {
-  color: #ffd38c;
-  box-shadow: 0 0 20px rgba(255, 211, 140, 0.8);
-}
-
-
-/* Forms :: end *******************************************/
-
-/* Sliders **** touch control - omitted *******************/
-
-/*To view slider code, visit the common-app repo at:
-https://github.com/PDXostc/common-app/blob/master/css/common.css*/
-
-
-/* Tabs ***************************************************/
-
-.tabs-component {
+.input-group {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 }
 
-.tabs-labels {
-  border-bottom: 1px solid rgba(0,0,0,.25);
-  display: flex;
+.input-group label { 
   flex: 1;
-  margin-bottom: 1em;
-  z-index: 1;
+} 
+.input-group .text-input { 
+  flex: 2;
 }
 
-.tab-item {
-  border-radius: 40px;
-  color: rgba(0,0,0,.5);
-  flex: 1;
-  padding: 5px 0;
-  margin-bottom: 10px;
-  text-align: center;
+/* Switches ***********************************************/
+
+.switch {
+  margin: 20px;
 }
 
-.tab-item:not(:last-child) {
-  margin-right: 10px;
-}
+/* Sizes for varying switches */
 
-.tab-item.active {
-  background-color: rgba(0,0,0,.25);
-  color: rgba(0,0,0,.8);
-  text-shadow: 1px 1px 0 rgba(255,255,255,.5);
-}
-
-.tabs-content {
-  z-index: 0;
-}
-
-/* Tabs :: end ********************************************/
-
-
-/* Touch Behavior *****************************************/
-
-/* Prevents scrolling and zooming where not specified */
-html,
-input,
-textarea {
-  touch-action: none;
-}
-
-/* Allows vertical and horizontal scrolling where specified 
-   for lists */
-ul, ol {
-  touch-action: pan-x pan-y;
-}
-
-/* Touch Behavior :: end **********************************/
-
-
-
-/* Scrolling Content **************************************/
-
-/* Scrolling is disabled by default on all but list elements. */
-
-/* Scrollbar classes */
-
-.scrollbar-x { 
-  overflow-x: auto;
-  touch-action: pan-x;
-  white-space: nowrap;
+.switch-large {
+  width: 450px;
+  height: 150px;
 } 
 
-.scrollbar-y {
-  overflow-y: auto;
-  touch-action: pan-y;
+.switch-small {
+  width: 225px;
+  height: 75px;
 }
 
-.scrollbar-xy {
-  overflow: auto;
-  touch-action: pan-x pan-y;
+.switch-xsmall {
+  width: 150px;
+  height: 50px;
 }
 
-/* Scrollable classes */
-
-.scrollable-x { 
-  overflow-x: auto; 
-  touch-action: pan-x;
-  white-space: nowrap;
-}
-
-.scrollable-y {
-  overflow-y: auto;
-  touch-action: pan-y;
-}
-
-.scrollable-xy {
-  overflow: auto;
-  touch-action: pan-x pan-y;
-}
-
-.scrollable-x::-webkit-scrollbar,
-.scrollable-y::-webkit-scrollbar,
-.scrollable-xy::-webkit-scrollbar {
-  -webkit-appearance: none;
-}
-
-/* Custom Scrollbar Styling */
-
-.scrollbar-x::-webkit-scrollbar,
-.scrollbar-y::-webkit-scrollbar,
-.scrollbar-xy::-webkit-scrollbar {
-  -webkit-appearance: none; 
-  width: 20px;
-  height: 20px;
-}
-
-.scrollbar-x::-webkit-scrollbar-track, 
-.scrollbar-y::-webkit-scrollbar-track, 
-.scrollbar-xy::-webkit-scrollbar-track {
-  -webkit-appearance: none; 
-  background-color: transparent;
-  box-shadow: inset 0 0 .5em .125em rgba(0,0,0,.5);
-}
-
-.scrollbar-x::-webkit-scrollbar-thumb,   
-.scrollbar-y::-webkit-scrollbar-thumb,   
-.scrollbar-xy::-webkit-scrollbar-thumb {   
-  -webkit-appearance: none;
-  border: 5px solid transparent;
-  border-radius: 10px; 
-}
-
-.scrollbar-x::-webkit-scrollbar-thumb,   
-.scrollbar-xy::-webkit-scrollbar-thumb:horizontal {
-  background:linear-gradient(to bottom, rgba(254, 156, 0, .8), rgba(254, 156, 0, .5));  
-  background-clip: content-box;
-}
-
-.scrollbar-y::-webkit-scrollbar-thumb,   
-.scrollbar-xy::-webkit-scrollbar-thumb:vertical {
-  background:linear-gradient(to right, rgba(254, 156, 0, .8), rgba(254, 156, 0, .5));  
-  background-clip: content-box;
-}
-
-.scrollbar-x::-webkit-scrollbar-button, 
-.scrollbar-y::-webkit-scrollbar-button, 
-.scrollbar-xy::-webkit-scrollbar-button {
-  -webkit-appearance: none;
+.switch-plate {
+  margin: 0;
+  padding: 0;
+  position: relative;
   background-repeat: no-repeat;
-  background-position: center;
-  box-shadow: inset .1em .1em .25em rgba(126,126,126,.1), inset -.1em -.1em .25em rgba(0,0,0,.2);
-}
-
-.scrollbar-x::-webkit-scrollbar-button,
-.scrollbar-xy::-webkit-scrollbar-button:horizontal {
-  background-size: 6px 10px;
-}
-
-.scrollbar-y::-webkit-scrollbar-button,
-.scrollbar-xy::-webkit-scrollbar-button:vertical {
-  background-size: 10px 6px;
-}
-
-.scrollbar-x::-webkit-scrollbar-button:start,
-.scrollbar-xy::-webkit-scrollbar-button:horizontal:start {
-  background-image: url('../images/scroll_button_left_arrow_white.png');
-}
-
-.scrollbar-x::-webkit-scrollbar-button:end,
-.scrollbar-xy::-webkit-scrollbar-button:horizontal:end {
-  background-image: url('../images/scroll_button_right_arrow_white.png');
-}
-
-.scrollbar-y::-webkit-scrollbar-button:start,
-.scrollbar-xy::-webkit-scrollbar-button:vertical:start {
-  background-image: url('../images/scroll_button_up_arrow_white.png');
-}
-
-.scrollbar-y::-webkit-scrollbar-button:end,
-.scrollbar-xy::-webkit-scrollbar-button:vertical:end {
-  background-image: url('../images/scroll_button_down_arrow_white.png');
-}
-
-.scrollable-x::-webkit-scrollbar-corner,  
-.scrollable-y::-webkit-scrollbar-corner,  
-.scrollable-xy::-webkit-scrollbar-corner {
-  -webkit-appearance: none;
-}
-
-.scrollbar-x::-webkit-scrollbar-corner,  
-.scrollbar-y::-webkit-scrollbar-corner,  
-.scrollbar-xy::-webkit-scrollbar-corner {  
-  -webkit-appearance: none;
-  background-color: transparent;
-  box-shadow: inset 0 0 .5em .125em rgba(0,0,0,.5);
-}
-
-/* Scrolling Content :: end *******************************/
-/*dark scrollbars, if desired*/
-
-
-/*::-webkit-scrollbar {
-  width: 11px;
-  margin-top: 20px;
-}
-::-webkit-scrollbar-track {
-  margin-bottom: -1px;
-  border-top: none;
-  border-right: 1px solid #606060;
-  border-bottom: none;
-  border-left: 1px solid #202020;
-  background: -webkit-linear-gradient(right, rgba(0,0,0,.6), rgba(72, 72, 72, .8));
-  background: linear-gradient(to right, rgba(0,0,0,.6), rgba(72, 72, 72, .8));
-}
-::-webkit-scrollbar-thumb {
-  border: 1px solid #202020;
-  border-radius: 5px;
-  background: linear-gradient(to right, rgba(112,112,112, .8), rgba(72,72,72, .8));
-}
-::-webkit-scrollbar-corner {
-  width: 8px;
-  height: 8px;
-  border-top: none;
-  border-right: 1px solid #606060;
-  border-bottom: none;
-  border-left: 1px solid #202020;
-  background: -webkit-linear-gradient(right, rgba(0,0,0,.6), rgba(72, 72, 72, .8));
-  background: linear-gradient(to right, rgba(0,0,0,.6), rgba(72, 72, 72, .8));
-}
-*/
-
-
-/**********************************************************/
-
-/* OPACITY */
-
-.opacityFull {
-  opacity: 1.0;
-}
-
-.opacityHeavy {
-  opacity: .8;
-}
-
-.opacityMedium {
-  opacity: .65;
-}
-
-.opacityLight {
-  opacity: .5;
-}
-
-
-/* Flexbox modal */
-
-.modalFlexbox {
-  position: fixed;
-  z-index: 5;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-box-align: center;
-}
-
-
-/* Modifiers **********************************************/
-
-
-/* Modifiers should stay at the bottom of the CSS *********/
-
-.borderless {
-  border: none;
-}
-
-/* Positions within the first positioned parent */
-.z-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
+  background-size: 100%;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
-.no-margin {
-  margin: 0;
+.switch-control {
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  background-image: url(../images/switchcontrol.svg);
+  -webkit-filter: drop-shadow(4px 4px 5px rgba(0,0,0,0.35));
+} 
+
+/* On/Off Styles for Background Plate */
+
+.off .switch-plate {
+  background-image: url(../images/switchplate_off.svg);
+}
+
+.on .switch-plate {
+  background-image: url(../images/switchplate_on.svg);
+}
+
+/* On/Off Styles for switch control(knob) */
+
+.off .switch-plate {
+  padding-left: 3%;
+  padding-right: 64%;
+}
+
+.on .switch-plate {
+  padding-left: 64%;
+  padding-right: 3%;
+}
+
+/* Close button */
+.close-button {
+  padding: 10px;
+  position: relative;
+  right: 20px;
+  top: 0;
+  float: right;
+}
+.close-button::after {
+  content: "\00d7";
+  width: 26px;
+  height: 63px;
+  color: white;
+  font-size: 5rem;
+  cursor: pointer;
+}
+
+/* input field with input glow focus and grey placeholder text */
+.input-white {
+  border: none;
+  color: rgba(196, 196, 196, 1.0);
+}
+::-webkit-input-placeholder {
+   color: #444;
+}
+.input-white:focus {
+  outline: none;
+  box-shadow: 0 0 15px 5px #b0e0ee;
+}
+
+/* Modifiers **********************************************/ 
+/* Modifiers should stay at the bottom of the CSS *********/
+
+.hidden,
+.modal.hidden,
+#settings.hidden {
+  display: none;
 }
 
 .right {
   float: right;
 }
-
 .left {
   float: left;
 }
@@ -1312,61 +584,745 @@ ul, ol {
   margin: 0;
 }
 
-
 /* Flex Modifiers */
 
 .flex-parent {
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .flex-item {
-  -webkit-flex: 1;
   flex: 1;
-  -ms-flex: 1;
-}
-
-.flex-item-2 {
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-}
-
-.flex-item-3 {
-  -webkit-flex: 3;
-  -ms-flex: 3;
-  flex: 3;
 }
 
 .flex-column {
-  -webkit-flex-direction: column;
   flex-direction: column;
-}
-
-.flex-row {
-  -webkit-flex-direction: row;
-  flex-direction: row;
 }
 
 .flex-center {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
   align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .flex-column-center {
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
 }
 
 .space-between {
-  -webkit-justify-content: space-between;
   justify-content: space-between;
+}
+
+/* Touch Behavior *****************************************/
+
+/* Prevents scrolling and zooming where not specified */
+html,
+input,
+textarea {
+  touch-action: none;
+}
+
+/* Allows vertical and horizontal scrolling where specified 
+   for lists */
+ul, ol {
+  touch-action: pan-x pan-y;
+}
+
+/* 
+  Apply to elements where a scrollbar is desired.
+  Shows a standard scrollbar as needed.
+*/ 
+
+.scrollbar-x { 
+  overflow-x: auto;
+  touch-action: pan-x;
+} 
+
+.scrollbar-y {
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+
+.scrollbar-xy {
+  overflow: auto;
+  touch-action: pan-x pan-y;
+}
+
+/*
+  Apply to elements where a scrolling without
+  a scrollbar is desired.
+*/
+
+.scrollable-x { 
+  overflow-x: auto; 
+  touch-action: pan-x;
+}
+
+.scrollable-y {
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+
+.scrollable-xy {
+  overflow: auto;
+  touch-action: pan-x pan-y;
+}
+
+.scrollable-x::-webkit-scrollbar,
+.scrollable-y::-webkit-scrollbar,
+.scrollable-xy::-webkit-scrollbar {
+  display: none;
+}
+
+/*::-webkit-scrollbar {
+  width: 11px;
+  margin-top: 20px;
+}
+::-webkit-scrollbar-track {
+  background: -webkit-linear-gradient(right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  border-left: 1px solid #202020;
+  border-right: 1px solid #606060;
+  border-top: none;
+  border-bottom: none;
+  margin-bottom: -1px;
+}
+::-webkit-scrollbar-thumb { 
+  background:linear-gradient(to right, rgba(112,112,112, .8), rgba(72,72,72, .8));
+  border-radius:5px;
+  border: 1px solid #202020;
+}  
+ ::-webkit-scrollbar-button {
+  height:11px;
+  background: -webkit-linear-gradient(right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  border-left: 1px solid #202020;
+  border-right: 1px solid #606060;
+  border-top: none;
+  border-bottom: none;
+} 
+::-webkit-scrollbar-corner {
+  background: -webkit-linear-gradient(right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(72, 72, 72, .8));
+  border-left: 1px solid #202020;
+  border-right: 1px solid #606060;
+  border-top: none;
+  border-bottom: none;
+  width: 8px;
+  height: 8px;
+}*/
+
+
+/**********************************************************/
+
+
+:focus {
+  outline: none;
+}
+
+.ellipsis-one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.ellipsis-two-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.ellipsis-three-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+
+/* Font Weights */
+
+.fontWeightNormal {
+  font-weight: normal;
+}
+
+.fontWeightBold {
+  font-weight: bold;
+}
+
+.fontWeightBolder {
+  font-weight: bolder;
+}
+
+.fontWeightLighter {
+  font-weight: lighter;
+}
+
+/* FONT COLOR */
+.fontWhite {
+  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 1.0); /*#ffffff*/
+}
+
+.fontLtBlue {
+  color: rgb(178, 240, 255);
+  color: rgba(178, 240, 255, 1.0); /*#b2f0ff*/
+}
+
+.fontVividBlue {
+  color: rgb(83, 181, 206);
+  color: rgba(83, 181, 206, 1.0); /*#53b5ce*/
+}
+
+.fontLtYellow {
+  color: rgb(255, 255, 178);
+  color: rgba(255, 255, 178, 1.0); /*#ffffb2*/
+}
+
+.fontVividYellow {
+  color: rgb(255, 255, 0);
+  color: rgba(255, 255, 0, 1.0); /*#ffff00*/
+}
+
+.fontLtOrange {
+  color: rgb(255, 211, 140);
+  color: rgba(255, 211, 140, 1.0); /*#ffd38c*/
+}
+
+.fontVividOrange {
+  color: rgb(254, 156, 0);
+  color: rgba(254, 156, 0, 1.0); /*#fe9c00*/
+}
+
+.fontLtGreen{
+  color: rgb(205, 255, 178);
+  color: rgba(205, 255, 178, 1.0); /*#cdffb2*/
+}
+
+.fontVividGreen {
+  color: rgb(89, 255, 0);
+  color: rgba(89, 255, 0, 1.0); /*#59ff00*/
+}
+.fontNormal {
+  color: rgb(196, 196, 196);
+  color: rgba(196, 196, 196, 1.0); /*#c4c4c4*/
+}
+
+.fontDark {
+  color: rgb(0, 0, 0); /*#000000*/
+  color: rgba(0, 0, 0, 1.0); /*#000000*/
+}
+
+.fontColorTheme {
+  color: rgb(58, 174, 255);
+  color: rgba(58, 174, 255, 1.0);
+}
+
+/* BOX SHADOW INSET 
+ * 1=Blue
+ * 2=Green
+ * 3=Orange
+ * 4=Yellow
+ * 5=White
+ * Std=Normal for use in boxes, text fields and block level elements
+ * Med=Wider For use with buttons
+ * LG= widest, for use in special cases*/
+
+ .box-inshadow,
+.box-outshadow {
+  color: white;
+  padding: 20px;
+  margin: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.box-inshadow {
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.9);
+}
+
+.box-outshadow {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+}
+
+/* Yellow */
+
+.box-in-yellow,
+.box-out-yellow {
+  color: #FFFF00;
+  border-color: rgba(255, 255, 0, 0.5);
+}
+
+.box-in-yellow {
+  box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.9);
+}
+
+.box-out-yellow {
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
+}
+
+/* Orange */
+
+.box-in-orange,
+.box-out-orange {
+  color: #FE9C00;
+  border-color: rgba(254, 156, 0, 0.5);
+}
+
+.box-in-orange {
+  box-shadow: inset 0 0 20px rgba(254, 156, 0, 0.9);
+}
+
+.box-out-orange {
+  box-shadow: 0 0 20px rgba(254, 156, 0, 0.9);
+}
+
+/* Blue */
+
+.box-out-blue {
+  color: #b2f0ff;
+  box-shadow: 0 0 20px rgba(178, 240, 255, 0.9);
+  border-color: rgba(178, 240, 255, 0.5);
+}
+
+ .boxShadowI1Lt {
+  box-shadow: inset 0 0 13px rgba(178, 240, 255, 0.8);
+}
+
+.boxShadowI1LtActive:active,.boxShadowI1LtActive:focus {
+  box-shadow: inset 0 0 20px rgb(83, 181, 206);
+}
+
+.boxShadowI2Lt {
+  box-shadow: inset 0 0 13px rgba(205, 255, 178, 0.8);
+}
+
+.boxShadowI2LtActive:active,.boxShadowI2LtActive:focus {
+  box-shadow: inset 0 0 20px rgb(89, 255, 0);
+}
+
+.boxShadowI3Lt {
+  box-shadow: inset 0 0 13px rgba(255, 211, 140, 0.8);
+}
+
+.boxShadowI3LtActive:active,.boxShadowI3LtActive:focus {
+  box-shadow: inset 0 0 20px rgb(254, 156, 0);
+}
+
+.boxShadowI4Lt {
+  box-shadow: inset 0 0 13px rgba(255, 255, 178, 0.8);
+}
+
+.boxShadowI4LtActive:active,.boxShadowI4LtActive:focus {
+  box-shadow: inset 0 0 20px rgb(255, 255, 0);
+}
+
+.boxShadowI5Std {
+  box-shadow: inset 0 0 13px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadowI5LtActive:active,.boxShadowI5LtActive:focus {
+  box-shadow: inset 0 0 20px rgb(255, 255, 255,);
+}
+
+.boxShadowI1Std {
+  box-shadow: inset 0 0 30px rgba(178, 240, 255, 0.8);
+}
+
+.boxShadowI1StdActive:active,.boxShadowI1StdActive:focus {
+  box-shadow: inset 0 0 50px rgb(83, 181, 206);
+}
+
+.boxShadowI2Std {
+  box-shadow: inset 0 0 30px rgba(205, 255, 178, 0.8);
+}
+
+.boxShadowI2StdActive:active,.boxShadowI2StdActive:focus {
+  box-shadow: inset 0 0 50px rgb(89, 255, 0);
+}
+
+.boxShadowI3Std {
+  box-shadow: inset 0 0 30px rgba(255, 211, 140, 0.8);
+}
+
+.boxShadowI3StdActive:active,.boxShadowI3StdActive:focus {
+  box-shadow: inset 0 0 50px rgb(254, 156, 0);
+}
+
+.boxShadowI4Std {
+  box-shadow: inset 0 0 30px rgba(255, 255, 178, 0.8);
+}
+
+.boxShadowI4StdActive:active,.boxShadowI4StdActive:focus {
+  box-shadow: inset 0 0 50px rgb(255, 255, 0);
+}
+
+.boxShadowI5Std {
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadowI5StdActive:active,.boxShadowI5StdActive:focus {
+  box-shadow: inset 0 0 50px rgb(255, 255, 255,);
+}
+
+.boxShadowI1Med {
+  box-shadow: inset 0 0 50px rgba(178, 240, 255, 0.8);
+}
+
+.boxShadowI1MedActive:active,.boxShadowI1MedActive:focus {
+  box-shadow: inset 0 0 70px rgb(83, 181, 206);
+}
+
+.boxShadowI2Med {
+  box-shadow: inset 0 0 50px rgba(205, 255, 178, 0.8);
+}
+
+.boxShadowI2MedActive:active,.boxShadowI2MedActive:focus {
+  box-shadow: inset 0 0 70px rgb(89, 255, 0);
+}
+
+.boxShadowI3Med {
+  box-shadow: inset 0 0 50px rgba(255, 211, 140, 0.8);
+}
+
+.boxShadowI3MedActive:active,.boxShadowI3MedActive:focus {
+  box-shadow: inset 0 0 70px rgb(254, 156, 0);
+}
+
+.boxShadowI4Med {
+  box-shadow: inset 0 0 50px rgba(255, 255, 178, 0.8);
+}
+
+.boxShadowI4MedActive:active,.boxShadowI4MedActive:focus {
+  box-shadow: inset 0 0 70px rgb(255, 255, 0);
+}
+
+.boxShadowI5Med {
+  box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadowI5MedActive:active,.boxShadowI5MedActive:focus {
+  box-shadow: inset 0 0 70px rgb(255, 255, 255,);
+}
+
+.boxShadowI1Lg {
+  box-shadow: inset 0 0 70px rgba(178, 240, 255, 0.8);
+}
+
+.boxShadowI1LgActive:active,.boxShadowI1LgActive:focus {
+  box-shadow: inset 0 0 90px rgb(83, 181, 206);
+}
+
+.boxShadowI2Lg {
+  box-shadow: inset 0 0 70px rgba(205, 255, 178, 0.8);
+}
+
+.boxShadowI2LgActive:active,.boxShadowI2LgActive:focus {
+  box-shadow: inset 0 0 90px rgb(89, 255, 0);
+}
+
+.boxShadowI3Lg {
+  box-shadow: inset 0 0 70px rgba(255, 211, 140, 0.8);
+}
+
+.boxShadowI3LgActive:active,.boxShadowI3LgActive:focus {
+  box-shadow: inset 0 0 90px rgb(254, 156, 0);
+}
+
+.boxShadowI4Lg {
+  box-shadow: inset 0 0 70px rgba(255, 255, 178, 0.8);
+}
+
+.boxShadowI4LgActive:active,.boxShadowI4LgActive:focus {
+  box-shadow: inset 0 0 90px rgb(255, 255, 0);
+}
+
+.boxShadowI5Lg {
+  box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadowI5LgActive:active,.boxShadowI5LgActive:focus {
+  box-shadow: inset 0 0 70px rgb(255, 255, 255,);
+}
+
+/* BORDER COLOR */
+.borderWhite {
+  border-color: rgb(255, 255, 255);
+  border-color: rgba(255, 255, 255, 1.0); /*#ffffff*/
+}
+
+.borderLtBlue {
+  border-color: rgb(178, 240, 255);
+  border-color: rgba(178, 240, 255, 1.0); /*#b2f0ff*/
+}
+
+.borderVividBlue {
+  border-color: rgb(83, 181, 206);
+  border-color: rgba(83, 181, 206, 1.0); /*#53b5ce*/
+}
+
+.borderLtYellow {
+  border-color: rgb(255, 255, 178);
+  border-color: rgba(255, 255, 178, 1.0); /*#ffffb2*/
+}
+
+.borderVividYellow {
+  border-color: rgb(255, 255, 0);
+  border-color: rgba(255, 255, 0, 1.0); /*#ffff00*/
+}
+
+.borderLtOrange {
+  border-color: rgb(255, 211, 140);
+  border-color: rgba(255, 211, 140, 1.0); /*#ffd38c*/
+}
+
+.borderVividOrange {
+  border-color: rgb(254, 156, 0);
+  border-color: rgba(254, 156, 0, 1.0); /*#fe9c00*/
+}
+
+.borderLtGreen{
+  border-color: rgb(205, 255, 178);
+  border-color: rgba(205, 255, 178, 1.0); /*#cdffb2*/
+}
+
+.borderVividGreen {
+  border-color: rgb(89, 255, 0);
+  border-color: rgba(89, 255, 0, 1.0); /*#59ff00*/
+}
+.borderNormal {
+  border-color: rgb(196, 196, 196);
+  border-color: rgba(196, 196, 196, 1.0); /*#c4c4c4*/
+}
+
+.borderDark {
+  border-color: rgb(0, 0, 0); /*#000000*/
+  border-color: rgba(0, 0, 0, 1.0); /*#000000*/
+}
+
+/* BOX SHADOW 
+ * 1=Blue
+ * 2=Green
+ * 3=Orange
+ * 4=Yellow
+ * 5=White
+ * Std=Normal for use in boxes, text fields and block level elements
+ * Med=Wider For use with buttons
+ * LG= widest, for use in special cases*/
+.boxShadow1Std {
+  box-shadow: 0 0 30px rgba(83, 181, 206, 0.8);
+}
+
+.boxShadow1StdActive:active,.boxShadow1StdActive:focus {
+  box-shadow: 0 0 50px rgb(178, 240, 255);
+}
+
+.boxShadow2Std {
+  box-shadow: 0 0 30px rgba(89, 255, 0, 0.8);
+}
+
+.boxShadow2StdActive:active,.boxShadow2StdActive:focus {
+  box-shadow: 0 0 50px rgb(205, 255, 178);
+}
+
+.boxShadow3Std {
+  box-shadow: 0 0 30px rgba(254, 156, 0, 0.8);
+}
+
+.boxShadow3StdActive:active,.boxShadow3StdActive:focus {
+  box-shadow: 0 0 50px rgb(255, 211, 140);
+}
+
+.boxShadow4Std {
+  box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+}
+
+.boxShadow4StdActive:active,.boxShadow4StdActive:focus {
+  box-shadow: 0 0 50px rgb(255, 255, 178);
+}
+
+.boxShadow5Std {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadow5StdActive:active,.boxShadow5StdActive:focus {
+  box-shadow: 0 0 50px rgb(255, 255, 255,);
+}
+
+.boxShadow1Med {
+  box-shadow:  0 0 50px rgba(83, 181, 206, 0.8);
+}
+
+.boxShadow1MedActive:active,.boxShadow1MedActive:focus {
+  box-shadow: 0 0 70px rgb(178, 240, 255);
+}
+
+.boxShadow2Med {
+  box-shadow:  0 0 50px rgba(89, 255, 0, 0.8);
+}
+
+.boxShadow2MedActive:active,.boxShadow2MedActive:focus {
+  box-shadow: 0 0 70px rgb(205, 255, 178);
+}
+
+.boxShadow3Med {
+  box-shadow: 0 0 50px rgba(254, 156, 0, 0.8);
+}
+
+.boxShadow3MedActive:active,.boxShadow3MedActive:focus {
+  box-shadow: 0 0 70px rgb(255, 211, 140);
+}
+
+.boxShadow4Med {
+  box-shadow: 0 0 50px rgba(255, 255, 0, 0.8);
+}
+
+.boxShadow4MedActive:active,.boxShadow4MedActive:focus {
+  box-shadow: 0 0 70px rgb(255, 255, 178);
+}
+
+.boxShadow5Med {
+  box-shadow:  0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadow5MedActive:active,.boxShadow5MedActive:focus {
+  box-shadow:  0 0 70px rgb(255, 255, 255,);
+}
+
+.boxShadow1Lg {
+  box-shadow:  0 0 70px rgba(83, 181, 206, 0.8);
+}
+
+.boxShadow1LgActive:active,.boxShadow1LgActive:focus {
+  box-shadow:  0 0 90px rgb(178, 240, 255);
+}
+
+.boxShadow2Lg {
+  box-shadow: 0 0 70px rgba(89, 255, 0, 0.8);
+}
+
+.boxShadow2LgActive:active,.boxShadow2LgActive:focus {
+  box-shadow: 0 0 90px rgb(205, 255, 178);
+}
+
+.boxShadow3Lg {
+  box-shadow:  0 0 70px rgba(254, 156, 0, 0.8);
+}
+
+.boxShadow3LgActive:active,.boxShadow3LgActive:focus {
+  box-shadow:  0 0 90px rgb(255, 211, 140);
+}
+
+.boxShadow4Lg {
+  box-shadow:  0 0 70px rgba(255, 255, 0, 0.8);
+}
+
+.boxShadow4LgActive:active,.boxShadow4LgActive:focus {
+  box-shadow:  0 0 90px rgb(255, 255, 178);
+}
+
+.boxShadow5Lg {
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+}
+
+.boxShadow5LgActive:active,.boxShadow5LgActive:focus {
+  box-shadow: 0 0 70px rgb(255, 255, 255,);
+}
+
+/* BORDER COLOR */
+.borderWhite {
+  border-color: rgb(255, 255, 255);
+  border-color: rgba(255, 255, 255, 1.0); /*#ffffff*/
+}
+
+.borderLtBlue {
+  border-color: rgb(178, 240, 255);
+  border-color: rgba(178, 240, 255, 1.0); /*#b2f0ff*/
+}
+
+.borderVividBlue {
+  border-color: rgb(83, 181, 206);
+  border-color: rgba(83, 181, 206, 1.0); /*#53b5ce*/
+}
+
+.borderLtYellow {
+  border-color: rgb(255, 255, 178);
+  border-color: rgba(255, 255, 178, 1.0); /*#ffffb2*/
+}
+
+.borderVividYellow {
+  border-color: rgb(255, 255, 0);
+  border-color: rgba(255, 255, 0, 1.0); /*#ffff00*/
+}
+
+.borderLtOrange {
+  border-color: rgb(255, 211, 140);
+  border-color: rgba(255, 211, 140, 1.0); /*#ffd38c*/
+}
+
+.borderVividOrange {
+  border-color: rgb(254, 156, 0);
+  border-color: rgba(254, 156, 0, 1.0); /*#fe9c00*/
+}
+
+.borderLtGreen{
+  border-color: rgb(205, 255, 178);
+  border-color: rgba(205, 255, 178, 1.0); /*#cdffb2*/
+}
+
+.borderVividGreen {
+  border-color: rgb(89, 255, 0);
+  border-color: rgba(89, 255, 0, 1.0); /*#59ff00*/
+}
+.borderNormal {
+  border-color: rgb(196, 196, 196);
+  border-color: rgba(196, 196, 196, 1.0); /*#c4c4c4*/
+}
+
+.borderDark {
+  border-color: rgb(0, 0, 0); /*#000000*/
+  border-color: rgba(0, 0, 0, 1.0); /*#000000*/
+}
+
+
+
+/* OPACITY */
+.opacityFull {
+  opacity: 1.0;
+}
+
+.opacityHeavy {
+  opacity: 0.8;
+}
+
+.opacityMedium {
+  opacity: 0.65;
+}
+
+.opacityLight {
+  opacity: 0.5;
+}
+
+/* Flexbox modal */
+.modalFlexbox {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  justify-content: center;
 }
