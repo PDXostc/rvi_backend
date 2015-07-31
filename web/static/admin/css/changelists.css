@@ -52,6 +52,7 @@
 
 #changelist .paginator {
   min-width: 400px;
+  font-size: 1.25em;
 }
 
 .change-list .filtered .paginator {

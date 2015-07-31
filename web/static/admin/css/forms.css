@@ -1,16 +1,20 @@
 @import url('widgets.css');
-
 form#user_form > p {
   font-size: 1.25em;
 }
 
+
 /* FORM ROWS */
 
 .form-row {
-  font-size: 11px;
+  font-size: 1.5rem;
   overflow: hidden;
   max-width: 900px;
   padding: 8px 12px;
+}
+
+.form-row.field-message {
+  max-width: 650px;
 }
 
 .form-row img,
@@ -19,7 +23,7 @@ form#user_form > p {
 }
 
 form .form-row p {
-  font-size: 1.5em;
+  font-size: 1.7rem;
   line-height: 1em;
   margin-top: -2em;
   padding: .25em;
@@ -59,7 +63,7 @@ form h4 {
 
 label {
   /* color: #666; */
-  font-size: 1.5em;
+  font-size: 1.75rem;
   font-weight: normal !important;
 }
 
@@ -115,7 +119,7 @@ form ul.inline li {
 }
 
 .aligned .form-row input {
-  width: 20em;
+  /*width: 20em;*/
 }
 
 .colMS .aligned .vLargeTextField,
@@ -141,12 +145,12 @@ table .form-row p {
 }
 
 form .aligned p.help {
-  font-size: 1.25em;
+  font-size: 1.25rem;
   font-style: italic;
   line-height: 1.25em;
-  max-width: 20em;
+  max-width: 30em;
   margin-top: 0;
-  margin-left: 20em;
+  /*margin-left: 20em;*/
 }
 
 .form-row.field-groups p.help,
@@ -359,10 +363,10 @@ body.popup .submit-row {
 .inline-related h3 {
   font-size: 2rem;
   margin: 0;
-  padding: 3px 5px;
-  color: #666;
-  background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
-  /*border-bottom: 1px solid #ddd;*/
+  padding: 3px 20px;
+  color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .inline-related h3 span.delete {
@@ -445,10 +449,10 @@ body.popup .submit-row {
 
 .inline-group div.add-row,
 .inline-group .tabular tr.add-row td {
-  padding: 3px 5px;
+  padding: 5px 10px;
   color: #666;
   border-bottom: 1px solid #ddd;
-  background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
+  border-top: 1px solid #ddd;
 }
 
 .inline-group .tabular tr.add-row td {
@@ -459,7 +463,7 @@ body.popup .submit-row {
 .inline-group ul.tools a.add,
 .inline-group div.add-row a,
 .inline-group .tabular tr.add-row td a {
-  font-size: 11px;
+  /*font-size: 1.5rem;*/
   padding-left: 14px;
   outline: 0;
   /* Remove dotted border around link */
@@ -478,6 +482,18 @@ div#id_password {
   padding: 10px;
   vertical-align: middle;
   color: rgba(255, 255, 255, .5);
+}
+
+@media (max-width: 960px) {
+  form .form-row p {
+    font-size: 2rem;
+  }
+  label {
+    font-size: 2rem;
+  }
+  form .aligned p.help {
+    font-size: 1.75rem;
+  }
 }
 
 @media (max-width: 768px) {
