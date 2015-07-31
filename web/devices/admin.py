@@ -20,12 +20,14 @@ def replace(str):
     str.replace(" ", "<br>")
     return str
 
-class RemoteInline(admin.TabularInline):
+class RemoteInline(admin.StackedInline):
     """
     A Remote is associated with a Device. We use this Inline to show
     all Remotes of a Device on the Device's detail page.
     """
     model = Remote
+    extra = 1
+
     fieldsets = [
         (None,                  {'fields': ['rem_name']}),
         ('Device Information',  {'fields': ['rem_device']}),

@@ -1,5 +1,9 @@
 @import url('widgets.css');
 
+form#user_form > p {
+  font-size: 1.25em;
+}
+
 /* FORM ROWS */
 
 .form-row {
@@ -21,8 +25,10 @@ form .form-row p {
   padding: .25em;
 }
 
+
 /*.form-row.field-upd_status.field-upd_timeout.field-upd_retries p,
 .form-row.field-loc_vehicle.field-loc_time p, .form-row.field-time p {*/
+
 .form-row p {
   margin-top: -.5em;
   margin-left: 17em;
@@ -41,6 +47,7 @@ form .form-row p {
 .hidden {
   display: none;
 }
+
 
 /* FORM LABELS */
 
@@ -62,9 +69,12 @@ label.required {
   /* color: #333 !important; */
   text-align: left;
 }
+
 .required::before {
   content: '\2736';
 }
+
+
 /* RADIO BUTTONS */
 
 form ul.radiolist li {
@@ -85,6 +95,7 @@ form ul.inline li {
   float: left;
   padding-right: 7px;
 }
+
 
 /* ALIGNED FIELDSETS */
 
@@ -176,6 +187,7 @@ fieldset .field-box {
   width: auto;
 }
 
+
 /* WIDE FIELDSETS */
 
 .wide label {
@@ -194,6 +206,7 @@ form .wide p.help {
 .colM fieldset.wide .vXMLLargeTextField {
   width: 450px;
 }
+
 
 /* COLLAPSED FIELDSETS */
 
@@ -217,11 +230,13 @@ fieldset.collapsed .collapse-toggle {
   background: transparent;
 }
 
+
 /* MONOSPACE TEXTAREAS */
 
 fieldset.monospace textarea {
-  font-family: 'Bitstream Vera Sans Mono',Monaco,'Courier New',Courier,monospace;
+  font-family: 'Bitstream Vera Sans Mono', Monaco, 'Courier New', Courier, monospace;
 }
+
 
 /* SUBMIT ROW */
 
@@ -265,6 +280,8 @@ body.popup .submit-row {
   border: 1px solid rgba(255, 255, 255, .5);
   background-color: rgba(0, 0, 0, .8);
 }
+
+
 /* CUSTOM FORM FIELDS */
 
 .vSelectMultipleField {
@@ -322,6 +339,7 @@ body.popup .submit-row {
   width: 5em;
 }
 
+
 /* INLINES */
 
 .inline-group {
@@ -331,7 +349,7 @@ body.popup .submit-row {
 }
 
 .inline-group .aligned label {
-  width: 8em;
+  /*width: 8em;*/
 }
 
 .inline-related {
@@ -339,7 +357,7 @@ body.popup .submit-row {
 }
 
 .inline-related h3 {
-  font-size: 11px;
+  font-size: 2rem;
   margin: 0;
   padding: 3px 5px;
   color: #666;
@@ -349,10 +367,11 @@ body.popup .submit-row {
 
 .inline-related h3 span.delete {
   float: right;
+  line-height: 0;
 }
 
 .inline-related h3 span.delete label {
-  font-size: 11px;
+  font-size: 2rem;
   margin-left: 2px;
 }
 
@@ -442,7 +461,8 @@ body.popup .submit-row {
 .inline-group .tabular tr.add-row td a {
   font-size: 11px;
   padding-left: 14px;
-  outline: 0; /* Remove dotted border around link */
+  outline: 0;
+  /* Remove dotted border around link */
   background: url(../img/icon_addlink.gif) 0 50% no-repeat;
 }
 
@@ -457,5 +477,19 @@ div#id_password {
   max-width: 20em;
   padding: 10px;
   vertical-align: middle;
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, .5);
+}
+
+@media (max-width: 768px) {
+  .inline-related h3 {
+    font-size: 2.5rem;
+    line-height: 3.5rem;
+  }
+  .inline-group label.vCheckboxLabel.inline {
+    font-size: 3rem;
+    line-height: none;
+  }
+  .inline-related h3 span.delete {
+    line-height: 0;
+  }
 }
