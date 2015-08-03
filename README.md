@@ -11,7 +11,7 @@ This document is an overview of the RVI Backend (RVI-BE) project. RVI-BE is a
 database-backed web environment to interact with vehicles
 (or any device for that matter) via the RVI middleware framework. For
 details on RVI consult the documentation in the
-[RVI](https://github.com/PDXostc/rvi) respository.
+[RVI](https://github.com/PDXostc/rvi) repository.
 
 
 DESCRIPTION
@@ -226,7 +226,7 @@ which should print *1.7* to the console.
 
 ### Python Modules
 
-The RVI Backend requires additional Python modules to function:
+The RVI Backend requires additional Python modules to function (see below). Alternatively, you can also run *pip install -r requirements/base.txt*
 
 1. Pillow Imaging Library
 

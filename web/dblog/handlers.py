@@ -15,7 +15,7 @@ import json, datetime, random
 
 class DBHandler(Handler,object):
     """
-    This handler will add logs to a database model defined in settings.py
+    This handler will add logs to a database model defined in base.py
     If the log message (pre-format) is a json string, it will try to apply
     the array onto the log event object
     """

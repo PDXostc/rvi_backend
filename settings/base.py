@@ -18,6 +18,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+"""
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 #BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -27,24 +28,56 @@ WEB_DIR = os.path.join(BASE_DIR, 'web')
 # Templates
 TEMPLATE_DIRS = [os.path.join(WEB_DIR, 'templates')]
 
+"""
+# Build paths inside the project
+from unipath import Path
+# Load secrets from non-executable JSON
+import json
+# Normally you should not import ANYTHING from Django directly
+# into your settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
+
+# Build paths inside the project like this:
+BASE_DIR = Path(__file__).absolute().ancestor(2)
+MEDIA_ROOT = BASE_DIR.child("media")
+STATIC_ROOT = BASE_DIR.child("static")
+WEB_DIR = BASE_DIR.child("web")
+TEMPLATE_DIRS = [WEB_DIR.child("templates")]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
+"""
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'y7pg3qz)6fs4vk4=)_*fn(dagsx+t!wvl=p&d3ybm(yc%((&pg'
+"""
+
+# JSON-based secrets module
+with open(BASE_DIR.child("settings","secrets.json")) as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = False
 
 # We allow all hosts to connect
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = (
-#    'django_admin_bootstrapped',
+    # 'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,7 +96,7 @@ INSTALLED_APPS = (
     'security',
 )
 
-#INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
+# INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,14 +148,15 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-             'level': 'INFO',
-             'class': 'logging.StreamHandler',
-             'formatter': 'simple',
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
         },
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
+            # 'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
+            'filename': BASE_DIR.child("log", "rvibackend.log"),
             'formatter': 'verbose',
         },
         'db_general': {
@@ -181,9 +215,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATICFILES_DIRS = (
-    os.path.join(WEB_DIR, 'static'),
+    # os.path.join(WEB_DIR, 'static'),
+    WEB_DIR.child("static")
 )
-STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
+# STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
+STATIC_ROOT = WEB_DIR.child("staticroot")
 STATIC_URL = '/static/'
 
 
@@ -193,18 +229,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Bootstrap 3 Configuration
 BOOTSTRAP3 = {
-'jquery_url': '//code.jquery.com/jquery-2.1.1.min.js',
-'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
-'css_url': None,
-'theme_url': None,
-'javascript_url': None,
-'javascript_in_head': False,
-'include_jquery': True,
+    'jquery_url': '//code.jquery.com/jquery-2.1.1.min.js',
+    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
+    'css_url': None,
+    'theme_url': None,
+    'javascript_url': None,
+    'javascript_in_head': False,
+    'include_jquery': True,
 }
 
 
 # Server Key File
-RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
+# RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
+RVI_BACKEND_KEYFILE = BASE_DIR.child("keys", "rvi_be.private.pem")
 
 # Server Signature Algorithm (default: RS256)
 RVI_BACKEND_ALG_SIG = 'RS256'
@@ -213,13 +250,13 @@ RVI_BACKEND_ALG_SIG = 'RS256'
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.
 # For running as a daemon you must use an absolute path.
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
-#MEDIA_ROOT = '/absolute/path/to/files/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_ROOT = BASE_DIR.child("files")
+# MEDIA_ROOT = '/absolute/path/to/files/'
 
 MEDIA_URL = '/files/'
 
 DEFAULT_VEHICLE_IMAGE = "car-100x50.png"
-
 
 # Mapping Configuration
 LEAFLET_CONFIG = {
@@ -243,7 +280,7 @@ RVI_SOTA_CHUNK_SIZE = 65536
 RVI_DM_SERVICE_ID = '/dm'
 
 # Tracking
-#RVI_TRACKING_SOURCE_GPS = True
+# RVI_TRACKING_SOURCE_GPS = True
 RVI_TRACKING_ENABLE = False
 RVI_TRACKING_CALLBACK_URL = 'http://127.0.0.1:20002'
 RVI_TRACKING_SERVICE_ID = '/logging'
