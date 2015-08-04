@@ -1,0 +1,72 @@
+<!-- web/templates/sota/ - a customized view for SOTA - served to /sota/  -->
+
+{% extends "rvi/base.html" %}
+
+{% load admin_static %}{% load firstof from future %}
+
+<!DOCTYPE html>
+
+{% block extra_site_head %}
+  {% block extrastyle %}{% endblock %}
+  <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+  <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+  <script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+  {% block extrahead %}{% endblock %}
+  {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+{% endblock %}
+
+
+{% load i18n %}
+
+
+{% block page_header %}
+   {% if not is_popup %}
+    <div class="page-header">
+      <h1>SOTA</h1>
+    </div>
+   {% endif %}
+{% endblock %}
+
+{% block page_content %}
+<!-- Container -->
+<!-- <div id="container"> -->
+  <div class="container">
+
+    {% if not is_popup %}
+
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    {% if title %} {{ title }}{% endif %}
+    </div>
+    {% endblock %}
+    {% endif %}
+
+    {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock messages %}
+
+    <!-- Content -->
+    <div id="content" class="{% block coltype %}colM{% endblock %}">
+    <!-- <div id="content" class="content"> -->
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}{% if title %}<h2>{{ title }}</h2>{% endif %}{% endblock %}
+        {% block content %}
+        {% block object-tools %}{% endblock %}
+        {{ content }}
+        {% endblock %}
+        {% block sidebar %}{% endblock %}
+        <!-- <br class="clear" /> -->
+    </div>
+    <!-- END Content -->
+
+    {% block footer %}<div id="footer"></div>{% endblock %}
+</div>
+<!-- END Container -->
+
+{% endblock %}
