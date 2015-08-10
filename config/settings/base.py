@@ -38,11 +38,12 @@ import json
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this:
-BASE_DIR = Path(__file__).absolute().ancestor(2)
-MEDIA_ROOT = BASE_DIR.child("media")
-STATIC_ROOT = BASE_DIR.child("static")
-WEB_DIR = BASE_DIR.child("web")
-TEMPLATE_DIRS = [WEB_DIR.child("templates")]
+BASE_DIR = Path(__file__).absolute().ancestor(3)
+MEDIA_ROOT = BASE_DIR.child('media')
+WEB_DIR = BASE_DIR.child('web')
+# STATIC_ROOT = WEB_DIR.child("staticroot")
+CONFIG_DIR = BASE_DIR.child('config')
+TEMPLATE_DIRS = [WEB_DIR.child('templates')]
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,7 +55,7 @@ SECRET_KEY = 'y7pg3qz)6fs4vk4=)_*fn(dagsx+t!wvl=p&d3ybm(yc%((&pg'
 """
 
 # JSON-based secrets module
-with open(BASE_DIR.child("settings","secrets.json")) as f:
+with open(CONFIG_DIR.child('settings', 'secrets.json')) as f:
     secrets = json.loads(f.read())
 
 
@@ -63,10 +64,10 @@ def get_secret(setting, secrets=secrets):
     try:
         return secrets[setting]
     except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
+        error_msg = 'Set the {0} environment variable'.format(setting)
         raise ImproperlyConfigured(error_msg)
 
-SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -156,7 +157,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             # 'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
-            'filename': BASE_DIR.child("log", "rvibackend.log"),
+            'filename': BASE_DIR.child('log', 'rvibackend.log'),
             'formatter': 'verbose',
         },
         'db_general': {
@@ -216,10 +217,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATICFILES_DIRS = (
     # os.path.join(WEB_DIR, 'static'),
-    WEB_DIR.child("static")
+    WEB_DIR.child('static'),
 )
 # STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
-STATIC_ROOT = WEB_DIR.child("staticroot")
+STATIC_ROOT = WEB_DIR.child('staticroot')
 STATIC_URL = '/static/'
 
 
