@@ -114,6 +114,7 @@ ROOT_URLCONF = 'rvi.urls'
 
 WSGI_APPLICATION = 'rvi.wsgi.application'
 
+# AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'django.contrib.auth.models.User', )
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -127,7 +128,6 @@ DATABASES = {
         'CHARSET': 'utf8',
     },
 }
-
 
 # Logging
 # https://docs.djangoproject.com/en/1.7/topics/logging/

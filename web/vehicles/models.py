@@ -12,7 +12,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from djgeojson.fields import PointField
 from django.conf import settings
-from common.user import Account
+from common.models import Account
 from security.models import JSONWebKey
 
 class RVIStatus:

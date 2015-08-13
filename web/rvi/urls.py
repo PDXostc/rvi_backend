@@ -20,7 +20,8 @@ urlpatterns = patterns('',
     url(r'^tracking/', include('tracking.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
-
+    url(r'^login/$', 'auth.views.login_user'),
+    url(r'^history/$', 'ownerportal.views.owner_history'),
     # for now redirect root to admin
     #url(r'^', include(admin.site.urls)),
 )
