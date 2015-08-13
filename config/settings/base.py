@@ -87,6 +87,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'leaflet',
+    'tokenapi',
     'djgeojson',
     'rvi',
     'vehicles',
@@ -114,7 +115,7 @@ ROOT_URLCONF = 'rvi.urls'
 
 WSGI_APPLICATION = 'rvi.wsgi.application'
 
-# AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'django.contrib.auth.models.User', )
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'tokenapi.backends.TokenBackend', )
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -298,3 +299,6 @@ RVI_TRACKING_MQ_HBASE = True
 RVI_TRACKING_MQ_HBASE_URL = "master"
 RVI_TRACKING_MQ_HBASE_PORT = "9090"
 RVI_TRACKING_MQ_HBASE_TABLE = "rvi"
+
+# Login Token config
+TOKEN_CHECK_ACTIVE_USER = True
