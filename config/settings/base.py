@@ -116,6 +116,7 @@ ROOT_URLCONF = 'rvi.urls'
 WSGI_APPLICATION = 'rvi.wsgi.application'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'tokenapi.backends.TokenBackend', )
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

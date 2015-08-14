@@ -4,12 +4,15 @@
  * @Reworked By @kaptenn_com 
  * @package PARALLAX LOGIN.
  */
-    
-    body {
-        background-color: #444;
-        background: url(http://s18.postimg.org/l7yq0ir3t/pick8_1.jpg);
-        
+    html {
+        height:100%;
     }
+    body {
+        background:#778899
+    }
+
+
+
     .form-signin input[type="text"] {
         margin-bottom: 5px;
         border-bottom-left-radius: 0;

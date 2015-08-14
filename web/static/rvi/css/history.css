@@ -16,3 +16,8 @@
 		.panel-body{
 			display: none;
 		}
+
+		#map {
+			height: 600px;
+			width: 1500px;
+		}

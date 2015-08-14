@@ -6,7 +6,7 @@ from django.template import RequestContext
 
 
 def login_user(request):
-    state = "Please log in below..."
+    state = ""
     username = password = ''
     if request.POST:
         username = request.POST.get('username')
@@ -22,5 +22,7 @@ def login_user(request):
         else:
             state = "Your username and/or password were incorrect."
 
-    # return render_to_response('rvi/dashboard.html',{'state':state, 'username': username})
-    return render_to_response('rvi/dashboard.html',{'state':state, 'username': username}, context_instance=RequestContext(request))
+    return render_to_response('rvi/login.html', {
+        'state': state,
+        'username': username,
+        'user': request.user}, context_instance=RequestContext(request))
