@@ -1,8 +1,27 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.http import HttpResponse
+from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
-def owner_history(request):
-    return render_to_response('rvi/history.html', {
-        'user': request.user}, context_instance=RequestContext(request))
+def history(request):
+    template = loader.get_template('rvi/history.html')
+
+    context = RequestContext(request, {
+        'title': 'History',
+        'user': request.user,
+    })
+
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def keys(request):
+    template = loader.get_template('rvi/keys.html')
+
+    context = RequestContext(request, {
+        'title': 'History',
+        'user': request.user,
+    })
+
+    return HttpResponse(template.render(context))

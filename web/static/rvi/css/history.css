@@ -1,7 +1,8 @@
-    	.row{
+    	.table-row{
 		    margin-top:40px;
 		    padding: 0 10px;
 		}
+
 		.clickable{
 		    cursor: pointer;   
 		}
@@ -10,14 +11,37 @@
 			margin-top: -18px;
 			font-size: 15px;
 		}
+
 		.panel-heading div span{
 			margin-left:5px;
 		}
+
 		.panel-body{
 			display: none;
 		}
 
+		.container {
+			display: table;
+			height: 90%;
+			width: 100%;
+		}
+
+		.left-half, .right-half {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+			width: 45%;
+			padding: 1rem;
+		}
+
+		.left-half {
+			background: #ff9e2c;
+		}
+
+		.right-half {
+			background: #b6701e;
+		}
+
 		#map {
-			height: 600px;
-			width: 1500px;
+
 		}

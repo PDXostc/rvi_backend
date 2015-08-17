@@ -18,17 +18,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-"""
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = os.path.dirname(__file__)
-WEB_DIR = os.path.join(BASE_DIR, 'web')
-
-# Templates
-TEMPLATE_DIRS = [os.path.join(WEB_DIR, 'templates')]
-
-"""
 # Build paths inside the project
 from unipath import Path
 # Load secrets from non-executable JSON
@@ -49,10 +38,10 @@ TEMPLATE_DIRS = [WEB_DIR.child('templates')]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-"""
+'''
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'y7pg3qz)6fs4vk4=)_*fn(dagsx+t!wvl=p&d3ybm(yc%((&pg'
-"""
+'''
 
 # JSON-based secrets module
 with open(CONFIG_DIR.child('settings', 'secrets.json')) as f:
@@ -296,7 +285,7 @@ RVI_TRACKING_MQ_URL = "master:6667"
 RVI_TRACKING_MQ_TOPIC = "rvi"
 
 # Read from Kafka save to HBase table
-RVI_TRACKING_MQ_HBASE = True
+RVI_TRACKING_MQ_HBASE = False
 RVI_TRACKING_MQ_HBASE_URL = "master"
 RVI_TRACKING_MQ_HBASE_PORT = "9090"
 RVI_TRACKING_MQ_HBASE_TABLE = "rvi"

@@ -67,3 +67,5 @@ var map = L.map('map').setView([33.8361, -117.8897], 13);
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'mapbox.streets'
 		}).addTo(map);
+
+var marker = L.marker([33.8361, -117.8897]).addTo(map);
