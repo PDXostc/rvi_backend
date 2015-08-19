@@ -204,7 +204,8 @@ BOOTSTRAP3 = {
 
 
 # Server Key File
-RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
+# Original key is checked in under rvi_core/insecure_root_key_priv.pem
+RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/insecure_root_key_priv.pem')
 
 # Server Signature Algorithm (default: RS256)
 RVI_BACKEND_ALG_SIG = 'RS256'
