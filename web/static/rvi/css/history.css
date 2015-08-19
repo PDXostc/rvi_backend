@@ -20,28 +20,28 @@
 			display: none;
 		}
 
-		.container {
+		.table-hover > tbody > tr:hover {
+			background-color: orange;
+		}
+
+		.container-history {
 			display: table;
 			height: 90%;
 			width: 100%;
 		}
 
+
 		.left-half, .right-half {
 			display: table-cell;
 			text-align: center;
 			vertical-align: middle;
+			height: 100%;
 			width: 45%;
 			padding: 1rem;
 		}
 
-		.left-half {
-			background: #ff9e2c;
-		}
-
-		.right-half {
-			background: #b6701e;
-		}
-
 		#map {
-
 		}
+
+		td, th { width: #{100% / 4}; }
+

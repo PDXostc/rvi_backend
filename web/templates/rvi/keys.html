@@ -8,72 +8,15 @@
 {% load i18n %}
 
 {% block extra_site_head %}
-    <link href="{% static 'rvi/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
-    <link href="{% static 'rvi/css/parallax.css' %}" rel="stylesheet">
-
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" rel="stylesheet">
-    <link href="{% static 'rvi/css/simple-sidebar.css' %}" rel="stylesheet">
 
     <script type="text/javascript" src="{% static 'rvi/js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'rvi/js/bootstrap.min.js' %}"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+
 {% endblock %}
 
 
 {% block page_content %}
-    <div class="center-block">
-        <div id="map"></div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">RVI Service History</h3>
-                            <div class="pull-right">
-                                <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-                                    <i class="glyphicon glyphicon-filter"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
-                        </div>
-                        <table class="table table-hover" id="dev-table">
-                            <thead>
-                                <tr>
-                                    <th>RVI Service</th>
-                                    <th>Timestamp</th>
-                                    <th>Location</th>
-                                    <th>User</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Door Lock</td>
-                                    <td>10:42 PDT <br>07/22/15</td>
-                                    <td>143 Clementine St.<br>Anaheim, CA 92804</td>
-                                    <td>dthiriez</td>
-                                </tr>
-                                <tr>
-                                    <td>Door Unlock</td>
-                                    <td>15:03 PDT <br>07/14/15</td>
-                                    <td>267 Resh St.<br>Anaheim, CA 92804</td>
-                                    <td>dthiriez</td>
-                                </tr>
-                                <tr>
-                                    <td>Engine Start</td>
-                                    <td>11:55 PDT <br>07/12/15</td>
-                                    <td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-                                    <td>dthiriez</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="{% static 'rvi/js/history.js' %}"></script>
+
 {% endblock %}
