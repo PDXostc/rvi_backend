@@ -91,7 +91,7 @@ class Remote(models.Model):
         jr[u'destinations'] = []
         for control in self._controls:
             if control[1]:
-                jr[u'destinations'].append('rpc:' + self.rem_vehicle.get_rvi_id() + '/control/' + control[0])
+                jr[u'destinations'].append(self.rem_vehicle.get_rvi_id() + '/control/' + control[0])
         jr[u'keys'] = []
         jr[u'keys'].append(self.rem_device.dev_key.format_json_public_key(use = JSONWebKey.USE_TYPE_SIG))
         jr[u'validity'] = {
