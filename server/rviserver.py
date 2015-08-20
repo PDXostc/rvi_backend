@@ -28,6 +28,7 @@ import __init__
 from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
+from server.certificateservicesserver import CertificateServicesServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
 from server.utils import get_settings
@@ -46,6 +47,7 @@ class RVIServer(Daemon):
     sota_cb_server = None
     sota_tx_server = None
     tracking_cb_server = None
+    certificate_services_cb = None
     mq_sink_server = None
     hbase_server = None
     def cleanup(self, *args):
@@ -56,6 +58,8 @@ class RVIServer(Daemon):
             self.sota_tx_server.shutdown()
         if self.tracking_cb_server:
             self.tracking_cb_server.shutdown()
+        if self.certificate_services_cb:
+            self.certificate_services_cb.shutdown()
         if self.mq_sink_server:
             self.mq_sink_server.shutdown()
         if self.hbase_server:
@@ -134,7 +138,36 @@ class RVIServer(Daemon):
 
         else:
             rvi_logger.info('RVI Server: Tracking not enabled')
-        
+
+
+        # Remote (certificate) Services Startup
+        if conf['CERTIFICATE_SERVICES_ENABLE'] == True:
+            # log Remote (certificate) Services configuration
+            rvi_logger.info('RVI Server: Remote (certificate) Services Configuration: ' +
+                'RVI_CERTIFICATE_SERVICES_CALLBACK_URL: ' + conf['CERTIFICATE_SERVICES_CALLBACK_URL'] + ', ' +
+                'RVI_CERTIFICATE_SERVICES_SERVICE_ID: '   + conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                )
+            # start the Remote (certificate) Services callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Remote (certificate) Services Server on %s with service id %s.',
+                    conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
+                    conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = CertificateServicesServer(
+                    self.rvi_service_edge,
+                    conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
+                    conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Remote (certificate) Services Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Remote (certificate) Services Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Remote (certificate) Services callback server to come up
+            time.sleep(0.5)
+
         # Publish to Kafka Message Queue
         if conf['TRACKING_MQ_PUBLISH'] == True:
             #log kafka configuration
@@ -168,7 +201,8 @@ class RVIServer(Daemon):
                 sys.exit(1)
         else:
             rvi_logger.info('RVI Server: HBase server storage not enabled')
-        
+
+
         # catch signals for proper shutdown
         for sig in (SIGABRT, SIGTERM, SIGINT):
             signal(sig, self.cleanup)

@@ -46,6 +46,10 @@ def get_settings():
         conf['TRACKING_CALLBACK_URL'] = get_setting("RVI_TRACKING_CALLBACK_URL")
         conf['TRACKING_SERVICE_ID']   = get_setting("RVI_TRACKING_SERVICE_ID", "/logging")
 
+        conf['CERTIFICATE_SERVICES_ENABLE']       = get_setting("RVI_CERTIFICATE_SERVICES_ENABLE", True)
+        conf['CERTIFICATE_SERVICES_CALLBACK_URL'] = get_setting("RVI_CERTIFICATE_SERVICES_CALLBACK_URL")
+        conf['CERTIFICATE_SERVICES_CALLBACK_ID']   = get_setting("RVI_CERTIFICATE_SERVICES_CALLBACK_ID", "/cert")
+
         conf['TRACKING_DB_PUBLISH']   = get_setting("RVI_TRACKING_DB_PUBLISH", False)
 
         conf['TRACKING_MQ_PUBLISH']   = get_setting("RVI_TRACKING_MQ_PUBLISH", False)
