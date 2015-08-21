@@ -148,6 +148,7 @@ a.active.selector-chooseall {
   /* background: url(../img/selector-icons.gif) right -289px no-repeat; */
   cursor: pointer;
 }
+
 a.active.selector-chooseall::after,
 a.selector-chooseall::after {
   padding-left: 5px;
@@ -163,11 +164,14 @@ a.active.selector-clearall {
   /*background: url(../img/selector-icons.gif) left -237px no-repeat;*/
   cursor: pointer;
 }
+
 a.selector-clearall::before,
 a.active.selector-clearall::before {
   padding-right: 5px;
   content: '\025C2';
 }
+
+
 /* STACKED SELECTORS */
 
 .stacked {
@@ -231,11 +235,11 @@ a.active.selector-clearall::before {
   background: url(../img/selector-icons.gif) 0 -31px no-repeat;
 }
 
+
 /* DATE AND TIME */
 
 p.datetime {
-  /*color: #666;*/
-  font-size: 11px;
+  font-size: 1.5rem;
   font-weight: bold;
   line-height: 20px;
   margin: 0;
@@ -255,6 +259,13 @@ table p.datetime {
   padding-left: 0;
 }
 
+@media (max-width: 960px) {
+  p.datetime {
+    font-size: 1.75rem;
+  }
+}
+
+
 /* URL */
 
 p.url {
@@ -269,6 +280,7 @@ p.url {
 .url a {
   font-weight: normal;
 }
+
 
 /* FILE UPLOADS */
 
@@ -296,6 +308,7 @@ span.clearable-file-input label {
   color: #333;
 }
 
+
 /* CALENDARS & CLOCKS */
 
 .calendarbox,
@@ -315,6 +328,7 @@ span.clearable-file-input label {
 .calendar {
   margin: 0;
   padding: 0;
+  font-size: 2rem;
 }
 
 .calendar table {
@@ -447,10 +461,12 @@ span.clearable-file-input label {
 
 .calendar-cancel a {
   display: block;
-  display: block;
   text-transform: uppercase;
-  color: rgba(255,255,255,.8);
+  color: rgba(255, 255, 255, .8);
   background-color: #000;
+  font-size: 2rem;
+  padding: 10px;
+  font-weight: bold;
 }
 
 ul.timelist,
@@ -463,6 +479,7 @@ ul.timelist,
 .timelist a {
   padding: 2px;
 }
+
 
 /* INLINE ORDERER */
 
@@ -532,6 +549,7 @@ ul.orderer li.deleted a.selector:hover {
   cursor: default;
 }
 
+
 /* EDIT INLINE */
 
 .inline-deletelink {
@@ -540,7 +558,8 @@ ul.orderer li.deleted a.selector:hover {
   height: 15px;
   text-indent: -9999px;
   border: 0 none;
-  outline: 0; /* Remove dotted border around link */
+  outline: 0;
+  /* Remove dotted border around link */
   background: transparent url(../img/inline-delete.png) no-repeat;
 }
 
@@ -590,6 +609,7 @@ ul.orderer li.deleted a.selector:hover {
 .editinline tr.deleted td:first-child {
   background-image: none !important;
 }
+
 
 /* EDIT INLINE - STACKED */
 
