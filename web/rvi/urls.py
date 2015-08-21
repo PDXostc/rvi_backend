@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     (r'', include('tokenapi.urls')),
 
     url(r'^tracking/', include('tracking.urls')),
+    url(r'^sota/', include('sota.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
 
