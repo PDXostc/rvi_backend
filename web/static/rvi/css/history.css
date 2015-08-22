@@ -4,7 +4,7 @@
 		}
 
 		.clickable{
-		    cursor: pointer;   
+		    cursor: pointer;
 		}
 
 		.panel-heading div {
@@ -30,7 +30,6 @@
 			width: 100%;
 		}
 
-
 		.left-half, .right-half {
 			display: table-cell;
 			text-align: center;
@@ -43,5 +42,16 @@
 		#map {
 		}
 
-		td, th { width: #{100% / 4}; }
+
+		.container-keys {
+			display: table;
+		}
+
+		.top-third, .middle-third, .bottom-third {
+			display: table-row;
+			height:30%;
+			text-align: left;
+			padding: 1rem;
+
+		}
 

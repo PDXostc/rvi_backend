@@ -210,9 +210,10 @@ def create_remote (remote):
                                      { u'certificate': cert },
                                      {
                                         u'username': user.username,
-                                        u'usertype': user_type,
-                                        u'vehicle': vehicle.veh_name,
-                                        u'services': {
+                                        u'userType': user_type,
+                                        u'vehicleName': vehicle.veh_name,
+                                        u'vehicleVIN': vehicle.veh_vin,
+                                        u'authorizedServices': {
                                             u'lock': remote.rem_lock,
                                             u'engine': remote.rem_engine,
                                             u'trunk': remote.rem_trunk,
@@ -220,7 +221,10 @@ def create_remote (remote):
                                             u'lights': remote.rem_lights,
                                             u'hazard': remote.rem_hazard,
                                             u'horn': remote.rem_horn
-                                        }
+                                        },
+                                        u'guests': [
+                                            u'arodriguez', u'bjamal'
+                                        ]
                                      },
                                     ])
     except Exception as e:

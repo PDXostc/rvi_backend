@@ -3,204 +3,201 @@
 {% load staticfiles %}
 {% load url from future %}
 
-{% load date_static %}{% load firstof from future %}
+{% load admin_static %}{% load firstof from future %}
 
 {% load i18n %}
 
 {% block extra_site_head %}
-    <link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
 
-<<<<<<< HEAD
-    <link href="{% static 'rvi/css/parallax.css' %}" rel="stylesheet">
-	
+	<link href="{% static 'rvi/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
 
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" rel="stylesheet">
-    <link href="{% static 'rvi/css/simple-sidebar.css' %}" rel="stylesheet">
-	<link href="{% static 'rvi/css/keys.css' %}" rel="stylesheet">
-	
-    <script type="text/javascript" src="{% static 'rvi/js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rvi/js/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'rvi/js/moment-2.10.6.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'rvi/js/bootstrap-datetimepicker.js' %}"></script>
 
-	<style>
-   #header{
-   background-color:grey;
-   
-   }
-   
-   #sidebar{
-	display:inline-block;
-	width:100px;
-	height:400px;
-	margin:20px;
-	background-color:blue;
-   }
-   
-   
-   .main{
-   display:inline-block;
-   }
-   
-	#addkey {
-		display:inline-block;
-		background-color:white;
-		height: 200px;
-		padding:10px;
-	}
-	#keys {
-		background-color:white;
-		width:700px;
-		float:left;
-		padding:10px;
-	}
-	
-	#box{
-		display:inline-block;
-		width: 200px;
-		height: 100px;
-		background-color:white;
-		padding:20px;
-		float:left;
-	
-	}
-	
-	.footer{
-	background-color:grey;
-	
-	}
+ 	<link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
 
-	</style>
 
-=======
-    <script type="text/javascript" src="{% static 'rvi/js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/bootstrap.min.js' %}"></script>
-
->>>>>>> p3-develop-logintoken
 {% endblock %}
 
 
 {% block page_content %}
 
+<div class="container-keys">
+	<div class="top-third">
+		<form action=action_page.php>
+		<fieldset>
 
-<<<<<<< HEAD
-   <body>
-   <div id="header">
-   <h2>Remote Vehicle Interaction</h2>	
-  </div>
-   
-  <div id="nav"> 
-   <form method="link" action="page1.htm">
-   <input type="submit" value="History">
-    </form>
-	
-	<form method="link" action="page1.htm">
-   <input type="submit" value="Shared Keys">
-    </form>
- 
-   </div>
-   
-   
- <div id="addkey">  
-   <form action=action_page.php>
-       <fieldset>
-          <legend>Create a Key</legend>
-          <p>
-             <label> </label>
-             <select id = "myList">
-               <option value = "1">user one</option>
-               <option value = "2">user two</option>
-               <option value = "3">user three</option>
-               <option value = "4">user four</option>
-             </select>
-          </p>
-		  
-		 <p> 
-		  Valid from: <input type="datetime-local" name="Start Date:">   
-		</p>
-		<p>
-		Vaid to:  <input type="datetime-local" name="End Date" min = "Start Date">
-		</p>
-			
-		<input type="checkbox" name="selectLock"> Lock/Unlock   
-		<input type="checkbox" name="selectEngine"> Engine Start  
-		
-		<input type="checkbox" name="selectPanic">  Panic          
-		
-		<br> 
-		<input type="submit" value="Submit">
-		
-		  
-       </fieldset>
-    </form>
-	
-	
+			<div class="panel-heading ">
+				<h3 class="panel-title">Create a Key</h3>
+			</div>
+			<table class="table table-row">
+				<tbody>
+					<tr>
+						<td >
+							<select id = "myList">
+								<option value = "1">user one</option>
+								<option value = "2">user two</option>
+								<option value = "3">user three</option>
+								<option value = "4">user four</option>
+							</select>
+						</td>
+						<td >
+							Valid From:
+							<div class='col-md-5'>
+								<div class="form-group">
+									<div class='input-group date' id='datetimepicker6'>
+										<input type='text' class="form-control" />
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td >
+							Valid To:
+							<div class='col-md-5'>
+								<div class="form-group">
+									<div class='input-group date' id='datetimepicker7'>
+										<input type='text' class="form-control" />
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td >
+							<ul style="list-style-type:none">
+								<li><input type="checkbox" name="selectLock"> Lock/Unlock</li>
+								<li><input type="checkbox" name="selectEngine"> Engine Start</li>
+								<li><input type="checkbox" name="selectPanic">  Panic</li>
+							</ul>
+						</td>
+						<td ><input type="submit" value="Submit"></td>
 
-	<form>
-       <fieldset>
-          <legend>Active Keys</legend>
-          
-		<table border="1" style="width:680px">
-		<th>User</th> <th>Valid from</th> <th>Valid to</th> <th>Lock/Unlock</th>
-		<th>Engine Start</th> <th>Panic</th> <th> Modify </th>
-		<tr>
-		<td>Jack</td>
-		<td>date</td>
-		<td>date</td>
-		<td> 
-		<input type="checkbox" name="lock/unlock" onclick="return false"/>
-		</td>
-		</tr>
-		<tr>
-		<td>John</td>
-		<td>date</td>
-		<td>date</td>
-		</tr>
-		<tr>
-		<td>James</td>
-		<td>date</td>
-		<td>date</td>
-		</tr>
-		</table>
-		
-		  
-       </fieldset>
-    </form>
-	
-	<form>
-       <fieldset>
-          <legend>Expired Keys</legend>
-          
-		<table border="1" style="width:680px">
-		<th>User</th> <th>Valid from</th> <th>Valid to</th> <th>Lock/Unlock</th>
-		<th>Engine Start</th> <th>Panic</th>
-		<tr>
-		<td>Jack</td>
-		<td>date</td>
-		<td>date</td>
-		</tr>
-		<tr>
-		<td>John</td>
-		<td>date</td>
-		<td>date</td>
-		</tr>
-		<tr>
-		<td>James</td>
-		<td>date</td>
-		<td>date</td>
-		</tr>
-		</table>
-		
-		  
-       </fieldset>
-    </form>
-   
-   </body>
- <footer>
-	<p>RVI &copy 2014, 2015 Jaguar Land Rover</p>
-</footer> 
- 
+					</tr>
+				</tbody>
+
+
+
+
+
+			</table>
+		</fieldset>
+		</form>
+	</div>
+
+	<div class="middle-third">
+		<div class="col-md-6 table-row">
+		<div class="panel panel-primary  ">
+			<div class="panel-heading ">
+				<h3 class="panel-title">RVI Active Keys</h3>
+				<div class="pull-right">
+					<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+						<i class="glyphicon glyphicon-filter"></i>
+					</span>
+				</div>
+			</div>
+			<div class="panel-body">
+				<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Active Keys" />
+			</div>
+			<table class="table table-hover" id="dev-table">
+				<thead>
+					<tr>
+						<th >User</th>
+						<th >Valid From</th>
+						<th >Valid To</th>
+						<th >Lock/Unlock</th>
+						<th >Engine Start</th>
+						<th >Panic</th>
+						<th >Modify</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>arodriguez</td>
+						<td>10:42 UTC <br>07/22/15</td>
+						<td>10:42 UTC <br>09/22/15</td>
+						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td><button type="button" class="btn btn-default">Edit</button></td>
+					</tr>
+					<tr>
+						<td>arodriguez</td>
+						<td>10:42 UTC <br>07/22/15</td>
+						<td>10:42 UTC <br>09/22/15</td>
+						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>arodriguez</td>
+						<td>10:42 UTC <br>07/22/15</td>
+						<td>10:42 UTC <br>09/22/15</td>
+						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+	<div class="bottom-third">
+		<div class="col-md-6 table-row">
+		<div class="panel panel-primary ">
+			<div class="panel-heading ">
+				<h3 class="panel-title">RVI Expired Keys</h3>
+				<div class="pull-right">
+					<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+						<i class="glyphicon glyphicon-filter"></i>
+					</span>
+				</div>
+			</div>
+			<div class="panel-body">
+				<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Expired Keys" />
+			</div>
+			<table class="table table-hover" id="dev-table">
+				<thead>
+					<tr>
+						<th >RVI Service</th>
+						<th >Timestamp</th>
+						<th >Location</th>
+						<th >User</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Door Lock</td>
+						<td>10:42 PDT <br>07/22/15</td>
+						<td>143 Clementine St.<br>Anaheim, CA 92804</td>
+						<td>dthiriez</td>
+					</tr>
+					<tr>
+						<td>Door Unlock</td>
+						<td>15:03 PDT <br>07/14/15</td>
+						<td>267 Resh St.<br>Anaheim, CA 92804</td>
+						<td>dthiriez</td>
+					</tr>
+					<tr>
+						<td>Engine Start</td>
+						<td>11:55 PDT <br>07/12/15</td>
+						<td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
+						<td>dthiriez</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{% static 'rvi/js/history.js' %}"></script>
+
+
 {% endblock %}
-	</style>
 
-=======
-{% endblock %}
->>>>>>> p3-develop-logintoken
