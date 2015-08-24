@@ -14,6 +14,7 @@ from djgeojson.fields import PointField
 from django.conf import settings
 from common.user import Account
 from security.models import JSONWebKey
+from security.models import CANFWKey
 
 class RVIStatus:
     """
@@ -50,6 +51,7 @@ class Vehicle(Account):
                                   choices=RVI_STATUS,
                                   default=RVIStatus.OFFLINE)
     veh_key = models.OneToOneField(JSONWebKey, verbose_name = 'Key', null=True)
+    canfw_key = models.OneToOneField(CANFWKey, verbose_name = 'FW_Key', null=True)
 
 
     @property
