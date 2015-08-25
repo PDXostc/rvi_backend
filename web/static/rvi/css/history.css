@@ -44,14 +44,17 @@
 
 
 		.container-keys {
+			height: 90%;
+			width: 100%;
+			border:1px solid red;
 			display: table;
 		}
 
 		.top-third, .middle-third, .bottom-third {
 			display: table-row;
-			height:30%;
-			text-align: left;
-			padding: 1rem;
+			height: 30%;
+			width: 80%;
+			border:1px solid red;
 
 		}
 

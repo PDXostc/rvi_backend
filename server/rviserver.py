@@ -29,6 +29,7 @@ from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
 from server.certificateservicesserver import CertificateServicesServer
+from server.loginvokedserviceserver import LogInvokedServicesServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
 from server.utils import get_settings
@@ -167,6 +168,42 @@ class RVIServer(Daemon):
 
             # wait for Remote (certificate) Services callback server to come up
             time.sleep(0.5)
+
+        else:
+            rvi_logger.info('RVI Server: Remote (certificate) Services not enabled')
+
+
+        # Log Invoked Service Service Startup
+        if conf['LOG_INVOKED_SERVICES_ENABLE'] == True:
+            # log Log Invoked Services Service configuration
+            rvi_logger.info('RVI Server: Log Invoked Services Service Configuration: ' +
+                'RVI_LOG_INVOKED_SERVICES_CALLBACK_URL: ' + conf['LOG_INVOKED_SERVICES_CALLBACK_URL'] + ', ' +
+                'RVI_LOG_INVOKED_SERVICES_CALLBACK_ID: '   + conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+            # start the Log Invoked Services Service callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Log Invoked Services Service Server on %s with service id %s.',
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_URL'],
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = LogInvokedServicesServer(
+                    self.rvi_service_edge,
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_URL'],
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Log Invoked Services Service Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Log Invoked Services Service Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Log Invoked Services Service callback server to come up
+            time.sleep(0.5)
+
+        else:
+            rvi_logger.info('RVI Server: Log Invoked Services Service not enabled')
+
 
         # Publish to Kafka Message Queue
         if conf['TRACKING_MQ_PUBLISH'] == True:
