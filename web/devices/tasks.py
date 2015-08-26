@@ -99,6 +99,11 @@ def send_remote(remote):
     else:
         user_type = 'guest'
 
+    if remote.rem_name == 'remote_videodemo_owner':
+        user_type = 'owner'
+    elif remote.rem_name == 'remote_videodemo_guest':
+        user_type = 'guest'
+
     valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
     valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
  

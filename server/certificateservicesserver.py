@@ -14,8 +14,12 @@ Remote (certificate) services.
 import os, threading, base64
 import time
 import datetime
+from dateutil import parser
 from devices.models import Device, Remote
 from vehicles.models import Vehicle
+from devices.tasks import send_remote
+from django.contrib.auth.models import User
+
 from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
@@ -75,21 +79,6 @@ class CertificateServicesServer(threading.Thread):
         self.localServer.shutdown()
 
 
-'''
-        rem_name      = models.CharField('Remote Name', max_length=256)
-    rem_uuid      = models.CharField('Remote UUID', max_length=256, default=str(uuid.uuid4()), editable=False)
-    rem_device    = models.ForeignKey(Device, verbose_name='Device')
-    rem_vehicle   = models.ForeignKey(Vehicle, verbose_name='Vehicle')
-    rem_created   = models.DateTimeField(auto_now_add=True, editable=False)
-    rem_updated   = models.DateTimeField(auto_now=True, editable=False)
-    rem_validfrom = models.DateTimeField('Valid From', max_length=100)
-    rem_validto   = models.DateTimeField('Valid To', max_length=100)
-    rem_lock      = models.BooleanField('Lock/Unlock', default=False)
-    rem_engine
-'''
-'''
-'''
-
 # Callback functions
 def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
     rvi_logger.info('Remote (Certificate) Server: Create new remote request: \n'
@@ -105,15 +94,13 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
         parsed_data = json.dumps(authorizedServices)
         services = json.loads(parsed_data)
-        engine = int(services[u'start'] == u'true')
-        lock = int(services[u'lock'] == u'true')
-        validFrom = datetime.datetime.strptime(
-            str(validFrom).replace('T', ' ').replace('.000Z',''),
-            "%Y-%m-%d %H:%M:%S"
+        engine = services[u'start']
+        lock = services[u'lock']
+        validFrom = parser.parse(
+            str(validFrom).replace('T', ' ').replace('Z','+00:00')
         )
-        validTo = datetime.datetime.strptime(
-            str(validTo).replace('T', ' ').replace('.000Z',''),
-            "%Y-%m-%d %H:%M:%S"
+        validTo = parser.parse(
+            str(validTo).replace('T', ' ').replace('Z','+00:00')
         )
     except Exception as e:
         rvi_logger.error("Certificate Callback Server Error -- conversion: %s", e)
@@ -124,9 +111,10 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
         rem_device_id = device.dev_key_id,
         rem_vehicle_id = vehicle.veh_key_id,
         rem_validfrom = validFrom,
-        rem_engine = engine,
+        rem_validto = validTo,
         rem_lock = lock,
-        rem_validto = validTo)
+        rem_engine = engine
+    )
     if not Remote.objects.filter(rem_name = remote.rem_name).exists():
         try:
             rvi_logger.info('Attempting to create the following remote: %s', remote)
@@ -135,8 +123,13 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
             rvi_logger.error("Certificate Callback Server Error -- creation: %s", e)
             return {u'status': 0}
     else:
-        rvi_logger.info('Remote already exists: trying to create... %s\n'
-                        'but this one is already there... %s', remote.rem_uuid, Remote.objects.filter(rem_uuid = remote.rem_uuid))
+        rvi_logger.info('Certificate Callback Server Error -- remote already exists: %s', remote.get_name())
+
+    result = send_remote(remote)
+    if result:
+        rvi_logger.info('Sending Remote: %s - successful', remote.get_name())
+    else:
+        rvi_logger.error('Sending Remote: %s - failed', remote.get_name())
 
     return {u'status': 0}
 
@@ -150,23 +143,38 @@ def modify_remote(certid, authorizedServices, validFrom, validTo):
                     certid, authorizedServices, validFrom, validTo)
     try:
         remote = Remote.objects.get(rem_uuid=certid)
-        validFrom = datetime.datetime.strptime(
-            str(validFrom).replace('T', ' ').replace('.000Z',''),
-            "%Y-%m-%d %H:%M:%S"
+        parsed_data = json.dumps(authorizedServices)
+        services = json.loads(parsed_data)
+        engine = int(services[u'start'] == u'true')
+        lock = int(services[u'lock'] == u'true')
+        validFrom = parser.parse(
+            str(validFrom).replace('T', ' ').replace('Z','+00:00')
         )
-        validTo = datetime.datetime.strptime(
-            str(validTo).replace('T', ' ').replace('.000Z',''),
-            "%Y-%m-%d %H:%M:%S"
+        validTo = parser.parse(
+            str(validTo).replace('T', ' ').replace('Z','+00:00')
         )
     except Exception as e:
         rvi_logger.error("Certificate Callback Server Error: %s", e)
         return {u'status': 0}
 
+    remote.rem_validfrom = validFrom
+    remote.rem_validto = validTo
+    remote.rem_lock = lock
+    remote.rem_engine = engine
+
     try:
-        rvi_logger.info('Attempting to create the following remote: %s', remote)
+        rvi_logger.info('Attempting to update the following remote: %s', remote)
+        remote.save(update_fields=['rem_validfrom', 'rem_validto', 'rem_lock', 'rem_engine'])
     except Exception as e:
-        rvi_logger.error("Certificate Callback Server Error: %s", e)
+        rvi_logger.error("Certificate Callback Server Error -- update: %s", e)
         return {u'status': 0}
+
+
+    result = send_remote(remote)
+    if result:
+        rvi_logger.info('Sending Remote: %s - successful', remote.get_name())
+    else:
+        rvi_logger.error('Sending Remote: %s - failed', remote.get_name())
 
     return {u'status': 0}
 
@@ -178,8 +186,31 @@ def requestall_remote(vehicleVIN):
 
     try:
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
+
     except Exception as e:
         rvi_logger.error("Certificate Callback Server Error: %s", e)
         return {u'status': 0}
+
+    certificates = []
+    for remote in Remote.objects.filter(rem_vehicle_id = vehicle.veh_key_id):
+
+        mobile = remote.rem_device
+        user = User.objects.get(id=mobile.account_id)
+
+        certificate = {}
+        certificate['certid'] = remote.rem_uuid
+        certificate['username'] = user.username
+        certificate['authorizedServices'] = {
+            u'lock': remote.rem_lock,
+            u'engine': remote.rem_engine,
+            u'trunk': remote.rem_trunk,
+            u'windows': remote.rem_windows,
+            u'lights': remote.rem_lights,
+            u'hazard': remote.rem_hazard,
+            u'horn': remote.rem_horn
+        }
+        certificate['validFrom'] = str(remote.rem_validfrom)
+        certificate['ValidTo'] = str(remote.rem_validto)
+        rvi_logger.info("Tied to queried VIN %s: %s", vehicleVIN, certificate)
 
     return {u'status': 0}
