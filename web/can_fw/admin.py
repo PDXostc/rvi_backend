@@ -19,13 +19,15 @@ class PackageAdmin(admin.ModelAdmin):
     """
     Administration view for Packages
     """
+    #readonly_fields = ('key_created', 'key_updated')
     list_display = ('pac_name', 'prio0x0')
 
 class RuleAdmin(admin.ModelAdmin):
-	"""
-	Administration view for Rules
-	"""
-	list_display = ('rule_name', 'mask', 'filt', 'id_xform', 'data_xform', 'id_operand', 'data_operand')
+    """
+    Administration view for Rules
+    """
+    #readonly_fields = ('key_created', 'key_updated')
+    list_display = ('rule_name', 'mask', 'filt', 'id_xform', 'data_xform', 'id_operand', 'data_operand')
 
 
 """
