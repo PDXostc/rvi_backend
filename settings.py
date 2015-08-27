@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'tracking',
     'devices',
     'security',
+    'can_fw',
 )
 
 #INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
@@ -243,6 +244,7 @@ RVI_SOTA_CHUNK_SIZE = 65536
 RVI_CANFW_ENABLE = False
 RVI_CANFW_CALLBACK_URL = 'http://127.0.0.1:20004'
 RVI_CANFW_SERVICE_ID = '/canfw'
+RVI_CANFW_NUM_PRIO = 16
 
 # Device Management
 RVI_DM_SERVICE_ID = '/dm'

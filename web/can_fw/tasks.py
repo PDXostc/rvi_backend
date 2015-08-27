@@ -63,14 +63,14 @@ def notify_update(retry):
     # get settings
     # service edge url
     try:
-        rvi_service_url = 'http://127.0.0.1:8801'
+        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
     except NameError:
         logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', retry)
         set_status(retry, can_fw.models.Status.FAILED)
         return False
     # SOTA service id
     try:
-        rvi_service_id = '/canfw'
+        rvi_service_id = settings.RVI_CANFW_SERVICE_ID
     except NameError:
         rvi_service_id = '/canfw'
 
@@ -101,7 +101,7 @@ def notify_update(retry):
                            transaction_id = str(transaction_id),
                            timeout = int(retry.get_timeout_epoch()),
                            parameters = [{ u'package': package_name },
-                                         { u'payload': package.prio_0x0.data_operand },
+                                         { u'payload': "ayyy_lmao" },
                                         ])
     except Exception as e:
         logger.error('%s: Cannot send request: %s', retry, e)

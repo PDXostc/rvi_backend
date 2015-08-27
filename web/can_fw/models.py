@@ -16,8 +16,7 @@ from django.core.exceptions import ValidationError
 
 from vehicles.models import Vehicle
 from tasks import notify_update
-
-NUM_PRIO = 32
+from django.conf import settings
 
 def validate_upd_timeout(timeout):
     if timeout < 0: 
@@ -337,5 +336,5 @@ class Retry(models.Model):
 END CHANGES BLOCK
 """
 
-for prio_num in range(NUM_PRIO):
+for prio_num in range(settings.RVI_CANFW_NUM_PRIO):
     PackageFW.add_to_class('prio_%s' % str(hex(prio_num)), models.ForeignKey(Rule, verbose_name='Rule Priority '+str(hex(prio_num)), related_name='+', null=True, blank=True))
