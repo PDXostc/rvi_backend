@@ -20,7 +20,7 @@ class PackageAdmin(admin.ModelAdmin):
     Administration view for Packages
     """
     #readonly_fields = ('key_created', 'key_updated')
-    list_display = ('pac_name', 'prio0x0')
+    list_display = ('pac_name', 'prio_0x0')
 
 class RuleAdmin(admin.ModelAdmin):
     """
