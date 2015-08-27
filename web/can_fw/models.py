@@ -17,6 +17,8 @@ from django.core.exceptions import ValidationError
 from vehicles.models import Vehicle
 from tasks import notify_update
 
+NUM_PRIO = 32
+
 def validate_upd_timeout(timeout):
     if timeout < 0: 
         raise ValidationError("Timeout must be a positive number.")
@@ -101,22 +103,22 @@ class PackageFW(models.Model):
 
     pac_name = models.CharField('Package Name', max_length=256)
     
-    prio0x0 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x0', related_name='+', null=True)
-    prio0x1 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x1', related_name='+', null=True)
-    prio0x2 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x2', related_name='+', null=True)
-    prio0x3 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x3', related_name='+', null=True)
-    prio0x4 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x4', related_name='+', null=True)
-    prio0x5 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x5', related_name='+', null=True)
-    prio0x6 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x6', related_name='+', null=True)
-    prio0x7 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x7', related_name='+', null=True)
-    prio0x8 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x8', related_name='+', null=True)
-    prio0x9 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x9', related_name='+', null=True)
-    prio0xA = models.ForeignKey(Rule, verbose_name='Rule Priority 0xA', related_name='+', null=True)
-    prio0xB = models.ForeignKey(Rule, verbose_name='Rule Priority 0xB', related_name='+', null=True)
-    prio0xC = models.ForeignKey(Rule, verbose_name='Rule Priority 0xC', related_name='+', null=True)
-    prio0xD = models.ForeignKey(Rule, verbose_name='Rule Priority 0xD', related_name='+', null=True)
-    prio0xE = models.ForeignKey(Rule, verbose_name='Rule Priority 0xE', related_name='+', null=True)
-    prio0xF = models.ForeignKey(Rule, verbose_name='Rule Priority 0xF', related_name='+', null=True)
+    # prio0x0 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x0', related_name='+', null=True, blank=True)
+    # prio0x1 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x1', related_name='+', null=True, blank=True)
+    # prio0x2 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x2', related_name='+', null=True, blank=True)
+    # prio0x3 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x3', related_name='+', null=True, blank=True)
+    # prio0x4 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x4', related_name='+', null=True, blank=True)
+    # prio0x5 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x5', related_name='+', null=True, blank=True)
+    # prio0x6 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x6', related_name='+', null=True, blank=True)
+    # prio0x7 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x7', related_name='+', null=True, blank=True)
+    # prio0x8 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x8', related_name='+', null=True, blank=True)
+    # prio0x9 = models.ForeignKey(Rule, verbose_name='Rule Priority 0x9', related_name='+', null=True, blank=True)
+    # prio0xA = models.ForeignKey(Rule, verbose_name='Rule Priority 0xA', related_name='+', null=True, blank=True)
+    # prio0xB = models.ForeignKey(Rule, verbose_name='Rule Priority 0xB', related_name='+', null=True, blank=True)
+    # prio0xC = models.ForeignKey(Rule, verbose_name='Rule Priority 0xC', related_name='+', null=True, blank=True)
+    # prio0xD = models.ForeignKey(Rule, verbose_name='Rule Priority 0xD', related_name='+', null=True, blank=True)
+    # prio0xE = models.ForeignKey(Rule, verbose_name='Rule Priority 0xE', related_name='+', null=True, blank=True)
+    # prio0xF = models.ForeignKey(Rule, verbose_name='Rule Priority 0xF', related_name='+', null=True, blank=True)
 
     # key_created = models.DateTimeField(auto_now_add=True, editable=False)
     # key_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -334,3 +336,6 @@ class Retry(models.Model):
 """
 END CHANGES BLOCK
 """
+
+for prio_num in range(NUM_PRIO):
+    PackageFW.add_to_class('prio_%s' % str(hex(prio_num)), models.ForeignKey(Rule, verbose_name='Rule Priority '+str(hex(prio_num)), related_name='+', null=True, blank=True))
