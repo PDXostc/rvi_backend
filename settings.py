@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'tracking',
     'devices',
     'security',
+    'can_fw',
 )
 
 #INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
