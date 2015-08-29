@@ -12,8 +12,11 @@
 	<link href="{% static 'rvi/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
 
 	<script type="text/javascript" src="{% static 'rvi/js/jquery-2.1.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/moment-2.10.6.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/bootstrap-datetimepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'rvi/js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'rvi/js/DateTimeShortcuts.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rvi/js/jsi18n.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rvi/js/actions.js' %}"></script>
+	<script type="text/javascript" src="{% static 'rvi/css/bootstrap-modified.css' %}"></script>
 
  	<link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
 
@@ -21,73 +24,18 @@
 {% endblock %}
 
 
+
+
+
+
+
+
+
+
+
+
 {% block page_content %}
-
 <div class="container-keys">
-	<div class="top-third">
-		<form action=action_page.php>
-		<fieldset>
-
-			<div class="panel-heading ">
-				<h3 class="panel-title">Create a Key</h3>
-			</div>
-			<table class="table table-row">
-				<tbody>
-					<tr>
-						<td >
-							<select id = "myList">
-								<option value = "1">user one</option>
-								<option value = "2">user two</option>
-								<option value = "3">user three</option>
-								<option value = "4">user four</option>
-							</select>
-						</td>
-						<td >
-							Valid From:
-							<div class='col-md-5'>
-								<div class="form-group">
-									<div class='input-group date' id='datetimepicker6'>
-										<input type='text' class="form-control" />
-										<span class="input-group-addon">
-											<span class="glyphicon glyphicon-calendar"></span>
-										</span>
-									</div>
-								</div>
-							</div>
-						</td>
-						<td >
-							Valid To:
-							<div class='col-md-5'>
-								<div class="form-group">
-									<div class='input-group date' id='datetimepicker7'>
-										<input type='text' class="form-control" />
-										<span class="input-group-addon">
-											<span class="glyphicon glyphicon-calendar"></span>
-										</span>
-									</div>
-								</div>
-							</div>
-						</td>
-						<td >
-							<ul style="list-style-type:none">
-								<li><input type="checkbox" name="selectLock"> Lock/Unlock</li>
-								<li><input type="checkbox" name="selectEngine"> Engine Start</li>
-								<li><input type="checkbox" name="selectPanic">  Panic</li>
-							</ul>
-						</td>
-						<td ><input type="submit" value="Submit"></td>
-
-					</tr>
-				</tbody>
-
-
-
-
-
-			</table>
-		</fieldset>
-		</form>
-	</div>
 
 	<div class="middle-third">
 		<div class="table-row">
@@ -111,38 +59,33 @@
 						<th >Valid To</th>
 						<th >Lock/Unlock</th>
 						<th >Engine Start</th>
-						<th >Panic</th>
 						<th >Modify</th>
 					</tr>
 				</thead>
 				<tbody>
+				{% for item in active_certificates %}
 					<tr>
-						<td>arodriguez</td>
-						<td>10:42 UTC <br>07/22/15</td>
-						<td>10:42 UTC <br>09/22/15</td>
-						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						<td>{{ item.rem_device.dev_owner }}</td>
+						<td>{{ item.rem_validfrom }}</td>
+						<td>{{ item.rem_validto }}</td>
+						<td>
+							{% if item.rem_lock %}
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							{% else %}
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							{% endif %}
+						</td>
+						<td>
+							{% if item.rem_engine %}
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							{% else %}
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							{% endif %}
+						</td>
 						<td><button type="button" class="btn btn-default">Edit</button></td>
 					</tr>
-					<tr>
-						<td>arodriguez</td>
-						<td>10:42 UTC <br>07/22/15</td>
-						<td>10:42 UTC <br>09/22/15</td>
-						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>arodriguez</td>
-						<td>10:42 UTC <br>07/22/15</td>
-						<td>10:42 UTC <br>09/22/15</td>
-						<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						<td></td>
-					</tr>
+				{% endfor %}
+
 				</tbody>
 			</table>
 		</div>
@@ -165,31 +108,35 @@
 			<table class="table table-hover" id="dev-table">
 				<thead>
 					<tr>
-						<th >RVI Service</th>
-						<th >Timestamp</th>
-						<th >Location</th>
 						<th >User</th>
+						<th >Valid From</th>
+						<th >Valid To</th>
+						<th >Lock/Unlock</th>
+						<th >Engine Start</th>
 					</tr>
 				</thead>
 				<tbody>
+				{% for item in expired_certificates %}
 					<tr>
-						<td>Door Lock</td>
-						<td>10:42 PDT <br>07/22/15</td>
-						<td>143 Clementine St.<br>Anaheim, CA 92804</td>
-						<td>dthiriez</td>
+						<td>{{ item.rem_device.dev_owner }}</td>
+						<td>{{ item.rem_validfrom }}</td>
+						<td>{{ item.rem_validto }}</td>
+						<td>
+							{% if item.rem_lock %}
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							{% else %}
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							{% endif %}
+						</td>
+						<td>
+							{% if item.rem_engine %}
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							{% else %}
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							{% endif %}
+						</td>
 					</tr>
-					<tr>
-						<td>Door Unlock</td>
-						<td>15:03 PDT <br>07/14/15</td>
-						<td>267 Resh St.<br>Anaheim, CA 92804</td>
-						<td>dthiriez</td>
-					</tr>
-					<tr>
-						<td>Engine Start</td>
-						<td>11:55 PDT <br>07/12/15</td>
-						<td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-						<td>dthiriez</td>
-					</tr>
+				{% endfor %}
 				</tbody>
 			</table>
 		</div>

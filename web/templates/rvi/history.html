@@ -37,49 +37,22 @@
                     <table class="table table-hover" id="dev-table">
                         <thead>
                             <tr>
+                                <th >User</th>
                                 <th >RVI Service</th>
                                 <th >Timestamp</th>
                                 <th >Location</th>
-                                <th >User</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                        {% for item in last_invoked %}
                             <tr>
-                                <td>Door Lock</td>
-                                <td>10:42 PDT <br>07/22/15</td>
-                                <td>143 Clementine St.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
+                                <td>{{ item.hist_user }}</td>
+                                <td>{{ item.hist_service }}</td>
+                                <td>{{ item.hist_timestamp }}</td>
+                                <td>{{ item.hist_latitude }} , {{ item.hist_longitude }}</td>
                             </tr>
-                            <tr>
-                                <td>Door Unlock</td>
-                                <td>15:03 PDT <br>07/14/15</td>
-                                <td>267 Resh St.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
-                            </tr>
-                            <tr>
-                                <td>Engine Start</td>
-                                <td>11:55 PDT <br>07/12/15</td>
-                                <td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
-                            </tr>
-                            <tr>
-                                <td>Engine Start</td>
-                                <td>11:55 PDT <br>07/12/15</td>
-                                <td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
-                            </tr>
-                            <tr>
-                                <td>Engine Start</td>
-                                <td>11:55 PDT <br>07/12/15</td>
-                                <td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
-                            </tr>
-                            <tr>
-                                <td>Engine Start</td>
-                                <td>11:55 PDT <br>07/12/15</td>
-                                <td>543 Harbor Blvd.<br>Anaheim, CA 92804</td>
-                                <td>dthiriez</td>
-                            </tr>
+                        {% endfor %}
 
                         </tbody>
                     </table>

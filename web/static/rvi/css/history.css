@@ -26,7 +26,8 @@
 
 		.container-history {
 			display: table;
-			height: 90%;
+			height: 100%;
+			min-height: 600px;
 			width: 100%;
 		}
 
@@ -44,9 +45,8 @@
 
 
 		.container-keys {
-			height: 90%;
+			height: 100%;
 			width: 100%;
-			border:1px solid red;
 			display: table;
 		}
 
@@ -55,6 +55,10 @@
 			height: 30%;
 			width: 80%;
 			border:1px solid red;
+			font-size:12px;
+		}
 
+		.small {
+			font-size:12px;
 		}
 

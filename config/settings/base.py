@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'leaflet',
     'tokenapi',
+    'servicehistory',
     'djgeojson',
     'rvi',
     'vehicles',

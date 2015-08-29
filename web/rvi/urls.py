@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'auth.views.login_user'),
     url(r'^login/$', 'auth.views.login_user'),
-    url(r'^history/$', 'ownerportal.views.history', name='history'),
+    url(r'^history/$', 'servicehistory.views.history', name='history'),
     url(r'^keys/$', 'ownerportal.views.keys', name='keys'),
     # url(r'^logout/$', admin.auth.logout),
     # for now redirect root to admin
