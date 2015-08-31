@@ -9,6 +9,8 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 """
 
 from __future__ import absolute_import
+import hashlib
+import hmac
 
 import sys, os, logging, time, jsonrpclib, base64
 import Queue
@@ -92,7 +94,69 @@ def notify_update(retry):
     # get destination info
     vehicle = retry.ret_udpate_fw.upd_vehicle_fw
     dst_url = vehicle.veh_rvibasename + '/vin/' + vehicle.veh_vin
- 
+    fw_key = vehicle.canfw_key.symm_key
+    # hmac_obj = hmac.new(fw_key)
+    # hmac_obj.update('Hello There')
+
+    payload_array = []
+
+    for prio_num in range(settings.RVI_CANFW_NUM_PRIO):
+        try:
+            rul_obj = getattr(package, 'prio_'+str(hex(prio_num)))
+            rule_payload = {}
+            send_payload = {}
+            rule_payload['prio'] = "{0:0{1}x}".format(prio_num,2)
+            rule_payload['mask'] = "{0:0{1}x}".format(int(rul_obj.mask, 16), 8)
+            rule_payload['filt'] = "{0:0{1}x}".format(int(rul_obj.filt, 16), 8)
+            rule_payload['id_xform'] = "{0:0{1}x}".format(int(rul_obj.id_xform, 16), 1)
+            rule_payload['data_xform'] = "{0:0{1}x}".format(int(rul_obj.data_xform, 16), 1)
+            rule_payload['id_operand'] = "{0:0{1}x}".format(int(rul_obj.id_operand,16), 8)
+            rule_payload['data_operand'] = "{0:0{1}x}".format(int(rul_obj.data_operand, 16), 16)
+            rule_payload['sequence'] = "{0:0{1}x}".format(vehicle.seq_counter, 8)
+            rule_payload['rsvd'] = "00"
+            rule_payload['unused'] = "0000"
+
+
+            send_payload['sig_string'] = (rule_payload['prio'] + rule_payload['mask'] + rule_payload['id_xform']
+                                            + rule_payload['data_xform'] + rule_payload['rsvd'] + rule_payload['filt']
+                                            + rule_payload['data_operand'] + rule_payload['id_operand'] 
+                                            + rule_payload['sequence'] + rule_payload['unused'])
+
+            send_payload['hmac_sig'] = hmac.new(str(fw_key), msg=hex(int(send_payload['sig_string'],16)), digestmod=hashlib.sha256).hexdigest()
+
+            payload_array.append(send_payload)
+
+            #Can possibly drag out the save to outside the for loop for better performance and have local variable 
+            #counter for sequence increment
+            vehicle.seq_counter = vehicle.seq_counter + 1
+            vehicle.save()
+
+        except Exception as e:
+            rul_obj = getattr(package, 'prio_'+str(hex(prio_num)))
+            rule_payload = {}
+            send_payload = {}
+            rule_payload['prio'] = "{0:0{1}x}".format(prio_num,2)
+            rule_payload['mask'] = "{0:0{1}x}".format(0, 8)
+            rule_payload['filt'] = "{0:0{1}x}".format(0, 8)
+            rule_payload['id_xform'] = "{0:0{1}x}".format(0, 1)
+            rule_payload['data_xform'] = "{0:0{1}x}".format(0, 1)
+            rule_payload['id_operand'] = "{0:0{1}x}".format(0, 8)
+            rule_payload['data_operand'] = "{0:0{1}x}".format(0, 16)
+            rule_payload['sequence'] = "{0:0{1}x}".format(vehicle.seq_counter, 8)
+            rule_payload['rsvd'] = "00"
+            rule_payload['unused'] = "0000"
+
+            send_payload['sig_string'] = (rule_payload['prio'] + rule_payload['mask'] + rule_payload['id_xform']
+                                            + rule_payload['data_xform'] + rule_payload['rsvd'] + rule_payload['filt']
+                                            + rule_payload['data_operand'] + rule_payload['id_operand']
+                                            + rule_payload['sequence'] + rule_payload['unused'])
+
+            send_payload['hmac_sig'] = hmac.new(str(fw_key), msg=hex(int(send_payload['sig_string'],16)), digestmod=hashlib.sha256).hexdigest()
+
+            payload_array.append(send_payload)
+            vehicle.seq_counter = vehicle.seq_counter + 1
+            vehicle.save()
+
     # notify remote of pending file transfer
     transaction_id += 1
     try:
@@ -101,7 +165,8 @@ def notify_update(retry):
                            transaction_id = str(transaction_id),
                            timeout = int(retry.get_timeout_epoch()),
                            parameters = [{ u'package': package_name },
-                                         { u'payload': "ayyy_lmao" },
+                                         { u'payload': payload_array },
+                                         { u'num_prio': settings.RVI_CANFW_NUM_PRIO},
                                         ])
     except Exception as e:
         logger.error('%s: Cannot send request: %s', retry, e)
@@ -111,6 +176,6 @@ def notify_update(retry):
     logger.info('%s: Notified remote of pending file transfer.', retry)
     
     # done
-    set_status(retry, can_fw.models.Status.WAITING)
+    set_status(retry, can_fw.models.Status.SUCCESS)
     logger.info('%s: Completed Update.', retry)
     return True
