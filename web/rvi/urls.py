@@ -25,12 +25,12 @@ urlpatterns = patterns('',
     url(r'^tracking/', include('tracking.urls')),
     url(r'^sota/', include('sota.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
 
     url(r'^$', 'auth.views.login_user'),
     url(r'^login/$', 'auth.views.login_user'),
     url(r'^history/$', 'servicehistory.views.history', name='history'),
     url(r'^keys/$', 'ownerportal.views.keys', name='keys'),
+    url(r'^logout/$', 'auth.views.logout_user', name='logout'),
     # url(r'^logout/$', admin.auth.logout),
     # for now redirect root to admin
     #url(r'^', include(admin.site.urls)),

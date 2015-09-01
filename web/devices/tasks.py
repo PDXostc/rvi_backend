@@ -132,6 +132,7 @@ def send_remote(remote):
                                             u'hazard': remote.rem_hazard,
                                             u'horn': remote.rem_horn
                                         },
+                                        # TODO implement guest account retrieval
                                         u'guests': [
                                             u'arodriguez', u'bjamal'
                                         ]

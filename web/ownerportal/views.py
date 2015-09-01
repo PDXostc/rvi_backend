@@ -27,6 +27,8 @@ def keys(request):
     device = Device.objects.filter()
     now = datetime.datetime.now()
     active_certificates = Remote.objects.filter(Q(rem_validto__gte=now)|Q(rem_validto=None)).order_by('-rem_validto')
+# TODO filter keys tied to the selected vehicle and only show "friend" accounts of the owner
+# Presently, showing all keys
 #   active_certificates.filter(~Q(rem_device=rem_vehicle.list_account()))
 #   .filter(~Q(rem_device.dev_owner = rem_vehicle))
     expired_certificates = Remote.objects.filter(Q(rem_validto__lt=now))

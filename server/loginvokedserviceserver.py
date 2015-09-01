@@ -8,7 +8,7 @@ Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
 
 """
 Author = David Thiriez
-Remote (certificate) services.
+Log invoked services.
 """
 
 import os, threading, base64
@@ -16,6 +16,14 @@ import time
 from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
+from dateutil import parser
+
+from django.contrib.auth.models import User
+from vehicles.models import Vehicle
+from servicehistory.models import ServiceInvokedHistory
+
+import urllib
+from bs4 import BeautifulSoup
 
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
@@ -23,6 +31,7 @@ from __init__ import __RVI_LOGGER__ as rvi_logger
 
 # globals
 package_queue = Queue.Queue()
+SERVER_NAME = "Log Invoked Service Server: "
 
 
 # Log Invoked Service Callback Server
@@ -48,8 +57,7 @@ class LogInvokedServicesServer(threading.Thread):
         # register services with RVI framework
         result = self.service_edge.register_service(service = self.service_id+'/report/serviceinvoked',
                                                network_address = self.callback_url)
-        rvi_logger.info('Log Invoked Services Service Registration: '
-                        'Create new Log Invoked Services service name: %s', result['service'])
+        rvi_logger.info(SERVER_NAME + 'Registration: %s', result['service'])
 
     def run(self):
         self.localServer.serve_forever()
@@ -59,13 +67,66 @@ class LogInvokedServicesServer(threading.Thread):
 
 
 # Callback functions
-def log_invoked_service(username, vehicleVIN, latitude, longitude, timestamp):
-    rvi_logger.info('Remote (Certificate) Server: Create new remote request: '
+def log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
+    rvi_logger.info(SERVER_NAME + 'Create new remote request: '
                     'username: %s\n'
                     'vehicleVIN: %s\n'
+                    'service: %s\n'
                     'latitude: %s\n'
                     'longitude: %s\n'
                     'timestamp: %s\n'
-                    , username, vehicleVIN, latitude, longitude, timestamp)
+                    , username, vehicleVIN, service, latitude, longitude, timestamp)
+    try:
+        serviceinvoked = validate_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp)
+    except Exception:
+        rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
+
+    rvi_logger.info(SERVER_NAME + 'Attempting to log the following service invoked record: %s', serviceinvoked)
+    serviceinvoked.save()
 
     return {u'status': 0}
+
+
+# Support functions
+def validate_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
+    try:
+        user = User.objects.get(username=username)
+        vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
+        service_timestamp = parser.parse(
+            str(timestamp).replace('T', ' ').replace('Z','+00:00')
+        )
+        # Reverse geocoding via screen scraping
+        sock = urllib.urlopen('http://nominatim.openstreetmap.org/search.php?q='+
+                              str(latitude) + '%2C+' + str(longitude))
+        html_source = sock.read()
+        sock.close()
+        soup = BeautifulSoup(html_source, 'html.parser')
+        address = soup.find_all("span", class_="name")[0].get_text()
+    except User.DoesNotExist:
+        rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
+        raise
+    except Vehicle.DoesNotExist:
+        rvi_logger.error(SERVER_NAME + 'VIN does not exist: %s', vehicleVIN)
+        raise
+    except urllib.HTTPError, e:
+        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPError: %s', e)
+        raise
+    except urllib.URLError, e:
+        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding URLError: %s', e)
+        raise
+    except urllib.HTTPException, e:
+        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPException: %s', e)
+        raise
+    except Exception as e:
+        rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
+        raise
+
+    return ServiceInvokedHistory(
+        hist_user = user,
+        hist_service = service,
+        hist_latitude = latitude,
+        hist_longitude = longitude,
+        hist_address = address,
+        hist_vehicle = vehicle,
+        hist_timestamp = service_timestamp
+    )

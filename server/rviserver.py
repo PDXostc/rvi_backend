@@ -28,7 +28,7 @@ import __init__
 from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
-from server.certificateservicesserver import CertificateServicesServer
+from server.devicemanagementserver import DeviceManagementServer
 from server.loginvokedserviceserver import LogInvokedServicesServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
@@ -141,49 +141,48 @@ class RVIServer(Daemon):
             rvi_logger.info('RVI Server: Tracking not enabled')
 
 
-        # Remote (certificate) Services Startup
+        # Backend Device Management Services Startup
         if conf['CERTIFICATE_SERVICES_ENABLE'] == True:
-            # log Remote (certificate) Services configuration
-            rvi_logger.info('RVI Server: Remote (certificate) Services Configuration: ' +
-                'RVI_CERTIFICATE_SERVICES_CALLBACK_URL: ' + conf['CERTIFICATE_SERVICES_CALLBACK_URL'] + ', ' +
-                'RVI_CERTIFICATE_SERVICES_SERVICE_ID: '   + conf['CERTIFICATE_SERVICES_CALLBACK_ID']
-                )
-            # start the Remote (certificate) Services callback server
+            # Backend Device Management Services configuration
+            rvi_logger.info('RVI Server: Backend Device Management Server Configuration: ' +
+                            'RVI_CERTIFICATE_SERVICES_CALLBACK_URL: ' + conf['CERTIFICATE_SERVICES_CALLBACK_URL'] +
+                            ', RVI_CERTIFICATE_SERVICES_SERVICE_ID: ' + conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                            )
+            # Start the Backend Device Management Services callback server
             try:
                 rvi_logger.info(
-                    'RVI Server: Starting Remote (certificate) Services Server on %s with service id %s.',
+                    'RVI Server: Starting Backend Device Management Server on %s with service id %s.',
                     conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
                     conf['CERTIFICATE_SERVICES_CALLBACK_ID']
                 )
-                self.certificate_services_cb = CertificateServicesServer(
+                self.certificate_services_cb = DeviceManagementServer(
                     self.rvi_service_edge,
                     conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
                     conf['CERTIFICATE_SERVICES_CALLBACK_ID']
                 )
                 self.certificate_services_cb.start()
-                rvi_logger.info('RVI Server: Remote (certificate) Services Callback Server started.')
+                rvi_logger.info('RVI Server: Backend Device Management Callback Server started.')
             except Exception as e:
-                rvi_logger.error('RVI Server: Cannot start Remote (certificate) Services Callback Server: %s', e)
+                rvi_logger.error('RVI Server: Cannot start Remote Backend Device Management Callback Server: %s', e)
                 sys.exit(1)
 
-            # wait for Remote (certificate) Services callback server to come up
+            # wait for Backend Device Management Services callback server to come up
             time.sleep(0.5)
-
         else:
-            rvi_logger.info('RVI Server: Remote (certificate) Services not enabled')
+            rvi_logger.info('RVI Server: Backend Device Management Server not enabled')
 
 
-        # Log Invoked Service Service Startup
+        # Log Invoked Service Startup
         if conf['LOG_INVOKED_SERVICES_ENABLE'] == True:
-            # log Log Invoked Services Service configuration
-            rvi_logger.info('RVI Server: Log Invoked Services Service Configuration: ' +
+            # Log Invoked Service configuration
+            rvi_logger.info('RVI Server: Log Invoked Service Configuration: ' +
                 'RVI_LOG_INVOKED_SERVICES_CALLBACK_URL: ' + conf['LOG_INVOKED_SERVICES_CALLBACK_URL'] + ', ' +
                 'RVI_LOG_INVOKED_SERVICES_CALLBACK_ID: '   + conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
                 )
-            # start the Log Invoked Services Service callback server
+            # Start the Log Invoked Service callback server
             try:
                 rvi_logger.info(
-                    'RVI Server: Starting Log Invoked Services Service Server on %s with service id %s.',
+                    'RVI Server: Starting Log Invoked Service Server on %s with service id %s.',
                     conf['LOG_INVOKED_SERVICES_CALLBACK_URL'],
                     conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
                 )
@@ -193,14 +192,13 @@ class RVIServer(Daemon):
                     conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
                 )
                 self.certificate_services_cb.start()
-                rvi_logger.info('RVI Server: Log Invoked Services Service Callback Server started.')
+                rvi_logger.info('RVI Server: Log Invoked Service Callback Server started.')
             except Exception as e:
-                rvi_logger.error('RVI Server: Cannot start Log Invoked Services Service Callback Server: %s', e)
+                rvi_logger.error('RVI Server: Cannot start Log Invoked Service Callback Server: %s', e)
                 sys.exit(1)
 
-            # wait for Log Invoked Services Service callback server to come up
+            # wait for Log Invoked Service callback server to come up
             time.sleep(0.5)
-
         else:
             rvi_logger.info('RVI Server: Log Invoked Services Service not enabled')
 

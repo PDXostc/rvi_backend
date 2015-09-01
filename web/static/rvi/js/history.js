@@ -57,7 +57,7 @@ $(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 }(jQuery));
 
-var map = L.map('map').setView([33.8361, -117.8897], 13);
+var map = L.map('map').setView([33.9921641,-118.0387523], 9);
 
 
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
@@ -68,4 +68,4 @@ var map = L.map('map').setView([33.8361, -117.8897], 13);
 			id: 'mapbox.streets'
 		}).addTo(map);
 
-var marker = L.marker([33.8361, -117.8897]).addTo(map);
+

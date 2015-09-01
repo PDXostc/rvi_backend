@@ -17,6 +17,7 @@ class ServiceInvokedHistory(models.Model):
     hist_service = models.CharField('Service Name', max_length=256)
     hist_latitude = models.FloatField('Latitude [deg]')
     hist_longitude = models.FloatField('Longitude [deg]')
+    hist_address = models.CharField('Address', max_length=256, default='Not Available')
     hist_vehicle = models.ForeignKey(Vehicle, verbose_name='Vehicle')
     hist_timestamp = models.DateTimeField('Timestamp', max_length=100)
 
