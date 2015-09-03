@@ -1060,7 +1060,9 @@ div#remote_set-group #recent-actions-module, div#remote_set-group .module.align
 .model-generallog,
 .model-package,
 .model-packagefw,
-.model-rule {
+.model-rule,
+.model-device,
+.model-canfwkey {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
