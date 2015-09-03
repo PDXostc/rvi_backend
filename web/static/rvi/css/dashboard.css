@@ -1058,7 +1058,9 @@ div#remote_set-group #recent-actions-module, div#remote_set-group .module.align
 
 .model-group,
 .model-generallog,
-.model-package {
+.model-package,
+.model-packagefw,
+.model-rule {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
