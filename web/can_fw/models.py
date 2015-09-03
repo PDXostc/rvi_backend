@@ -30,11 +30,11 @@ class Operator:
     """
     Operator for rules
     """
-    SET = "SE"
-    AND = "AN"
-    OR = "OR"
-    XOR = "XO"
-    INV = "IN"
+    SET = "0"
+    AND = "1"
+    OR = "2"
+    XOR = "3"
+    INV = "4"
 
 
 class Status:
