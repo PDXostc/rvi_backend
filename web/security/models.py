@@ -8,8 +8,10 @@ Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 Rudolf Streif (rstreif@jaguarlandrover.com) 
 """
 
+import string
 import hashlib
 import jwt
+import random
 from django.utils.functional import lazy
 from django.db import models
 from django.utils import timezone
@@ -20,6 +22,11 @@ from cryptography.hazmat.primitives.serialization import load_pem_public_key, lo
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from base64 import urlsafe_b64encode
 
+N = 40
+string_param = string.ascii_letters + string.digits + string.punctuation
+
+def key_gen(size=N, chars=string_param):
+    return ''.join(random.SystemRandom().choice(chars) for _ in range(size))
 
 class JSONWebKey(models.Model):
     """
@@ -222,9 +229,37 @@ class JSONWebKey(models.Model):
         return urlsafe_b64encode(s.decode('hex'))
         
     class Meta:
-        verbose_name = 'Key'
-        verbose_name_plural = 'Keys'
+        verbose_name = 'RVI Key'
+        verbose_name_plural = 'RVI Keys'
 
+
+class CANFWKey(models.Model):
+    """
+    CAN Firewall Key will automatically generate a random symetrical 40 character string that will be used with sha256
+    and HMAC to sign our messages. 
+    """
+    
+    def __init__(self, *args, **kwargs):
+        super(CANFWKey, self).__init__(*args, **kwargs)
+
+
+    def get_name(self):
+        if self.key_name:
+           return self.key_name
+        else:
+           return self.key_gen
+        
+    def __unicode__(self):
+        return  self.get_name()
+
+    class Meta:
+        verbose_name = 'CAN FW Key'
+        verbose_name_plural = 'CAN FW Keys'
+
+    key_name = models.CharField('Key Name', max_length=256, null=True, blank=True)
+    key_created = models.DateTimeField(auto_now_add=True, editable=False)
+    key_updated = models.DateTimeField(auto_now=True, editable=False)
+    symm_key = models.TextField('Random Key String', null=True, default=key_gen)
         
 class KeyTypeException(Exception):
     def __init__(self, value):
