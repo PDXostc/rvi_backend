@@ -52,6 +52,7 @@ class Vehicle(Account):
                                   default=RVIStatus.OFFLINE)
     veh_key = models.OneToOneField(JSONWebKey, verbose_name = 'Key', null=True)
     canfw_key = models.OneToOneField(CANFWKey, verbose_name = 'FW_Key', null=True)
+    seq_counter = models.IntegerField('Sequence Counter', editable=False, default=0)
 
 
     @property
