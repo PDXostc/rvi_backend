@@ -11,7 +11,7 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 from __future__ import absolute_import
 
 import sys, os, logging, time, jsonrpclib, base64
-import Queue
+import Queue, json
 
 from urlparse import urlparse
 
@@ -19,8 +19,8 @@ from django.conf import settings
 
 from django.contrib.auth.models import User, Group
 
-# import devices.models
-# from vehicles.models import Vehicle
+from devices.models import Device, Remote
+from vehicles.models import Vehicle
 
 
 # Logging setup
@@ -144,3 +144,109 @@ def send_remote(remote):
 
     logger.info('%s: Sent Certificate.', remote)
     return True
+
+
+def send_all_requested_remotes(vehicleVIN, deviceUUID):
+    """
+
+    """
+
+    logger.info('%s: Sending all Remotes by VIN.', vehicleVIN)
+
+    global transaction_id
+
+    # get settings
+    # service edge url
+    try:
+        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
+    except NameError:
+        logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', vehicleVIN)
+        return False
+
+    # DM service id
+    try:
+        rvi_service_id = settings.RVI_DM_SERVICE_ID
+    except NameError:
+        rvi_service_id = '/dm'
+
+    # Signature algorithm
+    try:
+        alg = settings.RVI_BACKEND_ALG_SIG
+    except NameError:
+        alg = 'RS256'
+
+    # Server Key
+    try:
+        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
+        key = keyfile.read()
+    except Exception as e:
+        logger.error('%s: Cannot read server key: %s', vehicleVIN, e)
+        return False
+
+    # establish outgoing RVI service edge connection
+    rvi_server = None
+    logger.info('%s: Establishing RVI service edge connection: %s', vehicleVIN, rvi_service_url)
+    try:
+        rvi_server = jsonrpclib.Server(rvi_service_url)
+    except Exception as e:
+        logger.error('%s: Cannot connect to RVI service edge: %s', vehicleVIN, e)
+        return False
+    # TODO JSONRPC is throwing an error for the log below, ProtocolError: (-32700, u'json error')
+    # Commented out log message due to error mentioned above. However, the server connection still appears to work
+    # logger.info('%s: Established connection to RVI Service Edge: %s', vehicleVIN, rvi_server)
+
+    # get destination info
+    mobile = Device.objects.get(dev_uuid=deviceUUID)
+    dst_url = mobile.get_rvi_id()
+
+    # get user info
+    vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
+    user = User.objects.get(id=mobile.account_id)
+
+    certificates = []
+    for remote in Remote.objects.filter(rem_vehicle_id = vehicle.veh_key_id):
+
+        mobile = remote.rem_device
+        user = User.objects.get(id=mobile.account_id)
+
+        valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+        valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+
+        certificate = {}
+        certificate[u'certid'] = remote.rem_uuid
+        certificate[u'username'] = user.username
+        certificate[u'authorizedServices'] = {
+            u'lock': remote.rem_lock,
+            u'engine': remote.rem_engine,
+            u'trunk': remote.rem_trunk,
+            u'windows': remote.rem_windows,
+            u'lights': remote.rem_lights,
+            u'hazard': remote.rem_hazard,
+            u'horn': remote.rem_horn
+        }
+        certificate[u'validFrom'] = valid_from
+        certificate[u'ValidTo'] = valid_to
+        certificates.append(certificate)
+
+    message = {}
+    message[u'certificates'] = certificates
+
+    # notify remote of pending file transfer
+    try:
+        rvi_server.message(calling_service = rvi_service_id,
+                       service_name = dst_url + rvi_service_id + '/cert_response',
+                       transaction_id = str(transaction_id),
+                       timeout = int(time.time()) + 5000,
+                       parameters = json.dumps(message))
+    except Exception as e:
+        logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
+        return False
+
+    logger.info('%s: Sent list of all remotes.', remote)
+    return True
+
+def boolean_to_string(boolean_value):
+    if boolean_value:
+        return 'True'
+    else:
+        return 'False'

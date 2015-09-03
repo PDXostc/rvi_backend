@@ -17,7 +17,7 @@ import datetime
 from dateutil import parser
 from devices.models import Device, Remote
 from vehicles.models import Vehicle
-from devices.tasks import send_remote
+from devices.tasks import send_remote, send_all_requested_remotes
 from django.contrib.auth.models import User
 
 from urlparse import urlparse
@@ -135,7 +135,7 @@ def modify_remote(certid, authorizedServices, validFrom, validTo):
     return {u'status': 0}
 
 
-def requestall_remote(vehicleVIN):
+def requestall_remote(vehicleVIN, mobileUUID):
     rvi_logger.info(SERVER_NAME + 'Remote (Certificate) request to send all by VIN: \n'
                     'vehicleVIN: %s',
                     vehicleVIN)
@@ -146,32 +146,12 @@ def requestall_remote(vehicleVIN):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    certificates = []
-    for remote in Remote.objects.filter(rem_vehicle_id = vehicle.veh_key_id):
-
-        mobile = remote.rem_device
-        user = User.objects.get(id=mobile.account_id)
-
-        certificate = {}
-        certificate['certid'] = remote.rem_uuid
-        certificate['username'] = user.username
-        certificate['authorizedServices'] = {
-            u'lock': remote.rem_lock,
-            u'engine': remote.rem_engine,
-            u'trunk': remote.rem_trunk,
-            u'windows': remote.rem_windows,
-            u'lights': remote.rem_lights,
-            u'hazard': remote.rem_hazard,
-            u'horn': remote.rem_horn
-        }
-        certificate['validFrom'] = str(remote.rem_validfrom)
-        certificate['ValidTo'] = str(remote.rem_validto)
-        rvi_logger.info("Tied to queried VIN %s: %s", vehicleVIN, certificate)
+    send_all_requested_remotes(vehicleVIN, mobileUUID)
 
     return {u'status': 0}
 
 
-# Support functions
+# Validation functions
 def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
     try:
         device = Device.objects.get(dev_owner=username)
@@ -221,7 +201,7 @@ def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
             str(validTo).replace('T', ' ').replace('Z','+00:00')
         )
     except Remote.DoesNotExist:
-        rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
+        rvi_logger.error(SERVER_NAME + 'remote does not exist: %s', certid)
         raise
     except Exception as e:
         rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
@@ -246,119 +226,3 @@ def validate_requestall_remote(vehicleVIN):
         raise
 
     return vehicle
-
-
-def send_remote(remote):
-    """
-    Notify destination, typically a vehicle, of a pending software
-    update.
-    :param retry: sota.models.Retry object
-    """
-
-    logger.info('%s: Sending Remote.', remote)
-
-    global transaction_id
-
-    # get settings
-    # service edge url
-    try:
-        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
-    except NameError:
-        logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', remote)
-        return False
-
-    # DM service id
-    try:
-        rvi_service_id = settings.RVI_DM_SERVICE_ID
-    except NameError:
-        rvi_service_id = '/dm'
-
-    # Signature algorithm
-    try:
-        alg = settings.RVI_BACKEND_ALG_SIG
-    except NameError:
-        alg = 'RS256'
-
-    # Server Key
-    try:
-        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
-        key = keyfile.read()
-    except Exception as e:
-        logger.error('%s: Cannot read server key: %s', remote, e)
-        return False
-
-    # Create and sign certificate
-    try:
-        cert = remote.encode_jwt(key, alg)
-    except Exception as e:
-        logger.error('%s: Cannot create and sign certificate: %s', remote, e)
-        return False
-
-    # establish outgoing RVI service edge connection
-    rvi_server = None
-    logger.info('%s: Establishing RVI service edge connection: %s', remote, rvi_service_url)
-    try:
-        rvi_server = jsonrpclib.Server(rvi_service_url)
-    except Exception as e:
-        logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
-        return False
-    logger.info('%s: Established connection to RVI Service Edge: %s', remote, rvi_server)
-
-    # get destination info
-    mobile = remote.rem_device
-    dst_url = mobile.get_rvi_id()
-
-    # get user info
-    user = User.objects.get(id=mobile.account_id)
-    vehicle = remote.rem_vehicle
-
-    if vehicle.list_account() == user.username:
-        user_type = 'owner'
-    else:
-        user_type = 'guest'
-
-    if remote.rem_name == 'remote_videodemo_owner':
-        user_type = 'owner'
-    elif remote.rem_name == 'remote_videodemo_guest':
-        user_type = 'guest'
-
-    valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
-    valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
-
-    # notify remote of pending file transfer
-    transaction_id += 1
-    try:
-        rvi_server.message(calling_service = rvi_service_id,
-                       service_name = dst_url + rvi_service_id + '/cert_provision',
-                       transaction_id = str(transaction_id),
-                       timeout = int(time.time()) + 5000,
-                       parameters = [{ u'certid': remote.rem_uuid },
-                                     { u'certificate': cert },
-                                     {
-                                        u'username': user.username,
-                                        u'userType': user_type,
-                                        u'vehicleName': vehicle.veh_name,
-                                        u'vehicleVIN': vehicle.veh_vin,
-                                        u'validFrom': valid_from,
-                                        u'validTo': valid_to,
-                                        u'authorizedServices': {
-                                            u'lock': remote.rem_lock,
-                                            u'engine': remote.rem_engine,
-                                            u'trunk': remote.rem_trunk,
-                                            u'windows': remote.rem_windows,
-                                            u'lights': remote.rem_lights,
-                                            u'hazard': remote.rem_hazard,
-                                            u'horn': remote.rem_horn
-                                        },
-                                        # TODO implement guest account retrieval
-                                        u'guests': [
-                                            u'arodriguez', u'bjamal'
-                                        ]
-                                     },
-                                    ])
-    except Exception as e:
-        logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
-        return False
-
-    logger.info('%s: Sent Certificate.', remote)
-    return True
