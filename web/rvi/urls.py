@@ -10,7 +10,6 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 
 from django.conf import settings
 from django.conf.urls import patterns, include, url
-from django.views.generic import RedirectView
 from django.contrib import admin
 
 admin.autodiscover()
@@ -22,18 +21,19 @@ urlpatterns = patterns('',
 
     (r'', include('tokenapi.urls')),
 
+    url(r'^admin/', admin.site.urls),
+
     url(r'^tracking/', include('tracking.urls')),
     url(r'^sota/', include('sota.urls')),
-    url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'auth.views.login_user'),
     url(r'^login/$', 'auth.views.login_user'),
     url(r'^history/$', 'servicehistory.views.history', name='history'),
     url(r'^keys/$', 'ownerportal.views.keys', name='keys'),
     url(r'^logout/$', 'auth.views.logout_user', name='logout'),
-    # url(r'^logout/$', admin.auth.logout),
-    # for now redirect root to admin
-    #url(r'^', include(admin.site.urls)),
+
+    url(r'^admin/$', 'rvi.views.dashboard', name='rvi_dashboard'),
+    # redirect root to owner portal login
+    url(r'^$', 'auth.views.login_user'),
                        )
 
 # uploaded files
