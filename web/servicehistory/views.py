@@ -15,12 +15,8 @@ def history(request):
 
     # TODO retrieve history based on vehicle tied to owner
     # Presently returning all history
-    retrieval_amount = 10
-    last_invoked = ServiceInvokedHistory.objects.all()[:retrieval_amount]
-    # .order_by('-hist_timestamp')
-
-
-
+    retrieval_amount = 8
+    last_invoked = ServiceInvokedHistory.objects.all().order_by('-hist_timestamp')[:retrieval_amount]
 
     context = RequestContext(request, {
         'title': 'History',

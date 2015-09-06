@@ -52,7 +52,7 @@ class DeviceManagementServer(threading.Thread):
         # register callback functions with RPC server
         self.localServer.register_function(create_remote, self.service_id + "/cert_create")
         self.localServer.register_function(modify_remote, self.service_id + "/cert_modify")
-        self.localServer.register_function(requestall_remote, self.service_id + "/cert_requesteall")
+        self.localServer.register_function(requestall_remote, self.service_id + "/cert_requestall")
 
         # register services with RVI framework
         result = self.service_edge.register_service(service = self.service_id+'/cert_create',
@@ -65,7 +65,7 @@ class DeviceManagementServer(threading.Thread):
         rvi_logger.info(SERVER_NAME + 'Registration: '
                         'Modify service name: %s', result['service'])
 
-        result = self.service_edge.register_service(service = self.service_id+'/cert_requesteall',
+        result = self.service_edge.register_service(service = self.service_id+'/cert_requestall',
                                                network_address = self.callback_url)
         rvi_logger.info(SERVER_NAME + 'Registration: '
                         'Retrieve all existing service name: %s', result['service'])
@@ -92,12 +92,13 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    rvi_logger.info(SERVER_NAME + 'Attempting to create remote')
-    if not Remote.objects.filter(rem_name = remote.rem_name).exists():
-        remote.save()
-    else:
-        rvi_logger.exception(SERVER_NAME + 'Remote with name %s already exists', remote.get_name())
-        return {u'status': 0}
+    if Remote.objects.filter(rem_name = remote.rem_name).exists():
+        Remote.objects.filter(rem_name = remote.rem_name).delete()
+        rvi_logger.exception(SERVER_NAME + 'Existing remote, %s, deleted', remote.get_name())
+
+    remote.save()
+
+    rvi_logger.info(SERVER_NAME + 'Remote created')
 
     result = send_remote(remote)
     if result:
@@ -122,8 +123,8 @@ def modify_remote(certid, authorizedServices, validFrom, validTo):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    rvi_logger.info(SERVER_NAME + 'Attempting to update remote')
     remote.save(update_fields=['rem_validfrom', 'rem_validto', 'rem_lock', 'rem_engine'])
+    rvi_logger.info(SERVER_NAME + 'Remote updated')
 
     result = send_remote(remote)
 
@@ -137,11 +138,12 @@ def modify_remote(certid, authorizedServices, validFrom, validTo):
 
 def requestall_remote(vehicleVIN, mobileUUID):
     rvi_logger.info(SERVER_NAME + 'Remote (Certificate) request to send all by VIN: \n'
-                    'vehicleVIN: %s',
-                    vehicleVIN)
+                    'vehicleVIN: %s\n'
+                    'mobileUUID: %s',
+                    vehicleVIN, mobileUUID)
 
     try:
-        vehicle = validate_requestall_remote(vehicleVIN)
+        validate_requestall_remote(vehicleVIN, mobileUUID)
     except Exception:
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
@@ -178,8 +180,8 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
 
     return Remote(
         rem_name = 'remote_' + str(username),
-        rem_device_id = device.dev_key_id,
-        rem_vehicle_id = vehicle.veh_key_id,
+        rem_device = device,
+        rem_vehicle = vehicle,
         rem_validfrom = validFrom,
         rem_validto = validTo,
         rem_lock = lock,
@@ -215,14 +217,18 @@ def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
     return remote
 
 
-def validate_requestall_remote(vehicleVIN):
+def validate_requestall_remote(vehicleVIN, mobileUUID):
     try:
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
+        mobile = Device.objects.get(dev_uuid=mobileUUID)
     except Vehicle.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'VIN does not exist: %s', vehicleVIN)
+        raise
+    except Device.DoesNotExist:
+        rvi_logger.error(SERVER_NAME + 'Device does not exist: %s', mobileUUID)
         raise
     except Exception as e:
         rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
         raise
 
-    return vehicle
+    return True

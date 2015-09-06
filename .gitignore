@@ -56,3 +56,7 @@ target/
 # Changes via AFP
 .AppleDouble
 .DS_Store
+
+# PyCharm
+.idea
+.idea/

@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 from vehicles.models import Vehicle
 from servicehistory.models import ServiceInvokedHistory
 
-import urllib
+import urllib2
 from bs4 import BeautifulSoup
 
 import __init__
@@ -81,8 +81,9 @@ def log_invoked_service(username, vehicleVIN, service, latitude, longitude, time
     except Exception:
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
 
-    rvi_logger.info(SERVER_NAME + 'Attempting to log the following service invoked record: %s', serviceinvoked)
     serviceinvoked.save()
+
+    rvi_logger.info(SERVER_NAME + 'Saved log of the following service invoked record: %s', serviceinvoked)
 
     return {u'status': 0}
 
@@ -96,11 +97,9 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
             str(timestamp).replace('T', ' ').replace('Z','+00:00')
         )
         # Reverse geocoding via screen scraping
-        sock = urllib.urlopen('http://nominatim.openstreetmap.org/search.php?q='+
-                              str(latitude) + '%2C+' + str(longitude))
-        html_source = sock.read()
-        sock.close()
-        soup = BeautifulSoup(html_source, 'html.parser')
+        url = 'http://nominatim.openstreetmap.org/search.php?q=' + str(latitude) + '%2C+' + str(longitude)
+        page = urllib2.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
         address = soup.find_all("span", class_="name")[0].get_text()
     except User.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
@@ -108,13 +107,10 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
     except Vehicle.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'VIN does not exist: %s', vehicleVIN)
         raise
-    except urllib.HTTPError, e:
-        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPError: %s', e)
-        raise
-    except urllib.URLError, e:
+    except urllib2.URLError, e:
         rvi_logger.error(SERVER_NAME + 'Reverse Geocoding URLError: %s', e)
         raise
-    except urllib.HTTPException, e:
+    except urllib2.HTTPError, e:
         rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPException: %s', e)
         raise
     except Exception as e:
