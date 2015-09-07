@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b49d45b4-16dd-495a-bf59-34efe41c59d0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/servicehistory/migrations/0001_initial.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/servicehistory/migrations/0002_auto_20150828_1953.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/servicehistory/migrations/0003_serviceinvokedhistory_hist_address.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/devices/migrations/0011_auto_20150901_1847.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/rvi-backend" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/start_rvi_backend.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/stop_rvi_backend.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/devicemanagementserver.py" afterPath="$PROJECT_DIR$/server/devicemanagementserver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/loginvokedserviceserver.py" afterPath="$PROJECT_DIR$/server/loginvokedserviceserver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rvi-backend" afterPath="$PROJECT_DIR$/rvi-backend" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start_rvi_backend.sh" afterPath="$PROJECT_DIR$/start_rvi_backend.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stop_rvi_backend.sh" afterPath="$PROJECT_DIR$/stop_rvi_backend.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/devices/tasks.py" afterPath="$PROJECT_DIR$/web/devices/tasks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/servicehistory/views.py" afterPath="$PROJECT_DIR$/web/servicehistory/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rvi_backend.iws" />
@@ -39,7 +32,7 @@
         <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="222" column="11" selection-start-line="222" selection-start-column="11" selection-end-line="222" selection-end-column="11" />
+              <caret line="179" column="50" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
               <folding>
                 <element signature="e#372#400#0" expanded="true" />
               </folding>
@@ -47,21 +40,53 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rvi-backend" pinned="false" current-in-tab="true">
+      <file leaf-file-name="trackingserver.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/trackingserver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rviserver.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/rviserver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sotaserver.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/sotaserver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.333333">
+              <caret line="120" column="14" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="14" />
+              <folding>
+                <element signature="e#339#367#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rvi-backend" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rvi-backend">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6866953">
+            <state vertical-scroll-proportion="0.0">
               <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start_rvi_backend.sh" pinned="false" current-in-tab="false">
+      <file leaf-file-name="start_rvi_backend.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/start_rvi_backend.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.39045554">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -71,7 +96,7 @@
         <entry file="file://$PROJECT_DIR$/stop_rvi_backend.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -87,46 +112,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loginvokedserviceserver.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="102" column="20" selection-start-line="102" selection-start-column="20" selection-end-line="102" selection-end-column="20" />
-              <folding>
-                <element signature="e#343#371#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/devices/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="210" column="56" selection-start-line="210" selection-start-column="47" selection-end-line="210" selection-end-column="56" />
+              <caret line="202" column="12" selection-start-line="202" selection-start-column="12" selection-end-line="202" selection-end-column="12" />
               <folding>
                 <element signature="e#279#317#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/devices/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/devices/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -135,7 +128,7 @@
         <entry file="file://$PROJECT_DIR$/web/devices/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="55" column="14" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="14" />
+              <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -190,12 +183,12 @@
         <option value="$PROJECT_DIR$/web/rvi/templates/rvi/home.html" />
         <option value="$PROJECT_DIR$/log/rvibackend.log" />
         <option value="$PROJECT_DIR$/web/servicehistory/views.py" />
-        <option value="$PROJECT_DIR$/web/devices/tasks.py" />
-        <option value="$PROJECT_DIR$/server/devicemanagementserver.py" />
         <option value="$PROJECT_DIR$/start_rvi_backend.sh" />
         <option value="$PROJECT_DIR$/stop_rvi_backend.sh" />
         <option value="$PROJECT_DIR$/server/loginvokedserviceserver.py" />
         <option value="$PROJECT_DIR$/rvi-backend" />
+        <option value="$PROJECT_DIR$/web/devices/tasks.py" />
+        <option value="$PROJECT_DIR$/server/devicemanagementserver.py" />
       </list>
     </option>
   </component>
@@ -229,8 +222,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -523,7 +516,13 @@
       <option name="project" value="LOCAL" />
       <updated>1441312567457</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="rvi-backend&#10;Scripts added for backend server development mode. &#10;&#10;server .py files&#10;Updates made for bugs and functionality of device management and log invoked service servers&#10;&#10;migrations&#10;New migrations for service history and device model changes">
+      <created>1441502378096</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1441502378096</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -537,27 +536,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32737276" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32737276" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -580,7 +579,8 @@
     <MESSAGE value="Fixing admin portal access. rvi_dashboard reference was broken." />
     <MESSAGE value="Send all requested remotes tested on development (LAN) setup. Able to send all active keys to device if requested. vehicleVIN and mobileUUID are required." />
     <MESSAGE value="rvi-backend&#10;Scripts added for backend server development mode. &#10;&#10;server .py files&#10;Updates made for bugs and functionality of device management and log invoked service servers&#10;&#10;migrations&#10;New migrations for service history and device model changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="rvi-backend&#10;Scripts added for backend server development mode. &#10;&#10;server .py files&#10;Updates made for bugs and functionality of device management and log invoked service servers&#10;&#10;migrations&#10;New migrations for service history and device model changes" />
+    <MESSAGE value="rvi-backend&#10;Scripts updated for backend server development mode. &#10;&#10;tasks .py files&#10;Updates made for bugs and functionality of send all requested remotes&#10;&#10;devicemanagementserver.py&#10;Updated to use threads. Updates for bug fixes." />
+    <option name="LAST_COMMIT_MESSAGE" value="rvi-backend&#10;Scripts updated for backend server development mode. &#10;&#10;tasks .py files&#10;Updates made for bugs and functionality of send all requested remotes&#10;&#10;devicemanagementserver.py&#10;Updated to use threads. Updates for bug fixes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -595,20 +595,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/templates/rvi/bootstrap.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.2173915">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/static/admin/css/base.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/vehicles/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -669,13 +655,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/rviserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -893,40 +872,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/devices/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="14" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="222" column="11" selection-start-line="222" selection-start-column="11" selection-end-line="222" selection-end-column="11" />
-          <folding>
-            <element signature="e#372#400#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="102" column="20" selection-start-line="102" selection-start-column="20" selection-end-line="102" selection-end-column="20" />
           <folding>
             <element signature="e#343#371#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/devices/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="210" column="56" selection-start-line="210" selection-start-column="47" selection-end-line="210" selection-end-column="56" />
-          <folding>
-            <element signature="e#279#317#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -950,23 +901,77 @@
     <entry file="file://$PROJECT_DIR$/stop_rvi_backend.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/rviserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/sotaserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.333333">
+          <caret line="120" column="14" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="14" />
+          <folding>
+            <element signature="e#339#367#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/trackingserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/devices/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="202" column="12" selection-start-line="202" selection-start-column="12" selection-end-line="202" selection-end-column="12" />
+          <folding>
+            <element signature="e#279#317#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/devices/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="179" column="50" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
+          <folding>
+            <element signature="e#372#400#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rvi-backend">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/start_rvi_backend.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rvi-backend">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6866953">
-          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.39045554">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
           <folding />
         </state>
       </provider>

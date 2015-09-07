@@ -99,9 +99,9 @@ def send_remote(remote):
     else:
         user_type = 'guest'
 
-    if remote.rem_name == 'remote_videodemo_owner':
+    if 'test_owner' in remote.rem_name:
         user_type = 'owner'
-    elif remote.rem_name == 'remote_videodemo_guest':
+    elif 'test_guest' in remote.rem_name:
         user_type = 'guest'
 
     valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
@@ -148,7 +148,8 @@ def send_remote(remote):
 
 def send_all_requested_remotes(vehicleVIN, deviceUUID):
     """
-
+    Response for .../backend/dm/cert_requestall
+    This provides all certificates by vehicle VIN and Device UUID
     """
 
     logger.info('%s: Sending all Remotes by VIN.', vehicleVIN)
@@ -197,18 +198,16 @@ def send_all_requested_remotes(vehicleVIN, deviceUUID):
 
     # get destination info
     owner_mobile = Device.objects.get(dev_uuid=deviceUUID)
-    # owner = User.objects.get(id=owner_mobile.account_id)
     dst_url = owner_mobile.get_rvi_id()
 
     # get user info
     owner_vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
-    #user = User.objects.get(id=mobile.account_id)
 
     certificates = []
     for remote in Remote.objects.filter(rem_vehicle=owner_vehicle).exclude(rem_device=owner_mobile):
 
         mobile = remote.rem_device
-        user = User.objects.get(usename=mobile.dev_owner)
+        user = User.objects.get(username=mobile.dev_owner)
 
         valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
         valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'

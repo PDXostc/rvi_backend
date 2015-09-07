@@ -24,6 +24,7 @@ from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
 import json
+
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
 
@@ -92,19 +93,8 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    if Remote.objects.filter(rem_name = remote.rem_name).exists():
-        Remote.objects.filter(rem_name = remote.rem_name).delete()
-        rvi_logger.exception(SERVER_NAME + 'Existing remote, %s, deleted', remote.get_name())
-
-    remote.save()
-
-    rvi_logger.info(SERVER_NAME + 'Remote created')
-
-    result = send_remote(remote)
-    if result:
-        rvi_logger.info('Successfully Sent Remote: %s', remote.get_name())
-    else:
-        rvi_logger.error('Failed Sending Remote: %s', remote.get_name())
+    t1 = threading.Thread(target=thread_create_remote, args=(remote,))
+    t1.start()
 
     return {u'status': 0}
 
@@ -123,15 +113,8 @@ def modify_remote(certid, authorizedServices, validFrom, validTo):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    remote.save(update_fields=['rem_validfrom', 'rem_validto', 'rem_lock', 'rem_engine'])
-    rvi_logger.info(SERVER_NAME + 'Remote updated')
-
-    result = send_remote(remote)
-
-    if result:
-        rvi_logger.info('Sending Remote: %s - successful', remote.get_name())
-    else:
-        rvi_logger.error('Sending Remote: %s - failed', remote.get_name())
+    t1 = threading.Thread(target=thread_modify_remote, args=(remote,))
+    t1.start()
 
     return {u'status': 0}
 
@@ -148,9 +131,58 @@ def requestall_remote(vehicleVIN, mobileUUID):
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
         return {u'status': 0}
 
-    send_all_requested_remotes(vehicleVIN, mobileUUID)
+    t1 = threading.Thread(target=thread_requestall_remote, args=(vehicleVIN, mobileUUID,))
+    t1.start()
 
     return {u'status': 0}
+
+
+# Support (thread) functions
+def thread_create_remote(remote):
+    if Remote.objects.filter(rem_name = remote.rem_name).exists():
+        rvi_logger.warning(SERVER_NAME + 'Deleting existing remote, %s', remote.get_name())
+        Remote.objects.filter(rem_name = remote.rem_name).delete()
+
+    remote.save()
+
+    rvi_logger.info(SERVER_NAME + 'Remote created')
+
+    result = send_remote(remote)
+    if result:
+        rvi_logger.info('Successfully Sent Remote: %s', remote.get_name())
+    else:
+        rvi_logger.error('Failed Sending Remote: %s', remote.get_name())
+
+
+def thread_modify_remote(remote):
+    remote.save(update_fields=[
+        'rem_validfrom',
+        'rem_validto',
+        'rem_lock',
+        'rem_engine',
+        'rem_trunk',
+        'rem_windows',
+        'rem_lights',
+        'rem_hazard',
+        'rem_horn'
+    ])
+    rvi_logger.info(SERVER_NAME + 'Remote updated')
+
+    result = send_remote(remote)
+
+    if result:
+        rvi_logger.info('Sending Remote: %s - successful', remote.get_name())
+    else:
+        rvi_logger.error('Sending Remote: %s - failed', remote.get_name())
+
+    # Pseudo revoke. If all authorized services false, delete remote
+    if remote.rem_lock == remote.rem_engine == False:
+        rvi_logger.warning(SERVER_NAME + 'Deleting remote, %s', remote.get_name())
+        Remote.objects.filter(rem_name = remote.rem_name).delete()
+
+
+def thread_requestall_remote(vehicleVIN, mobileUUID):
+    send_all_requested_remotes(vehicleVIN, mobileUUID)
 
 
 # Validation functions
@@ -160,8 +192,14 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
         parsed_data = json.dumps(authorizedServices)
         services = json.loads(parsed_data)
-        engine = services[u'start']
-        lock = services[u'lock']
+        lock = is_authorized((services[0])[u'lock'])
+        start = is_authorized((services[1])[u'start'])
+        trunk = is_authorized((services[2])[u'trunk'])
+        windows = is_authorized((services[3])[u'windows'])
+        lights = is_authorized((services[4])[u'lights'])
+        hazard = is_authorized((services[5])[u'hazard'])
+        horn = is_authorized((services[6])[u'horn'])
+
         validFrom = parser.parse(
             str(validFrom).replace('T', ' ').replace('Z','+00:00')
         )
@@ -185,7 +223,12 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
         rem_validfrom = validFrom,
         rem_validto = validTo,
         rem_lock = lock,
-        rem_engine = engine
+        rem_engine = start,
+        rem_trunk = trunk,
+        rem_windows = windows,
+        rem_lights = lights,
+        rem_hazard = hazard,
+        rem_horn = horn
     )
 
 
@@ -194,8 +237,14 @@ def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
         remote = Remote.objects.get(rem_uuid=certid)
         parsed_data = json.dumps(authorizedServices)
         services = json.loads(parsed_data)
-        engine = int(services[u'start'] == u'true')
-        lock = int(services[u'lock'] == u'true')
+        lock = is_authorized((services[0])[u'lock'])
+        start = is_authorized((services[1])[u'start'])
+        trunk = is_authorized((services[2])[u'trunk'])
+        windows = is_authorized((services[3])[u'windows'])
+        lights = is_authorized((services[4])[u'lights'])
+        hazard = is_authorized((services[5])[u'hazard'])
+        horn = is_authorized((services[6])[u'horn'])
+
         validFrom = parser.parse(
             str(validFrom).replace('T', ' ').replace('Z','+00:00')
         )
@@ -212,15 +261,20 @@ def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
     remote.rem_validfrom = validFrom
     remote.rem_validto = validTo
     remote.rem_lock = lock
-    remote.rem_engine = engine
+    remote.rem_engine = start
+    remote.rem_trunk = trunk
+    remote.rem_windows = windows
+    remote.rem_lights = lights
+    remote.rem_hazard = hazard
+    remote.rem_horn = horn
 
     return remote
 
 
 def validate_requestall_remote(vehicleVIN, mobileUUID):
     try:
-        vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
-        mobile = Device.objects.get(dev_uuid=mobileUUID)
+        Vehicle.objects.get(veh_vin=vehicleVIN)
+        Device.objects.get(dev_uuid=mobileUUID)
     except Vehicle.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'VIN does not exist: %s', vehicleVIN)
         raise
@@ -232,3 +286,10 @@ def validate_requestall_remote(vehicleVIN, mobileUUID):
         raise
 
     return True
+
+
+def is_authorized(service):
+    if service == u'true':
+        return True
+    else:
+        return False
