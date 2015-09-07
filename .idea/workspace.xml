@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b49d45b4-16dd-495a-bf59-34efe41c59d0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/devicemanagementserver.py" afterPath="$PROJECT_DIR$/server/devicemanagementserver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rvi-backend" afterPath="$PROJECT_DIR$/rvi-backend" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start_rvi_backend.sh" afterPath="$PROJECT_DIR$/start_rvi_backend.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stop_rvi_backend.sh" afterPath="$PROJECT_DIR$/stop_rvi_backend.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/devices/tasks.py" afterPath="$PROJECT_DIR$/web/devices/tasks.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/loginvokedserviceserver.py" afterPath="$PROJECT_DIR$/server/loginvokedserviceserver.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rvi_backend.iws" />
@@ -32,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="179" column="50" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
+              <caret line="139" column="28" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="28" />
               <folding>
                 <element signature="e#372#400#0" expanded="true" />
               </folding>
@@ -82,10 +78,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start_rvi_backend.sh" pinned="false" current-in-tab="true">
+      <file leaf-file-name="loginvokedserviceserver.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="3.318872">
+              <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+              <folding>
+                <element signature="e#343#371#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="start_rvi_backend.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/start_rvi_backend.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39045554">
+            <state vertical-scroll-proportion="0.0">
               <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
               <folding />
             </state>
@@ -97,16 +105,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/servicehistory/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -185,10 +183,10 @@
         <option value="$PROJECT_DIR$/web/servicehistory/views.py" />
         <option value="$PROJECT_DIR$/start_rvi_backend.sh" />
         <option value="$PROJECT_DIR$/stop_rvi_backend.sh" />
-        <option value="$PROJECT_DIR$/server/loginvokedserviceserver.py" />
         <option value="$PROJECT_DIR$/rvi-backend" />
         <option value="$PROJECT_DIR$/web/devices/tasks.py" />
         <option value="$PROJECT_DIR$/server/devicemanagementserver.py" />
+        <option value="$PROJECT_DIR$/server/loginvokedserviceserver.py" />
       </list>
     </option>
   </component>
@@ -522,7 +520,13 @@
       <option name="project" value="LOCAL" />
       <updated>1441502378096</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="rvi-backend&#10;Scripts updated for backend server development mode. &#10;&#10;tasks .py files&#10;Updates made for bugs and functionality of send all requested remotes&#10;&#10;devicemanagementserver.py&#10;Updated to use threads. Updates for bug fixes.">
+      <created>1441607892740</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1441607892740</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -540,6 +544,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32737276" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -549,7 +554,6 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -872,16 +876,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="102" column="20" selection-start-line="102" selection-start-column="20" selection-end-line="102" selection-end-column="20" />
-          <folding>
-            <element signature="e#343#371#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/devices/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -950,16 +944,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="179" column="50" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
-          <folding>
-            <element signature="e#372#400#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rvi-backend">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -970,9 +954,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/start_rvi_backend.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39045554">
+        <state vertical-scroll-proportion="0.0">
           <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/devicemanagementserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="139" column="28" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="28" />
+          <folding>
+            <element signature="e#372#400#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.318872">
+          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding>
+            <element signature="e#343#371#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

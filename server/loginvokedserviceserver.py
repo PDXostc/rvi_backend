@@ -76,16 +76,29 @@ def log_invoked_service(username, vehicleVIN, service, latitude, longitude, time
                     'longitude: %s\n'
                     'timestamp: %s\n'
                     , username, vehicleVIN, service, latitude, longitude, timestamp)
+
+    t1 = threading.Thread(target=thread_log_invoked_service, args=(
+        username,
+        vehicleVIN,
+        service,
+        latitude,
+        longitude,
+        timestamp,
+    ))
+    t1.start()
+
+    return {u'status': 0}
+
+
+# Support (thread) functions
+def thread_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
     try:
         serviceinvoked = validate_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp)
     except Exception:
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
 
     serviceinvoked.save()
-
     rvi_logger.info(SERVER_NAME + 'Saved log of the following service invoked record: %s', serviceinvoked)
-
-    return {u'status': 0}
 
 
 # Support functions
