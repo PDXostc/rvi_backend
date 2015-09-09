@@ -90,6 +90,25 @@ def send_remote(remote):
     mobile = remote.rem_device
     dst_url = mobile.get_rvi_id()
 
+    valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+    valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+ 
+    # notify remote of pending file transfer
+    transaction_id += 1
+    try:
+        rvi_server.message(calling_service = rvi_service_id,
+                       service_name = dst_url + rvi_service_id + '/cert_provision',
+                       transaction_id = str(transaction_id),
+                       timeout = int(time.time()) + 5000,
+                       parameters = [{ u'certid': remote.rem_uuid },
+                                     { u'certificate': cert },
+                                    ])
+    except Exception as e:
+        logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
+        return False
+
+    logger.info('%s: Sent Certificate.', remote)
+
     # get user info
     user = User.objects.get(id=mobile.account_id)
     vehicle = remote.rem_vehicle
@@ -104,19 +123,12 @@ def send_remote(remote):
     elif 'test_guest' in remote.rem_name:
         user_type = 'guest'
 
-    valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
-    valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
- 
-    # notify remote of pending file transfer
-    transaction_id += 1
     try:
         rvi_server.message(calling_service = rvi_service_id,
-                       service_name = dst_url + rvi_service_id + '/cert_provision',
+                       service_name = dst_url + rvi_service_id + '/cert_accountdetails',
                        transaction_id = str(transaction_id),
                        timeout = int(time.time()) + 5000,
-                       parameters = [{ u'certid': remote.rem_uuid },
-                                     { u'certificate': cert },
-                                     {
+                       parameters = [{
                                         u'username': user.username,
                                         u'userType': user_type,
                                         u'vehicleName': vehicle.veh_name,
@@ -142,7 +154,9 @@ def send_remote(remote):
         logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
         return False
 
-    logger.info('%s: Sent Certificate.', remote)
+    logger.info('%s: Sent Account Details.', user.username)
+
+
     return True
 
 
