@@ -54,6 +54,10 @@ def get_settings():
         conf['LOG_INVOKED_SERVICES_CALLBACK_URL'] = get_setting("RVI_LOG_INVOKED_SERVICES_CALLBACK_URL")
         conf['LOG_INVOKED_SERVICES_CALLBACK_ID']   = get_setting("RVI_LOG_INVOKED_SERVICES_CALLBACK_ID", "/logging")
 
+        conf['INVOKE_SERVICES_ENABLE']       = get_setting("RVI_INVOKE_SERVICES_ENABLE", True)
+        conf['INVOKE_SERVICES_CALLBACK_URL'] = get_setting("RVI_INVOKE_SERVICES_CALLBACK_URL")
+        conf['INVOKE_SERVICES_CALLBACK_ID']   = get_setting("RVI_INVOKE_SERVICES_CALLBACK_ID", "/invoke")
+
         conf['TRACKING_DB_PUBLISH']   = get_setting("RVI_TRACKING_DB_PUBLISH", False)
 
         conf['TRACKING_MQ_PUBLISH']   = get_setting("RVI_TRACKING_MQ_PUBLISH", False)
