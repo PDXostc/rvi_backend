@@ -30,7 +30,7 @@ from __init__ import __RVI_LOGGER__ as rvi_logger
 # globals
 package_queue = Queue.Queue()
 SERVER_NAME = "Invoke Service Server: "
-
+transaction_id = 0
 
 # Log Invoked Service Callback Server
 class InvokeServicesServer(threading.Thread):
