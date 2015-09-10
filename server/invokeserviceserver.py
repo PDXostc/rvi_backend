@@ -87,9 +87,9 @@ def log_invoked_service(username, vehicleVIN, service, latitude, longitude):
 
 
 # Support (thread) functions
-def thread_invoke_service(username, vehicleVIN, service, latitude, longitude, timestamp):
+def thread_invoke_service(username, vehicleVIN, service, latitude, longitude):
     try:
-        validate_invoke_service(username, vehicleVIN, service, latitude, longitude, timestamp)
+        validate_invoke_service(username, vehicleVIN, service, latitude, longitude)
     except Exception:
         rvi_logger.exception(SERVER_NAME + 'Received data did not pass validation')
 

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b49d45b4-16dd-495a-bf59-34efe41c59d0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/rviserver.py" afterPath="$PROJECT_DIR$/server/rviserver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/invokeserviceserver.py" afterPath="$PROJECT_DIR$/server/invokeserviceserver.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="rvi_backend.iws" />
@@ -36,10 +36,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rviserver.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="rviserver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/rviserver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44206008">
+            <state vertical-scroll-proportion="0.0">
               <caret line="208" column="20" selection-start-line="208" selection-start-column="20" selection-end-line="208" selection-end-column="20" />
               <folding>
                 <element signature="e#405#440#0" expanded="true" />
@@ -62,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="107" selection-start-line="54" selection-start-column="107" selection-end-line="54" selection-end-column="107" />
+              <caret line="69" column="78" selection-start-line="69" selection-start-column="78" selection-end-line="69" selection-end-column="78" />
               <folding>
                 <element signature="e#343#371#0" expanded="true" />
               </folding>
@@ -70,11 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="invokeserviceserver.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="invokeserviceserver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/invokeserviceserver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.38626608">
+              <caret line="91" column="82" selection-start-line="91" selection-start-column="82" selection-end-line="91" selection-end-column="82" />
               <folding>
                 <element signature="e#353#385#0" expanded="true" />
               </folding>
@@ -191,6 +191,7 @@
         <option value="$PROJECT_DIR$/web/devices/tasks.py" />
         <option value="$PROJECT_DIR$/server/invokeservice.py" />
         <option value="$PROJECT_DIR$/server/rviserver.py" />
+        <option value="$PROJECT_DIR$/server/invokeserviceserver.py" />
       </list>
     </option>
   </component>
@@ -581,7 +582,13 @@
       <option name="project" value="LOCAL" />
       <updated>1441910591911</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="rviserver.py&#10;Added changes needed for serviceinvokeserver">
+      <created>1441911107994</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1441911107994</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -644,7 +651,8 @@
     <MESSAGE value="invokeservicesserver.py&#10;Added channel for mobile app to access RasPi's service functionality" />
     <MESSAGE value="invokeservicesserver.py wasn't previously stage for commit&#10;Added channel for mobile app to access RasPi's service functionality" />
     <MESSAGE value="invokeservicesserver.py wasn't previously staged for commit&#10;Added channel for mobile app to access RasPi's service functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="invokeservicesserver.py wasn't previously staged for commit&#10;Added channel for mobile app to access RasPi's service functionality" />
+    <MESSAGE value="rviserver.py&#10;Added changes needed for serviceinvokeserver" />
+    <option name="LAST_COMMIT_MESSAGE" value="rviserver.py&#10;Added changes needed for serviceinvokeserver" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -972,16 +980,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="107" selection-start-line="54" selection-start-column="107" selection-end-line="54" selection-end-column="107" />
-          <folding>
-            <element signature="e#343#371#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/devices/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1008,16 +1006,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/invokeserviceserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#353#385#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/settings/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1036,10 +1024,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/rviserver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44206008">
+        <state vertical-scroll-proportion="0.0">
           <caret line="208" column="20" selection-start-line="208" selection-start-column="20" selection-end-line="208" selection-end-column="20" />
           <folding>
             <element signature="e#405#440#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/loginvokedserviceserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="78" selection-start-line="69" selection-start-column="78" selection-end-line="69" selection-end-column="78" />
+          <folding>
+            <element signature="e#343#371#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/invokeserviceserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38626608">
+          <caret line="91" column="82" selection-start-line="91" selection-start-column="82" selection-end-line="91" selection-end-column="82" />
+          <folding>
+            <element signature="e#353#385#0" expanded="true" />
           </folding>
         </state>
       </provider>
