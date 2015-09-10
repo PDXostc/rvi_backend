@@ -30,6 +30,7 @@ from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
 from server.devicemanagementserver import DeviceManagementServer
 from server.loginvokedserviceserver import LogInvokedServicesServer
+from server.invokeserviceserver import InvokeServicesServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
 from server.utils import get_settings
@@ -201,6 +202,37 @@ class RVIServer(Daemon):
             time.sleep(0.5)
         else:
             rvi_logger.info('RVI Server: Log Invoked Services Service not enabled')
+
+
+        # Invoke Service Startup
+        if conf['INVOKE_SERVICES_ENABLE'] == True:
+            # Invoke Service configuration
+            rvi_logger.info('RVI Server: Log Invoked Service Configuration: ' +
+                'RVI_INVOKE_SERVICES_CALLBACK_URL: ' + conf['INVOKE_SERVICES_CALLBACK_URL'] + ', ' +
+                'RVI_INVOKE_SERVICES_CALLBACK_ID: '   + conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+            # Start the Invoke Service callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Invoke Service Server on %s with service id %s.',
+                    conf['INVOKE_SERVICES_CALLBACK_URL'],
+                    conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = InvokeServicesServer(
+                    self.rvi_service_edge,
+                    conf['INVOKE_SERVICES_CALLBACK_URL'],
+                    conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Invoke Service Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Invoke Service Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Invoke Service callback server to come up
+            time.sleep(0.5)
+        else:
+            rvi_logger.info('RVI Server: Invoke Services Service not enabled')
 
 
         # Publish to Kafka Message Queue
