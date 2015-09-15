@@ -216,5 +216,5 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
         rvi_logger.error('%s: Cannot connect to RVI service edge: %s', service, e)
         return False
 
-    rvi_logger.info('send_service_invoked_by_guest - %s by % on %s. Owner notified.', service, username, vehicleVIN)
+    rvi_logger.info('send_service_invoked_by_guest - %s by %s on %s. Owner notified.', service, username, vehicleVIN)
     return True
