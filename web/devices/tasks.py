@@ -109,6 +109,8 @@ def send_remote(remote):
 
     logger.info('%s: Sent Certificate.', remote)
 
+    time.sleep(2)
+
     # get user info
     user = User.objects.get(id=mobile.account_id)
     vehicle = remote.rem_vehicle

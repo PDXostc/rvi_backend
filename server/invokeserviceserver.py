@@ -116,11 +116,11 @@ def validate_invoke_service(username, vehicleVIN, service, latitude, longitude):
 
 def send_invoked_service(username, vehicleVIN, service, latitude, longitude):
     """
-    Response for .../backend/dm/cert_requestall
-    This provides all certificates by vehicle VIN and Device UUID
+    Response for .../backend/invoke/service
+    This provides a way to send service requests through the cloud
     """
 
-    rvi_logger.info('%s: Sending all Remotes by VIN.', vehicleVIN)
+    rvi_logger.info('%s: Sending %s service via backend.', vehicleVIN, service)
 
     global transaction_id
 

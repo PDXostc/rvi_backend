@@ -58,6 +58,4 @@ target/
 .DS_Store
 
 # PyCharm
-.idea
 .idea/
-workspace.xml

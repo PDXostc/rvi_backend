@@ -8,31 +8,9 @@
 {% load i18n %}
 
 {% block extra_site_head %}
-
-	<link href="{% static 'rvi/css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
-
-	<script type="text/javascript" src="{% static 'rvi/js/jquery-2.1.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/calendar.js' %}"></script>
-    <script type="text/javascript" src="{% static 'rvi/js/DateTimeShortcuts.js' %}"></script>
-	<script type="text/javascript" src="{% static 'rvi/js/jsi18n.js' %}"></script>
-	<script type="text/javascript" src="{% static 'rvi/js/actions.js' %}"></script>
-	<script type="text/javascript" src="{% static 'rvi/css/bootstrap-modified.css' %}"></script>
-
+	<link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet">
  	<link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
-
-
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
 
 {% block page_content %}
 <div class="container-keys">
@@ -42,16 +20,12 @@
 		<div class="panel panel-primary  ">
 			<div class="panel-heading ">
 				<h3 class="panel-title">RVI Active Keys</h3>
-				<div class="pull-right">
-					<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-						<i class="glyphicon glyphicon-filter"></i>
-					</span>
-				</div>
+
 			</div>
 			<div class="panel-body">
-				<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Active Keys" />
+				<input type="text" class="form-control"  />
 			</div>
-			<table class="table table-hover" id="dev-table">
+			<table class="table table-hover table-keys">
 				<thead>
 					<tr>
 						<th >User</th>
@@ -59,7 +33,6 @@
 						<th >Valid To</th>
 						<th >Lock/Unlock</th>
 						<th >Engine Start</th>
-						<th >Modify</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -82,7 +55,6 @@
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 							{% endif %}
 						</td>
-						<td><button type="button" class="btn btn-default">Edit</button></td>
 					</tr>
 				{% endfor %}
 
@@ -96,16 +68,12 @@
 		<div class="panel panel-primary ">
 			<div class="panel-heading ">
 				<h3 class="panel-title">RVI Expired Keys</h3>
-				<div class="pull-right">
-					<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-						<i class="glyphicon glyphicon-filter"></i>
-					</span>
-				</div>
+
 			</div>
 			<div class="panel-body">
-				<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Expired Keys" />
+				<input type="text" class="form-control"/>
 			</div>
-			<table class="table table-hover" id="dev-table">
+			<table class="table table-hover table-keys">
 				<thead>
 					<tr>
 						<th >User</th>
@@ -143,8 +111,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript" src="{% static 'rvi/js/history.js' %}"></script>
 
 {% endblock %}
 

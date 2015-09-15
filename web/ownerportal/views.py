@@ -24,14 +24,24 @@ def history(request):
 def keys(request):
     template = loader.get_template('rvi/keys.html')
 
-    device = Device.objects.filter()
+    owner = request.user
+    owner_devices = Device.objects.get(dev_owner=owner.username)
+
     now = datetime.datetime.now()
-    active_certificates = Remote.objects.filter(Q(rem_validto__gte=now)|Q(rem_validto=None)).order_by('-rem_validto')
+    active_certificates = Remote.objects.filter(
+        Q(rem_validto__gte=now)|
+        Q(rem_validto=None)|
+        ~Q(rem_device=owner_devices)
+    ).order_by('-rem_validto')
+
 # TODO filter keys tied to the selected vehicle and only show "friend" accounts of the owner
 # Presently, showing all keys
 #   active_certificates.filter(~Q(rem_device=rem_vehicle.list_account()))
 #   .filter(~Q(rem_device.dev_owner = rem_vehicle))
-    expired_certificates = Remote.objects.filter(Q(rem_validto__lt=now))
+    expired_certificates = Remote.objects.filter(
+        ~Q(rem_device=owner_devices)|
+        Q(rem_validto__lt=now)
+    )
 
     context = RequestContext(request, {
         'title': 'History',

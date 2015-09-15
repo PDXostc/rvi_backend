@@ -19,22 +19,24 @@
 
 {% block page_content %}
     <div class="container-history">
-            <div id="map" class="left-half"></div>
+            <div id="map" class="panel left-half"></div>
 
             <div class="col-md-6 table-row right-half">
                 <div class="panel panel-primary">
                     <div class="panel-heading ">
-                        <h3 class="panel-title">RVI Service History</h3>
+                        <h3 class="panel-title">Key History</h3>
+                        <!--
                         <div class="pull-right">
                             <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
                                 <i class="glyphicon glyphicon-filter"></i>
                             </span>
                         </div>
+                        -->
                     </div>
                     <div class="panel-body">
                         <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
                     </div>
-                    <table class="table table-hover" id="dev-table">
+                    <table class="table table-hover table-history" id="dev-table">
                         <thead>
                             <tr>
                                 <th >User</th>
@@ -47,10 +49,30 @@
 
                         {% for item in last_invoked %}
                             <tr>
-                                <td>{{ item.hist_user }}</td>
-                                <td>{{ item.hist_service }}</td>
-                                <td>{{ item.hist_timestamp }}</td>
-                                <td>{{ item.hist_address }}</td>
+                                <td>
+                                    <b>{{ item.hist_user }}</b>
+                                    {% if user != item.hist_user %}
+                                        <br>
+                                        (guest)
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.hist_service == 'Door Unlock' %}
+                                        <i class="icon-large icon-unlock"></i>
+                                    {% elif item.hist_service == 'Door Lock' %}
+                                        <i class="icon-large icon-lock"></i>
+                                    {% elif item.hist_service == 'Remote Start' %}
+                                        <i class="icon-large icon-power"></i>
+                                    {% elif item.hist_service == 'Remote Stop' %}
+                                        <i class="icon-large icon-ban"></i>
+                                    {% endif %}
+                                    <!--
+                                    <br>
+                                    {{ item.hist_service }}
+                                    -->
+                                </td>
+                                <td>{{ item.hist_timestamp|date:'m/d/Y h:i A' }}</td>
+                                <td>{{ item.hist_address|linebreaksbr }}</td>
                             </tr>
                         {% endfor %}
 

@@ -11,8 +11,9 @@ Author = David Thiriez
 Log invoked services.
 """
 
-import os, threading, base64
-import time
+from django.conf import settings
+import os, threading, base64, json
+import time, jsonrpclib
 from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
@@ -21,6 +22,7 @@ from dateutil import parser
 from django.contrib.auth.models import User
 from vehicles.models import Vehicle
 from servicehistory.models import ServiceInvokedHistory
+from devices.models import Device
 
 import urllib2
 from bs4 import BeautifulSoup
@@ -32,6 +34,7 @@ from __init__ import __RVI_LOGGER__ as rvi_logger
 # globals
 package_queue = Queue.Queue()
 SERVER_NAME = "Log Invoked Service Server: "
+transaction_id = 0
 
 
 # Log Invoked Service Callback Server
@@ -139,3 +142,77 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
         hist_vehicle = vehicle,
         hist_timestamp = service_timestamp
     )
+
+
+def send_service_invoked_by_guest(username, vehicleVIN, service):
+    """
+    Response for .../backend/logging/report/serviceinvoked
+    Communicates to .../{UUID}/report/serviceinvokedbyguest
+    This provides the owner phone a notification that a guest key has invoked a service
+    """
+
+    rvi_logger.info('%s: %s service executed by %s.', vehicleVIN, service, username)
+
+    global transaction_id
+
+    # get settings
+    # service edge url
+    try:
+        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
+    except NameError:
+        rvi_logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', vehicleVIN)
+        return False
+
+    # DM service id
+    rvi_service_id = '/report'
+
+    # Signature algorithm
+    try:
+        alg = settings.RVI_BACKEND_ALG_SIG
+    except NameError:
+        alg = 'RS256'
+
+    # Server Key
+    try:
+        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
+        key = keyfile.read()
+    except Exception as e:
+        rvi_logger.error('%s: Cannot read server key: %s', vehicleVIN, e)
+        return False
+
+    # establish outgoing RVI service edge connection
+    rvi_server = None
+    rvi_logger.info('%s: Establishing RVI service edge connection: %s', vehicleVIN, rvi_service_url)
+    try:
+        rvi_server = jsonrpclib.Server(rvi_service_url)
+    except Exception as e:
+        rvi_logger.error('%s: Cannot connect to RVI service edge: %s', vehicleVIN, e)
+        return False
+
+    # get destination info
+
+    mobile = Device.objects.get(dev_owner=username)
+    dst_url = mobile.get_rvi_id()
+
+    # TODO JSONRPC is throwing an error for the log below, ProtocolError: (-32700, u'json error')
+    # Commented out log message due to error mentioned above. However, the server connection still appears to work
+    # logger.info('%s: Established connection to RVI Service Edge: %s', vehicleVIN, rvi_server)
+
+    # notify remote of pending file transfer
+    try:
+        rvi_server.message(calling_service = rvi_service_id,
+                       service_name = dst_url + rvi_service_id + '/serviceinvokedbyguest',
+                       transaction_id = str(transaction_id),
+                       timeout = int(time.time()) + 5000,
+                       parameters = [{
+                                        u'username': username,
+                                        u'vehicleVIN': vehicleVIN,
+                                        u'service': service,
+                                     },
+                                    ])
+    except Exception as e:
+        rvi_logger.error('%s: Cannot connect to RVI service edge: %s', service, e)
+        return False
+
+    rvi_logger.info('%s: Onwer.', service)
+    return True
