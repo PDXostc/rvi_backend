@@ -103,6 +103,8 @@ def thread_log_invoked_service(username, vehicleVIN, service, latitude, longitud
     serviceinvoked.save()
     rvi_logger.info(SERVER_NAME + 'Saved log of the following service invoked record: %s', serviceinvoked)
 
+    send_service_invoked_by_guest(username, vehicleVIN, service)
+
 
 # Support functions
 def validate_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
@@ -151,7 +153,7 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
     This provides the owner phone a notification that a guest key has invoked a service
     """
 
-    rvi_logger.info('%s: %s service executed by %s.', vehicleVIN, service, username)
+    rvi_logger.info('send_service_invoked_by_guest %s: %s service executed by %s.', vehicleVIN, service, username)
 
     global transaction_id
 
@@ -214,5 +216,5 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
         rvi_logger.error('%s: Cannot connect to RVI service edge: %s', service, e)
         return False
 
-    rvi_logger.info('%s: Onwer.', service)
+    rvi_logger.info('send_service_invoked_by_guest - %s by % on %s. Owner notified.', service, username, vehicleVIN)
     return True
