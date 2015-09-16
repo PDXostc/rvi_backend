@@ -193,8 +193,12 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
 
     # get destination info
 
-    mobile = Device.objects.get(dev_owner=username)
-    dst_url = mobile.get_rvi_id()
+    vehicle = Vehicle.objects.get(veh_vin = vehicleVIN)
+    owner_username = vehicle.list_account()
+    owner = User.objects.filter(username = owner_username)
+    # TODO rely on account tied to phone instead of dev_owner field
+    owner_device = Device.objects.get(dev_owner=owner_username)
+    dst_url = owner_device.get_rvi_id()
 
     # TODO JSONRPC is throwing an error for the log below, ProtocolError: (-32700, u'json error')
     # Commented out log message due to error mentioned above. However, the server connection still appears to work
