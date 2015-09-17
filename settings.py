@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'devices',
     'security',
     'can_fw',
+    'dynamicagents',
 )
 
 #INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
