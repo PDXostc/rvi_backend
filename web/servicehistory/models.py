@@ -25,19 +25,27 @@ class ServiceInvokedHistory(models.Model):
         """
         Returns the Location string.
         """
-        return self.to_string()
+        return unicode(self.to_string())
 
     def to_string(self):
         """
         Returns the Location string composed of
         <vehicle> on <time> at <longitude, latitude>.
         """
+        return ({
+            u'hist_user': self.hist_user.username,
+            u'hist_service' : self.hist_service,
+            u'hist_timestamp' : self.hist_timestamp,
+            u'hist_address' : self.hist_address
+        })
+    '''
         return (unicode(self.hist_user.username) +
-                 " invoked " +
-                 unicode(self.hist_service) +
-                 " on " +
-                 unicode(self.hist_timestamp) +
-                 " at (" +
-                 str(self.hist_latitude) + ", " + str(self.hist_longitude) +
-                 ")"
-                )
+             " invoked " +
+             unicode(self.hist_service) +
+             " on " +
+             unicode(self.hist_timestamp) +
+             " at (" +
+             str(self.hist_latitude) + ", " + str(self.hist_longitude) +
+             ")"
+            )
+    '''

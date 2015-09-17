@@ -36,48 +36,9 @@
                     <div class="panel-body">
                         <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
                     </div>
-                    <table class="table table-hover table-history" id="dev-table">
-                        <thead>
-                            <tr>
-                                <th >User</th>
-                                <th >RVI Service</th>
-                                <th >Timestamp</th>
-                                <th >Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        {% for item in last_invoked %}
-                            <tr>
-                                <td>
-                                    <b>{{ item.hist_user }}</b>
-                                    {% if user != item.hist_user %}
-                                        <br>
-                                        (guest)
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if item.hist_service == 'Door Unlock' %}
-                                        <i class="icon-large icon-unlock"></i>
-                                    {% elif item.hist_service == 'Door Lock' %}
-                                        <i class="icon-large icon-lock"></i>
-                                    {% elif item.hist_service == 'Remote Start' %}
-                                        <i class="icon-large icon-power"></i>
-                                    {% elif item.hist_service == 'Remote Stop' %}
-                                        <i class="icon-large icon-ban"></i>
-                                    {% endif %}
-                                    <!--
-                                    <br>
-                                    {{ item.hist_service }}
-                                    -->
-                                </td>
-                                <td>{{ item.hist_timestamp|date:'m/d/Y h:i A' }}</td>
-                                <td>{{ item.hist_address|linebreaksbr }}</td>
-                            </tr>
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
+                    <div id="div_to_refresh">
+                    {% include 'rvi/history-table.html' %}
+                    </div>
                 </div>
             </div>
     </div>
@@ -88,5 +49,22 @@
         L.marker([{{ item.hist_latitude }}, {{ item.hist_longitude }}]).addTo(map);
     {% endfor %}
     </script>
+
+   <script type="text/javascript">
+    function refresh() {
+    $.ajax({
+      url: '{% url 'history' %}',
+      success: function(data) {
+      var dtr = $("#div_to_refresh", data);
+      $('#div_to_refresh').html(dtr);
+            }
+        });
+      setTimeout("refresh()", 3000);
+    }
+
+    $(function(){
+        refresh();
+    });
+   </script>
 
 {% endblock %}
