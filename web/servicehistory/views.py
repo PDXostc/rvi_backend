@@ -29,10 +29,13 @@ def history(request):
         formatted_address = formatted_address.replace(' linebreakplaceholder,', '\n')
         record.hist_address = unicode(formatted_address)
         last_invoked_dict.append({
+            u'hist_id': record.id,
             u'hist_user': record.hist_user.username,
             u'hist_service' : record.hist_service,
             u'hist_timestamp' : unicode(record.hist_timestamp.strftime("%m/%d/%Y %I:%M %p")),
-            u'hist_address' : record.hist_address
+            u'hist_address' : record.hist_address,
+            u'hist_latitude' : record.hist_latitude,
+            u'hist_longitude' : record.hist_longitude
         })
 
     '''

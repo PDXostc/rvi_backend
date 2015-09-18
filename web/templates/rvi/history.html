@@ -51,20 +51,44 @@
     </script>
 
    <script type="text/javascript">
+    var aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
+    var aLastupdated;
+
     function refresh() {
-    $.ajax({
-      url: '{% url 'history' %}',
-      success: function(data) {
-      var dtr = $("#div_to_refresh", data);
-      $('#div_to_refresh').html(dtr);
+
+        $.ajax({
+            url: '{% url 'history' %}',
+            success: function(data) {
+            var dtr = $("#div_to_refresh", data);
+            $('#div_to_refresh').html(dtr);
+
+            aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
+
+            if (aLastupdated != aUpdatedval) {
+                console.log(aLastupdated, aUpdatedval);
+                for (var i = aLastupdated; i <= aUpdatedval; i++) {
+                        console.log(i);
+                        var $row  = $("#"+aUpdatedval).nextUntil("#"+aLastupdated).addBack(),
+                        alpha   = 1.0;
+                        var fade = setInterval(function(){
+                        $row.css('background-color', 'rgba(253,149,11,'+alpha+')');
+                        if(alpha >= 0)
+                            alpha-=0.005;
+                        else clearInterval(fade);
+                    }, 33);
+                }
             }
-        });
-      setTimeout("refresh()", 3000);
+            aLastupdated = aUpdatedval;
+            setTimeout("refresh()", 3000);
+
+                }
+            });
     }
 
     $(function(){
         refresh();
     });
+
    </script>
 
 {% endblock %}
