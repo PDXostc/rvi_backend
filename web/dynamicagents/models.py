@@ -90,6 +90,7 @@ class UpdateDA(models.Model):
                                   choices=UPDATE_STATUS,
                                   default=Status.PENDING)
     upd_timeout_da = models.DateTimeField('Valid Until')
+    upd_expiration = models.DateTimeField('Agent Expiration Date')
     upd_retries_da = models.IntegerField('Maximum Retries', validators=[validate_upd_retries_da], default="0")
     
     @property
