@@ -27,6 +27,7 @@ import __init__
 
 from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
+from server.agentserver import AgentCallbackServer, AgentTransmissionServer
 from server.trackingserver import TrackingCallbackServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
@@ -111,7 +112,25 @@ class RVIServer(Daemon):
     
             # wait for SOTA transmission server to come up    
             time.sleep(0.5)
-            
+        
+        #Dynamic Agent Startup
+        if conf['DA_ENABLE'] == True:
+            #log Dynamic Agent config
+            rvi_logger.info('RVI Server: Agent Configuration.'
+                'RVI_DA_CALLBACK_URL: ' + conf['DA_CALLBACK_URL'] + ', ' +
+                'RVI_DA_SERVICE_ID: '   + conf['DA_SERVICE_ID']   + ', ' +
+                'RVI_DA_CHUNK_SIZE: '   + str(conf['DA_CHUNK_SIZE'])
+                )
+            try: 
+                rvi_logger.info('RVI Server: Starting Agent Transmission Server.')
+                self.agent_tx_server = AgentTransmissionServer(self.rvi_service_edge, conf['DA_SERVICE_ID'], conf['DA_CHUNK_SIZE'])
+                self.agent_tx_server.start()
+                rvi_logger.info('RVI Server: Agent Transmission Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Dynamic Agent Transmission Server: %s', e)
+                sys.exit(1)
+
+            time.sleep(0.5)    
         # Tracking Startup
         if conf['TRACKING_ENABLE'] == True:
             # log Tracking configuration
