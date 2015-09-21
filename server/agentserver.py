@@ -19,7 +19,7 @@ from rvijsonrpc import RVIJSONRPCServer
 
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
-from __init__ import __Agent_LOGGER__ as dynamicagents_logger
+from __init__ import __SOTA_LOGGER__ as dynamicagents_logger
 import dynamicagents.models
 
 # globals
@@ -46,6 +46,8 @@ class AgentCallbackServer(threading.Thread):
         self.localServer.register_function(initiate_download, self.service_id + "/initiate_download")
         self.localServer.register_function(cancel_download, self.service_id + "/cancel_download")
         self.localServer.register_function(download_complete, self.service_id + "/download_complete")
+        self.localServer.register_function(update_status, self.service_id + "/update_status")
+        self.localServer.register_function(update_status, self.service_id + "/global_reports")
         
         # register services with RVI framework
         result = self.service_edge.register_service(service = self.service_id+'/initiate_download',
@@ -57,6 +59,12 @@ class AgentCallbackServer(threading.Thread):
         result = self.service_edge.register_service(service = self.service_id+'/download_complete',
                                                network_address = self.callback_url)
         rvi_logger.info('Agent Service Registration: Download complete service name: %s', result['service'])
+        result = self.service_edge.register_service(service = self.service_id+'/update_status',
+                                               network_address = self.callback_url)
+        rvi_logger.info('Agent Service Registration: Update Status service name: %s', result['service'])
+        result = self.service_edge.register_service(service = self.service_id+'/global_reports',
+                                               network_address = self.callback_url)
+        rvi_logger.info('Agent Service Registration: Global Reports service name: %s', result['service'])
 
     def run(self):
         self.localServer.serve_forever()
@@ -105,6 +113,11 @@ def download_complete(status, retry):
     dynamicagents_logger.info('Agent Callback Server: Download complete: retry: %s, status: %s.', retry_obj, status)
     return {u'status': 0}
     
+def update_status(status, package, vin):
+    rvi_logger.info('Agent %s on vehicle %s has updated status to %s', package, vin, status)
+
+def update_status(payload, package, vin):
+    rvi_logger.info('Agent %s on vehicle %s has sent data %s', package, vin, payload)
 
 # Agent Transmission Server
 class AgentTransmissionServer(threading.Thread):

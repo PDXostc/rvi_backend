@@ -55,6 +55,10 @@ class RVIServer(Daemon):
             self.sota_cb_server.shutdown()
         if self.sota_tx_server:
             self.sota_tx_server.shutdown()
+        if self.agent_cb_server:
+            self.agent_cb_server.shutdown()
+        if self.agent_tx_server:
+            self.agent_tx_server.shutdown()
         if self.tracking_cb_server:
             self.tracking_cb_server.shutdown()
         if self.mq_sink_server:
@@ -121,6 +125,20 @@ class RVIServer(Daemon):
                 'RVI_DA_SERVICE_ID: '   + conf['DA_SERVICE_ID']   + ', ' +
                 'RVI_DA_CHUNK_SIZE: '   + str(conf['DA_CHUNK_SIZE'])
                 )
+            # start the DA callback server
+            try:
+                rvi_logger.info('RVI Server: Starting DA Callback Server on %s with service id %s.', conf['DA_CALLBACK_URL'], conf['DA_SERVICE_ID'])
+                self.agent_cb_server = AgentCallbackServer(self.rvi_service_edge, conf['DA_CALLBACK_URL'], conf['DA_SERVICE_ID'])
+                self.agent_cb_server.start()
+                rvi_logger.info('RVI Server: Agent Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start SOTA Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for DA callback server to come up    
+            time.sleep(0.5)
+
+            # start DA transmission server
             try: 
                 rvi_logger.info('RVI Server: Starting Agent Transmission Server.')
                 self.agent_tx_server = AgentTransmissionServer(self.rvi_service_edge, conf['DA_SERVICE_ID'], conf['DA_CHUNK_SIZE'])
