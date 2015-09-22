@@ -20,3 +20,7 @@ happybase==0.9
 Unipath==1.1
 python-dateutil==2.4.2
 beautifulsoup4==4.4.0
+requests==2.7.0
+pyOpenSSL==0.15.1
+ndg-httpsclient==0.4.0
+pyasn1==0.1.8

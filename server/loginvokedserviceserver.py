@@ -18,11 +18,13 @@ from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
 from dateutil import parser
+import requests
 
 from django.contrib.auth.models import User
 from vehicles.models import Vehicle
 from servicehistory.models import ServiceInvokedHistory
 from devices.models import Device
+from server.utils import get_setting
 
 import urllib2
 from bs4 import BeautifulSoup
@@ -71,13 +73,13 @@ class LogInvokedServicesServer(threading.Thread):
 
 # Callback functions
 def log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
-    rvi_logger.info(SERVER_NAME + 'Create new remote request: '
+    rvi_logger.info(SERVER_NAME + 'Create new remote request: \n'
                     'username: %s\n'
                     'vehicleVIN: %s\n'
                     'service: %s\n'
                     'latitude: %s\n'
                     'longitude: %s\n'
-                    'timestamp: %s\n'
+                    'timestamp: %s'
                     , username, vehicleVIN, service, latitude, longitude, timestamp)
 
     t1 = threading.Thread(target=thread_log_invoked_service, args=(
@@ -103,7 +105,11 @@ def thread_log_invoked_service(username, vehicleVIN, service, latitude, longitud
     serviceinvoked.save()
     rvi_logger.info(SERVER_NAME + 'Saved log of the following service invoked record: %s', serviceinvoked)
 
-    send_service_invoked_by_guest(username, vehicleVIN, service)
+    vehicle = Vehicle.objects.get(veh_vin = vehicleVIN)
+    owner_username = vehicle.list_account()
+
+    if owner_username != username:
+        send_service_invoked_by_guest(owner_username, username, vehicleVIN, service)
 
 
 # Support functions
@@ -114,26 +120,32 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
         service_timestamp = parser.parse(
             str(timestamp).replace('T', ' ').replace('Z','+00:00')
         )
+        address = reverse_geocode(latitude, longitude)
+        '''
         # Reverse geocoding via screen scraping
         url = 'http://nominatim.openstreetmap.org/search.php?q=' + str(latitude) + '%2C+' + str(longitude)
         page = urllib2.urlopen(url)
         soup = BeautifulSoup(page, 'html.parser')
         address = soup.find_all("span", class_="name")[0].get_text()
+        '''
     except User.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
         raise
     except Vehicle.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'VIN does not exist: %s', vehicleVIN)
         raise
+    except Exception as e:
+        rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
+        raise
+    '''
     except urllib2.URLError, e:
         rvi_logger.error(SERVER_NAME + 'Reverse Geocoding URLError: %s', e)
         raise
     except urllib2.HTTPError, e:
         rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPException: %s', e)
         raise
-    except Exception as e:
-        rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
-        raise
+    '''
+
 
     return ServiceInvokedHistory(
         hist_user = user,
@@ -146,14 +158,14 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
     )
 
 
-def send_service_invoked_by_guest(username, vehicleVIN, service):
+def send_service_invoked_by_guest(owner_username, guest_username, vehicleVIN, service):
     """
     Response for .../backend/logging/report/serviceinvoked
     Communicates to .../{UUID}/report/serviceinvokedbyguest
     This provides the owner phone a notification that a guest key has invoked a service
     """
 
-    rvi_logger.info('send_service_invoked_by_guest %s: %s service executed by %s.', vehicleVIN, service, username)
+    rvi_logger.info('send_service_invoked_by_guest %s: %s service executed by %s.', vehicleVIN, service, guest_username)
 
     global transaction_id
 
@@ -192,10 +204,6 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
         return False
 
     # get destination info
-
-    vehicle = Vehicle.objects.get(veh_vin = vehicleVIN)
-    owner_username = vehicle.list_account()
-    owner = User.objects.filter(username = owner_username)
     # TODO rely on account tied to phone instead of dev_owner field
     owner_device = Device.objects.get(dev_owner=owner_username)
     dst_url = owner_device.get_rvi_id()
@@ -211,7 +219,7 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
                        transaction_id = str(transaction_id),
                        timeout = int(time.time()) + 5000,
                        parameters = [{
-                                        u'username': username,
+                                        u'username': guest_username,
                                         u'vehicleVIN': vehicleVIN,
                                         u'service': service,
                                      },
@@ -220,5 +228,28 @@ def send_service_invoked_by_guest(username, vehicleVIN, service):
         rvi_logger.error('%s: Cannot connect to RVI service edge: %s', service, e)
         return False
 
-    rvi_logger.info('send_service_invoked_by_guest - %s by %s on %s. Owner notified.', service, username, vehicleVIN)
+    rvi_logger.info('send_service_invoked_by_guest - %s by %s on %s. Owner notified.', service, guest_username, vehicleVIN)
     return True
+
+def reverse_geocode(latitude, longitude):
+    # Did the geocoding request comes from a device with a
+    # location sensor? Must be either true or false.
+    sensor = 'true'
+
+    # Hit Google's reverse geocoder directly
+    # NOTE: I *think* their terms state that you're supposed to
+    # use google maps if you use their api for anything.
+
+    base = "https://maps.googleapis.com/maps/api/geocode/json?"
+    params = "latlng={lat},{lon}&sensor={sen}&key={key}".format(
+        lat=latitude,
+        lon=longitude,
+        sen=sensor,
+        key=get_setting("GOOGLE_API_KEY")
+    )
+    url = "{base}{params}".format(base=base, params=params)
+    response = requests.get(url)
+
+    # rvi_logger.info('Google Request: %s', url)
+    rvi_logger.info('Google Response: %s', response.json)
+    return response.json()['results'][0]['formatted_address']

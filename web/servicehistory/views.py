@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.http import JsonResponse
 from django.shortcuts import render_to_response
+from django.utils.timezone import localtime
+from pytz import timezone
 from django.contrib.auth.decorators import login_required
 
 from servicehistory.models import ServiceInvokedHistory
@@ -12,7 +14,6 @@ retrieval_amount = 12
 
 @login_required
 def history(request):
-
     last_invoked_dict = []
     owner = request.user
     owner_vehicles = Vehicle.objects.filter(account=owner)
@@ -23,16 +24,18 @@ def history(request):
     for record in last_invoked:
         formatted_address = str(record.hist_address).split(', ')
         del formatted_address[-1]
-        del formatted_address[-3]
-        formatted_address.insert(-3, 'linebreakplaceholder')
-        formatted_address = str(formatted_address).strip('[]').replace('\'','').replace('California','CA')
-        formatted_address = formatted_address.replace(' linebreakplaceholder,', '\n')
+        formatted_address.insert(-2, 'linebreakplaceholder')
+        formatted_address = str(formatted_address).strip('[]').replace('\'', '')
+        formatted_address = formatted_address.replace(', linebreakplaceholder, ', '\n')
         record.hist_address = unicode(formatted_address)
+
+        time = localtime(record.hist_timestamp, timezone('US/Pacific'))
+
         last_invoked_dict.append({
             u'hist_id': record.id,
             u'hist_user': record.hist_user.username,
             u'hist_service' : record.hist_service,
-            u'hist_timestamp' : unicode(record.hist_timestamp.strftime("%m/%d/%Y %I:%M %p")),
+            u'hist_timestamp' : unicode(time.strftime("%m/%d/%Y\n%-I:%M %p %Z")),
             u'hist_address' : record.hist_address,
             u'hist_latitude' : record.hist_latitude,
             u'hist_longitude' : record.hist_longitude

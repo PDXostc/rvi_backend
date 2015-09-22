@@ -57,6 +57,7 @@ def get_secret(setting, secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_secret('SECRET_KEY')
+GOOGLE_API_KEY = get_secret('GOOGLE_MAPS')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

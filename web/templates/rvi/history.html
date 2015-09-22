@@ -44,12 +44,6 @@
     </div>
     <script type="text/javascript" src="{% static 'rvi/js/history.js' %}"></script>
 
-    <script type="text/javascript">
-    {% for item in last_invoked %}
-        L.marker([{{ item.hist_latitude }}, {{ item.hist_longitude }}]).addTo(map);
-    {% endfor %}
-    </script>
-
    <script type="text/javascript">
     var aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
     var aLastupdated;
