@@ -1,7 +1,4 @@
-from django.http import HttpResponse
-from django.template import RequestContext, loader
-from django.http import JsonResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.utils.timezone import localtime
 from pytz import timezone
 from django.contrib.auth.decorators import login_required
@@ -14,13 +11,13 @@ retrieval_amount = 12
 
 @login_required
 def history(request):
-    last_invoked_dict = []
     owner = request.user
     owner_vehicles = Vehicle.objects.filter(account=owner)
 
     last_invoked = ServiceInvokedHistory.objects.filter(hist_vehicle=owner_vehicles)
     last_invoked = last_invoked.order_by('-hist_timestamp')[:retrieval_amount]
 
+    last_invoked_dict = []
     for record in last_invoked:
         formatted_address = str(record.hist_address).split(', ')
         del formatted_address[-1]
@@ -41,17 +38,8 @@ def history(request):
             u'hist_longitude' : record.hist_longitude
         })
 
-    '''
-    template = loader.get_template('rvi/history.html')
-    context = RequestContext(request, {
-        'title': 'History',
-        'user': request.user,
-        'last_invoked': last_invoked_dict,
-    })
-    '''
-    return render_to_response('rvi/history.html', {
+    return render(request, 'rvi/history.html', {
         'title': 'History',
         'user': request.user,
         'last_invoked': last_invoked_dict
     })
-    #return HttpResponse(template.render(context))

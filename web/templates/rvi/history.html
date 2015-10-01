@@ -1,11 +1,15 @@
 {% extends "rvi/base.html" %}
 
+{% load admin_static %}{% load firstof from future %}
+
+<!--
 {% load staticfiles %}
 {% load url from future %}
 
 {% load admin_static %}{% load firstof from future %}
 
 {% load i18n %}
+-->
 
 {% block extra_site_head %}
     <link href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" rel="stylesheet">
@@ -25,13 +29,6 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading ">
                         <h3 class="panel-title">Key History</h3>
-                        <!--
-                        <div class="pull-right">
-                            <span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-                                <i class="glyphicon glyphicon-filter"></i>
-                            </span>
-                        </div>
-                        -->
                     </div>
                     <div class="panel-body">
                         <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
@@ -51,17 +48,15 @@
     function refresh() {
 
         $.ajax({
-            url: '{% url 'history' %}',
+            url: '{% url 'owner_history' %}',
             success: function(data) {
             var dtr = $("#div_to_refresh", data);
             $('#div_to_refresh').html(dtr);
 
             aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
 
-            if (aLastupdated != aUpdatedval) {
-                console.log(aLastupdated, aUpdatedval);
-                for (var i = aLastupdated; i <= aUpdatedval; i++) {
-                        console.log(i);
+            if (aLastupdated != aUpdatedval && !isNaN(aLastupdated)) {
+                //for (var i = aLastupdated; i <= aUpdatedval; i++) {
                         var $row  = $("#"+aUpdatedval).nextUntil("#"+aLastupdated).addBack(),
                         alpha   = 1.0;
                         var fade = setInterval(function(){
@@ -70,7 +65,7 @@
                             alpha-=0.005;
                         else clearInterval(fade);
                     }, 33);
-                }
+                //}
             }
             aLastupdated = aUpdatedval;
             setTimeout("refresh()", 3000);

@@ -117,17 +117,8 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
     try:
         user = User.objects.get(username=username)
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
-        service_timestamp = parser.parse(
-            str(timestamp).replace('T', ' ').replace('Z','+00:00')
-        )
+        service_timestamp = parser.parse(str(timestamp).replace('T', ' ').replace('Z','+00:00'))
         address = reverse_geocode(latitude, longitude)
-        '''
-        # Reverse geocoding via screen scraping
-        url = 'http://nominatim.openstreetmap.org/search.php?q=' + str(latitude) + '%2C+' + str(longitude)
-        page = urllib2.urlopen(url)
-        soup = BeautifulSoup(page, 'html.parser')
-        address = soup.find_all("span", class_="name")[0].get_text()
-        '''
     except User.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
         raise
@@ -137,15 +128,6 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
     except Exception as e:
         rvi_logger.error(SERVER_NAME + 'Generic Error: %s', e)
         raise
-    '''
-    except urllib2.URLError, e:
-        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding URLError: %s', e)
-        raise
-    except urllib2.HTTPError, e:
-        rvi_logger.error(SERVER_NAME + 'Reverse Geocoding HTTPException: %s', e)
-        raise
-    '''
-
 
     return ServiceInvokedHistory(
         hist_user = user,
@@ -212,7 +194,6 @@ def send_service_invoked_by_guest(owner_username, guest_username, vehicleVIN, se
     # Commented out log message due to error mentioned above. However, the server connection still appears to work
     # logger.info('%s: Established connection to RVI Service Edge: %s', vehicleVIN, rvi_server)
 
-    # notify remote of pending file transfer
     try:
         rvi_server.message(calling_service = rvi_service_id,
                        service_name = dst_url + rvi_service_id + '/serviceinvokedbyguest',

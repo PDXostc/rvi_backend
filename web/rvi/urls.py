@@ -26,14 +26,14 @@ urlpatterns = patterns('',
     url(r'^tracking/', include('tracking.urls')),
     url(r'^sota/', include('sota.urls')),
 
-    url(r'^login/$', 'auth.views.login_user'),
-    url(r'^history/$', 'servicehistory.views.history', name='history'),
-    url(r'^keys/$', 'ownerportal.views.keys', name='keys'),
-    url(r'^logout/$', 'auth.views.logout_user', name='logout'),
+    url(r'^login/$', 'ownerportal.views.login_user', name='owner_login'),
+    url(r'^history/$', 'servicehistory.views.history', name='owner_history'),
+    url(r'^keys/$', 'ownerportal.views.keys', name='owner_keys'),
+    url(r'^logout/$', 'ownerportal.views.logout_user', name='logout'),
 
     url(r'^admin/$', 'rvi.views.dashboard', name='rvi_dashboard'),
     # redirect root to owner portal login
-    url(r'^$', 'auth.views.login_user'),
+    url(r'^$', 'ownerportal.views.login_user'),
                        )
 
 # uploaded files
