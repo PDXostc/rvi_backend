@@ -74,8 +74,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'leaflet',
-    'tokenapi',
-    'servicehistory',
     'djgeojson',
     'rvi',
     'vehicles',
@@ -84,6 +82,9 @@ INSTALLED_APPS = (
     'tracking',
     'devices',
     'security',
+    'can_fw',
+    'servicehistory',
+    'tokenapi',
 )
 
 # INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
@@ -232,7 +233,7 @@ BOOTSTRAP3 = {
 
 # Server Key File
 # RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
-RVI_BACKEND_KEYFILE = BASE_DIR.child("keys", "rvi_be.private.pem")
+RVI_BACKEND_KEYFILE = BASE_DIR.child("keys", "insecure_root_key_priv.pem")
 
 # Server Signature Algorithm (default: RS256)
 RVI_BACKEND_ALG_SIG = 'RS256'
@@ -266,6 +267,12 @@ RVI_SOTA_ENABLE = False
 RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
 RVI_SOTA_CHUNK_SIZE = 65536
+
+# CAN_FW
+RVI_CANFW_ENABLE = False
+RVI_CANFW_CALLBACK_URL = 'http://127.0.0.1:20004'
+RVI_CANFW_SERVICE_ID = '/canfw'
+RVI_CANFW_NUM_PRIO = 16
 
 # Device Management
 RVI_DM_SERVICE_ID = '/dm'
