@@ -275,7 +275,10 @@ The RVI Backend requires additional Python modules to function (see below). Alte
 11. HBase Library
 
         sudo pip install happybase
-        
+
+11. HBase Library
+
+        sudo pip install happybase
 
 ### RVI Backend Installation
 
@@ -392,7 +395,7 @@ USING THE RVI BACKEND
 
 This pre-release of the RVI Backend does not yet include any customized pages but
 uses the administration pages that are automatically created by Django. The root
-URL is automatically forwarded to the administration pages. Loggin into your server
+URL is automatically forwarded to the administration pages. Logging into your server
 from a web browser using
 
     http://localhost:8000
