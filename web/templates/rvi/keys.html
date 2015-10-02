@@ -13,7 +13,7 @@
 
 {% block extra_site_head %}
 	<link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet">
- 	<link href="{% static 'rvi/css/history.css' %}" rel="stylesheet">
+ 	<link href="{% static 'rvi/css/ownerportal.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block page_content %}
@@ -43,8 +43,8 @@
 					{% for item in active_certificates %}
 						<tr>
 							<td>{{ item.rem_device.dev_owner }}</td>
-							<td>{{ item.rem_validfrom }}</td>
-							<td>{{ item.rem_validto }}</td>
+							<td>{{ item.rem_validfrom | date:"D N j, Y, g:i A T" }}</td>
+							<td>{{ item.rem_validto | date:"D N j, Y, g:i A T" }}</td>
 							<td>
 								{% if item.rem_lock %}
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -90,8 +90,8 @@
 					{% for item in expired_certificates %}
 						<tr>
 							<td>{{ item.rem_device.dev_owner }}</td>
-							<td>{{ item.rem_validfrom }}</td>
-							<td>{{ item.rem_validto }}</td>
+							<td>{{ item.rem_validfrom | date:"D N j, Y, g:i A T" }}</td>
+							<td>{{ item.rem_validto | date:"D N j, Y, g:i A T" }}</td>
 							<td>
 								{% if item.rem_lock %}
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

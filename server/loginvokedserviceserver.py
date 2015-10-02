@@ -4,34 +4,26 @@ This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
-"""
-
-"""
-Author = David Thiriez
+Author: David Thiriez (david.thiriez@p3-group.com)
 Log invoked services.
 """
 
-from django.conf import settings
 import os, threading, base64, json
-import time, jsonrpclib
 from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
 from dateutil import parser
-import requests
-
-from django.contrib.auth.models import User
-from vehicles.models import Vehicle
-from servicehistory.models import ServiceInvokedHistory
-from devices.models import Device
-from server.utils import get_setting
-
-import urllib2
-from bs4 import BeautifulSoup
+import requests, pytz
 
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
 
+from servicehistory.tasks import send_service_invoked_by_guest
+from server.utils import get_setting
+
+from django.contrib.auth.models import User
+from vehicles.models import Vehicle
+from servicehistory.models import ServiceInvokedHistory
 
 # globals
 package_queue = Queue.Queue()
@@ -112,12 +104,12 @@ def thread_log_invoked_service(username, vehicleVIN, service, latitude, longitud
         send_service_invoked_by_guest(owner_username, username, vehicleVIN, service)
 
 
-# Support functions
+# Validation functions
 def validate_log_invoked_service(username, vehicleVIN, service, latitude, longitude, timestamp):
     try:
         user = User.objects.get(username=username)
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
-        service_timestamp = parser.parse(str(timestamp).replace('T', ' ').replace('Z','+00:00'))
+        service_timestamp = parser.parse(str(timestamp).replace('T', ' ').replace('0Z',' +0000'))
         address = reverse_geocode(latitude, longitude)
     except User.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
@@ -140,86 +132,10 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
     )
 
 
-def send_service_invoked_by_guest(owner_username, guest_username, vehicleVIN, service):
-    """
-    Response for .../backend/logging/report/serviceinvoked
-    Communicates to .../{UUID}/report/serviceinvokedbyguest
-    This provides the owner phone a notification that a guest key has invoked a service
-    """
-
-    rvi_logger.info('send_service_invoked_by_guest %s: %s service executed by %s.', vehicleVIN, service, guest_username)
-
-    global transaction_id
-
-    # get settings
-    # service edge url
-    try:
-        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
-    except NameError:
-        rvi_logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', vehicleVIN)
-        return False
-
-    # DM service id
-    rvi_service_id = '/report'
-
-    # Signature algorithm
-    try:
-        alg = settings.RVI_BACKEND_ALG_SIG
-    except NameError:
-        alg = 'RS256'
-
-    # Server Key
-    try:
-        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
-        key = keyfile.read()
-    except Exception as e:
-        rvi_logger.error('%s: Cannot read server key: %s', vehicleVIN, e)
-        return False
-
-    # establish outgoing RVI service edge connection
-    rvi_server = None
-    rvi_logger.info('%s: Establishing RVI service edge connection: %s', vehicleVIN, rvi_service_url)
-    try:
-        rvi_server = jsonrpclib.Server(rvi_service_url)
-    except Exception as e:
-        rvi_logger.error('%s: Cannot connect to RVI service edge: %s', vehicleVIN, e)
-        return False
-
-    # get destination info
-    # TODO rely on account tied to phone instead of dev_owner field
-    owner_device = Device.objects.get(dev_owner=owner_username)
-    dst_url = owner_device.get_rvi_id()
-
-    # TODO JSONRPC is throwing an error for the log below, ProtocolError: (-32700, u'json error')
-    # Commented out log message due to error mentioned above. However, the server connection still appears to work
-    # logger.info('%s: Established connection to RVI Service Edge: %s', vehicleVIN, rvi_server)
-
-    try:
-        rvi_server.message(calling_service = rvi_service_id,
-                       service_name = dst_url + rvi_service_id + '/serviceinvokedbyguest',
-                       transaction_id = str(transaction_id),
-                       timeout = int(time.time()) + 5000,
-                       parameters = [{
-                                        u'username': guest_username,
-                                        u'vehicleVIN': vehicleVIN,
-                                        u'service': service,
-                                     },
-                                    ])
-    except Exception as e:
-        rvi_logger.error('%s: Cannot connect to RVI service edge: %s', service, e)
-        return False
-
-    rvi_logger.info('send_service_invoked_by_guest - %s by %s on %s. Owner notified.', service, guest_username, vehicleVIN)
-    return True
-
+# Support functions
 def reverse_geocode(latitude, longitude):
-    # Did the geocoding request comes from a device with a
-    # location sensor? Must be either true or false.
+    # Sensor set to True since GPS coords coming from the mobile app
     sensor = 'true'
-
-    # Hit Google's reverse geocoder directly
-    # NOTE: I *think* their terms state that you're supposed to
-    # use google maps if you use their api for anything.
 
     base = "https://maps.googleapis.com/maps/api/geocode/json?"
     params = "latlng={lat},{lon}&sensor={sen}&key={key}".format(
@@ -231,6 +147,6 @@ def reverse_geocode(latitude, longitude):
     url = "{base}{params}".format(base=base, params=params)
     response = requests.get(url)
 
-    # rvi_logger.info('Google Request: %s', url)
-    rvi_logger.info('Google Response: %s', response.json)
+    # rvi_logger.info('Google Detailed Response: %s', response.content)
+    rvi_logger.info('Google JSON Response: %s', response.json)
     return response.json()['results'][0]['formatted_address']

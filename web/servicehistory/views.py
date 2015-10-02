@@ -20,10 +20,12 @@ def history(request):
     last_invoked_dict = []
     for record in last_invoked:
         formatted_address = str(record.hist_address).split(', ')
+        # remove country
         del formatted_address[-1]
-        formatted_address.insert(-2, 'linebreakplaceholder')
+        formatted_address.insert(-2, '\n')
         formatted_address = str(formatted_address).strip('[]').replace('\'', '')
-        formatted_address = formatted_address.replace(', linebreakplaceholder, ', '\n')
+        formatted_address = formatted_address.replace(', \\n, ', '\n')
+
         record.hist_address = unicode(formatted_address)
 
         time = localtime(record.hist_timestamp, timezone('US/Pacific'))

@@ -3,31 +3,26 @@ Copyright (C) 2014, Jaguar Land Rover
 This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
-Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
-"""
-
-"""
-Author = David Thiriez
-Device Management / Remote (certificate) services.
+Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
+Author: David Thiriez (david.thiriez@p3-group.com)
+Device Management / Remote services.
 """
 
 import os, threading, base64
-import time
-import datetime
-from dateutil import parser
-from devices.models import Device, Remote
-from vehicles.models import Vehicle
-from devices.tasks import send_remote, send_all_requested_remotes
-from django.contrib.auth.models import User
-
+from dateutil import parser, tz
 from urlparse import urlparse
 import Queue
 from rvijsonrpc import RVIJSONRPCServer
 import json
+import pytz, uuid
 
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
 
+from devices.tasks import send_remote, send_all_requested_remotes
+
+from devices.models import Device, Remote
+from vehicles.models import Vehicle
 
 # globals
 package_queue = Queue.Queue()
@@ -191,21 +186,17 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
         device = Device.objects.get(dev_owner=username)
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
         parsed_data = json.dumps(authorizedServices)
-        services = json.loads(parsed_data)
-        lock = is_authorized((services[0])[u'lock'])
-        start = is_authorized((services[1])[u'start'])
-        trunk = is_authorized((services[2])[u'trunk'])
-        windows = is_authorized((services[3])[u'windows'])
-        lights = is_authorized((services[4])[u'lights'])
-        hazard = is_authorized((services[5])[u'hazard'])
-        horn = is_authorized((services[6])[u'horn'])
+        json_authorizedServices = json.loads(parsed_data)
+        lock = parse_true_or_false((json_authorizedServices[0])[u'lock'])
+        start = parse_true_or_false((json_authorizedServices[1])[u'start'])
+        trunk = parse_true_or_false((json_authorizedServices[2])[u'trunk'])
+        windows = parse_true_or_false((json_authorizedServices[3])[u'windows'])
+        lights = parse_true_or_false((json_authorizedServices[4])[u'lights'])
+        hazard = parse_true_or_false((json_authorizedServices[5])[u'hazard'])
+        horn = parse_true_or_false((json_authorizedServices[6])[u'horn'])
+        validFrom = parser.parse(str(validFrom).replace('T', ' ').replace('0Z',' +0000'))
+        validTo = parser.parse(str(validTo).replace('T', ' ').replace('0Z',' +0000'))
 
-        validFrom = parser.parse(
-            str(validFrom).replace('T', ' ').replace('Z','+00:00')
-        )
-        validTo = parser.parse(
-            str(validTo).replace('T', ' ').replace('Z','+00:00')
-        )
     except Device.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
         raise
@@ -228,7 +219,8 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
         rem_windows = windows,
         rem_lights = lights,
         rem_hazard = hazard,
-        rem_horn = horn
+        rem_horn = horn,
+        rem_uuid = str(uuid.uuid4())
     )
 
 
@@ -236,20 +228,20 @@ def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
     try:
         remote = Remote.objects.get(rem_uuid=certid)
         parsed_data = json.dumps(authorizedServices)
-        services = json.loads(parsed_data)
-        lock = is_authorized((services[0])[u'lock'])
-        start = is_authorized((services[1])[u'start'])
-        trunk = is_authorized((services[2])[u'trunk'])
-        windows = is_authorized((services[3])[u'windows'])
-        lights = is_authorized((services[4])[u'lights'])
-        hazard = is_authorized((services[5])[u'hazard'])
-        horn = is_authorized((services[6])[u'horn'])
+        json_authorizedServices = json.loads(parsed_data)
+        lock = parse_true_or_false((json_authorizedServices[0])[u'lock'])
+        start = parse_true_or_false((json_authorizedServices[1])[u'start'])
+        trunk = parse_true_or_false((json_authorizedServices[2])[u'trunk'])
+        windows = parse_true_or_false((json_authorizedServices[3])[u'windows'])
+        lights = parse_true_or_false((json_authorizedServices[4])[u'lights'])
+        hazard = parse_true_or_false((json_authorizedServices[5])[u'hazard'])
+        horn = parse_true_or_false((json_authorizedServices[6])[u'horn'])
 
         validFrom = parser.parse(
-            str(validFrom).replace('T', ' ').replace('Z','+00:00')
+            str(validFrom).replace('T', ' ').replace('0Z',' +0000')
         )
         validTo = parser.parse(
-            str(validTo).replace('T', ' ').replace('Z','+00:00')
+            str(validTo).replace('T', ' ').replace('0Z',' +0000')
         )
     except Remote.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'remote does not exist: %s', certid)
@@ -288,7 +280,8 @@ def validate_requestall_remote(vehicleVIN, mobileUUID):
     return True
 
 
-def is_authorized(service):
+# Support functions
+def parse_true_or_false(service):
     if service == u'true':
         return True
     else:

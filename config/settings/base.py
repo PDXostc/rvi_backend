@@ -38,11 +38,7 @@ TEMPLATE_DIRS = [WEB_DIR.child('templates')]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-'''
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y7pg3qz)6fs4vk4=)_*fn(dagsx+t!wvl=p&d3ybm(yc%((&pg'
-'''
-
+# secret keys handled in /config/settings/secrets.json
 # JSON-based secrets module
 with open(CONFIG_DIR.child('settings', 'secrets.json')) as f:
     secrets = json.loads(f.read())
@@ -56,8 +52,8 @@ def get_secret(setting, secrets=secrets):
         error_msg = 'Set the {0} environment variable'.format(setting)
         raise ImproperlyConfigured(error_msg)
 
-SECRET_KEY = get_secret('SECRET_KEY')
-GOOGLE_API_KEY = get_secret('GOOGLE_MAPS')
+SECRET_KEY = get_secret('DJANGO_SECRET_KEY')
+GOOGLE_API_KEY = get_secret('GOOGLE_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

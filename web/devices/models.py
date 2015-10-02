@@ -52,7 +52,7 @@ class Remote(models.Model):
     certain actions on a Vehicle.
     """
     rem_name      = models.CharField('Remote Name', max_length=256)
-    rem_uuid      = models.CharField('Remote UUID', max_length=256, default=str(uuid.uuid4()), editable=False)
+    rem_uuid      = models.CharField('Remote UUID', max_length=60, default=str(uuid.uuid4()), editable=False, unique=True)
     rem_device    = models.ForeignKey(Device, verbose_name='Device')
     rem_vehicle   = models.ForeignKey(Vehicle, verbose_name='Vehicle')
     rem_created   = models.DateTimeField(auto_now_add=True, editable=False)

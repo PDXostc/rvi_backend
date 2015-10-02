@@ -6,8 +6,4 @@ Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
 """
 
-"""
-Author = David Thiriez
-"""
-
 from .base import *

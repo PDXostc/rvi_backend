@@ -4,8 +4,8 @@ Copyright (C) 2014, Jaguar Land Rover
 This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
-
-Rudolf Streif (rstreif@jaguarlandrover.com) 
+Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
+Modified by: David Thiriez (david.thiriez@p3-group.com)
 """
 
 from __future__ import absolute_import
@@ -15,6 +15,7 @@ import Queue, json
 
 from urlparse import urlparse
 
+from django.db.models import Q
 from django.conf import settings
 
 from django.contrib.auth.models import User, Group
@@ -90,9 +91,6 @@ def send_remote(remote):
     mobile = remote.rem_device
     dst_url = mobile.get_rvi_id()
 
-    valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
-    valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
- 
     # notify remote of pending file transfer
     transaction_id += 1
     try:
@@ -109,21 +107,36 @@ def send_remote(remote):
 
     logger.info('%s: Sent Certificate.', remote)
 
+    '''
+    Following successful send of cert_provision, cert_accountdetails is sent down to the same device (see below).
+    Mobile app then parses this payload to render its UI.
+    '''
     time.sleep(2)
 
     # get user info
     user = User.objects.get(id=mobile.account_id)
     vehicle = remote.rem_vehicle
+    owner_username = vehicle.list_account()
 
-    if vehicle.list_account() == user.username:
-        user_type = 'owner'
+    if owner_username == user.username:
+        user_type = u'owner'
     else:
-        user_type = 'guest'
+        user_type = u'guest'
 
+    valid_from = unicode(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+    valid_to = unicode(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+
+    guests = User.objects.exclude(Q(username=owner_username) | Q(is_superuser=True))
+    guests_dict = []
+    for guest in guests:
+        guests_dict.append(guest.username)
+
+    '''
     if 'test_owner' in remote.rem_name:
-        user_type = 'owner'
+        user_type = u'owner'
     elif 'test_guest' in remote.rem_name:
-        user_type = 'guest'
+        user_type = u'guest'
+    '''
 
     try:
         rvi_server.message(calling_service = rvi_service_id,
@@ -138,27 +151,23 @@ def send_remote(remote):
                                         u'validFrom': valid_from,
                                         u'validTo': valid_to,
                                         u'authorizedServices': {
-                                            u'lock': remote.rem_lock,
-                                            u'engine': remote.rem_engine,
-                                            u'trunk': remote.rem_trunk,
-                                            u'windows': remote.rem_windows,
-                                            u'lights': remote.rem_lights,
-                                            u'hazard': remote.rem_hazard,
-                                            u'horn': remote.rem_horn
+                                            u'lock': unicode(remote.rem_lock),
+                                            u'engine': unicode(remote.rem_engine),
+                                            u'trunk': unicode(remote.rem_trunk),
+                                            u'windows': unicode(remote.rem_windows),
+                                            u'lights': unicode(remote.rem_lights),
+                                            u'hazard': unicode(remote.rem_hazard),
+                                            u'horn': unicode(remote.rem_horn)
                                         },
-                                        # TODO implement guest account retrieval
-                                        u'guests': [
-                                            u'arodriguez', u'bjamal'
-                                        ]
+                                        # TODO implement how guests are tied to a vehicle
+                                        # Presently, all users other than the owner are retrieved
+                                        u'guests': guests_dict
                                      },
                                     ])
     except Exception as e:
         logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
         return False
-
     logger.info('%s: Sent Account Details.', user.username)
-
-
     return True
 
 
@@ -186,20 +195,6 @@ def send_all_requested_remotes(vehicleVIN, deviceUUID):
     except NameError:
         rvi_service_id = '/dm'
 
-    # Signature algorithm
-    try:
-        alg = settings.RVI_BACKEND_ALG_SIG
-    except NameError:
-        alg = 'RS256'
-
-    # Server Key
-    try:
-        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
-        key = keyfile.read()
-    except Exception as e:
-        logger.error('%s: Cannot read server key: %s', vehicleVIN, e)
-        return False
-
     # establish outgoing RVI service edge connection
     rvi_server = None
     logger.info('%s: Establishing RVI service edge connection: %s', vehicleVIN, rvi_service_url)
@@ -225,29 +220,28 @@ def send_all_requested_remotes(vehicleVIN, deviceUUID):
         mobile = remote.rem_device
         user = User.objects.get(username=mobile.dev_owner)
 
-        valid_from = str(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
-        valid_to = str(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+        valid_from = unicode(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
+        valid_to = unicode(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
 
         certificate = {}
         certificate[u'certid'] = remote.rem_uuid
         certificate[u'username'] = user.username
         certificate[u'authorizedServices'] = {
-            u'lock': remote.rem_lock,
-            u'engine': remote.rem_engine,
-            u'trunk': remote.rem_trunk,
-            u'windows': remote.rem_windows,
-            u'lights': remote.rem_lights,
-            u'hazard': remote.rem_hazard,
-            u'horn': remote.rem_horn
+            u'lock': unicode(remote.rem_lock),
+            u'engine': unicode(remote.rem_engine),
+            u'trunk': unicode(remote.rem_trunk),
+            u'windows': unicode(remote.rem_windows),
+            u'lights': unicode(remote.rem_lights),
+            u'hazard': unicode(remote.rem_hazard),
+            u'horn': unicode(remote.rem_horn)
         }
         certificate[u'validFrom'] = valid_from
-        certificate[u'ValidTo'] = valid_to
+        certificate[u'validTo'] = valid_to
         certificates.append(certificate)
 
     message = {}
     message[u'certificates'] = certificates
 
-    # notify remote of pending file transfer
     try:
         rvi_server.message(calling_service = rvi_service_id,
                        service_name = dst_url + rvi_service_id + '/cert_response',
@@ -260,9 +254,3 @@ def send_all_requested_remotes(vehicleVIN, deviceUUID):
 
     logger.info('%s: Sent list of all remotes.', remote)
     return True
-
-def boolean_to_string(boolean_value):
-    if boolean_value:
-        return 'True'
-    else:
-        return 'False'

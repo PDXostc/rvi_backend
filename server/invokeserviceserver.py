@@ -4,15 +4,11 @@ This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
-"""
-
-"""
-Author = David Thiriez
-Invoke services via the cloud.
+Author: David Thiriez (david.thiriez@p3-group.com)
+Created as a backup if BT connectivity not available. Invoke services via the cloud.
 """
 
 
-from django.conf import settings
 import os, threading, base64, json
 import time, jsonrpclib
 from urlparse import urlparse
@@ -20,12 +16,11 @@ import Queue
 from rvijsonrpc import RVIJSONRPCServer
 from django.conf import settings
 
-from django.contrib.auth.models import User
-from vehicles.models import Vehicle
-
 import __init__
 from __init__ import __RVI_LOGGER__ as rvi_logger
 
+from django.contrib.auth.models import User
+from vehicles.models import Vehicle
 
 # globals
 package_queue = Queue.Queue()
@@ -138,20 +133,6 @@ def send_invoked_service(username, vehicleVIN, service, latitude, longitude):
     except NameError:
         rvi_service_id = '/dm'
 
-    # Signature algorithm
-    try:
-        alg = settings.RVI_BACKEND_ALG_SIG
-    except NameError:
-        alg = 'RS256'
-
-    # Server Key
-    try:
-        keyfile = open(settings.RVI_BACKEND_KEYFILE, 'r')
-        key = keyfile.read()
-    except Exception as e:
-        rvi_logger.error('%s: Cannot read server key: %s', vehicleVIN, e)
-        return False
-
     # establish outgoing RVI service edge connection
     rvi_server = None
     rvi_logger.info('%s: Establishing RVI service edge connection: %s', vehicleVIN, rvi_service_url)
@@ -164,7 +145,6 @@ def send_invoked_service(username, vehicleVIN, service, latitude, longitude):
     # Commented out log message due to error mentioned above. However, the server connection still appears to work
     # logger.info('%s: Established connection to RVI Service Edge: %s', vehicleVIN, rvi_server)
 
-    # notify remote of pending file transfer
     try:
         rvi_server.message(calling_service = rvi_service_id,
                        service_name = 'jlr.com/bt/stoffe/'+service,
