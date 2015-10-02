@@ -110,7 +110,13 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
         user = User.objects.get(username=username)
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
         service_timestamp = parser.parse(str(timestamp).replace('T', ' ').replace('0Z',' +0000'))
-        address = reverse_geocode(latitude, longitude)
+
+        api_key = get_setting("GOOGLE_API_KEY")
+        if api_key:
+            address = reverse_geocode_googleapi(latitude, longitude, api_key)
+        else:
+            address = str(latitude)+', '+str(longitude)
+
     except User.DoesNotExist:
         rvi_logger.error(SERVER_NAME + 'username does not exist: %s', username)
         raise
@@ -133,7 +139,7 @@ def validate_log_invoked_service(username, vehicleVIN, service, latitude, longit
 
 
 # Support functions
-def reverse_geocode(latitude, longitude):
+def reverse_geocode_googleapi(latitude, longitude, api_key):
     # Sensor set to True since GPS coords coming from the mobile app
     sensor = 'true'
 
@@ -142,7 +148,7 @@ def reverse_geocode(latitude, longitude):
         lat=latitude,
         lon=longitude,
         sen=sensor,
-        key=get_setting("GOOGLE_API_KEY")
+        key=api_key
     )
     url = "{base}{params}".format(base=base, params=params)
     response = requests.get(url)

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from servicehistory.models import ServiceInvokedHistory
 from vehicles.models import Vehicle
 
+from server.utils import get_setting
+
 # Globals
 retrieval_amount = 12
 
@@ -17,16 +19,19 @@ def history(request):
     last_invoked = ServiceInvokedHistory.objects.filter(hist_vehicle=owner_vehicles)
     last_invoked = last_invoked.order_by('-hist_timestamp')[:retrieval_amount]
 
+    using_googleapi = get_setting("GOOGLE_API_KEY")
     last_invoked_dict = []
-    for record in last_invoked:
-        formatted_address = str(record.hist_address).split(', ')
-        # remove country
-        del formatted_address[-1]
-        formatted_address.insert(-2, '\n')
-        formatted_address = str(formatted_address).strip('[]').replace('\'', '')
-        formatted_address = formatted_address.replace(', \\n, ', '\n')
 
-        record.hist_address = unicode(formatted_address)
+    for record in last_invoked:
+
+        if using_googleapi:
+            formatted_address = str(record.hist_address).split(', ')
+            # remove country
+            del formatted_address[-1]
+            formatted_address.insert(-2, '\n')
+            formatted_address = str(formatted_address).strip('[]').replace('\'', '')
+            formatted_address = formatted_address.replace(', \\n, ', '\n')
+            record.hist_address = unicode(formatted_address)
 
         time = localtime(record.hist_timestamp, timezone('US/Pacific'))
 

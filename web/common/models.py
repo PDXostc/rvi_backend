@@ -19,6 +19,7 @@ class Account(models.Model):
     class Meta:
         abstract = True
 
+
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides self-

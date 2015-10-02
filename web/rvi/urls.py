@@ -21,20 +21,21 @@ urlpatterns = patterns('',
 
     (r'', include('tokenapi.urls')),
 
-    url(r'^admin/', admin.site.urls),
-
     url(r'^tracking/', include('tracking.urls')),
     url(r'^sota/', include('sota.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+
+    # redirect root to admin portal dashboard
+    # url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
+
+    # redirect root to owner portal login
+    url(r'^$', 'ownerportal.views.login_user'),
 
     url(r'^login/$', 'ownerportal.views.login_user', name='owner_login'),
     url(r'^history/$', 'servicehistory.views.history', name='owner_history'),
     url(r'^keys/$', 'ownerportal.views.keys', name='owner_keys'),
     url(r'^logout/$', 'ownerportal.views.logout_user', name='logout'),
-
-    url(r'^admin/$', 'rvi.views.dashboard', name='rvi_dashboard'),
-    # redirect root to owner portal login
-    url(r'^$', 'ownerportal.views.login_user'),
-                       )
+)
 
 # uploaded files
 urlpatterns += patterns('',

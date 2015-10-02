@@ -13,6 +13,7 @@ from pytz import timezone
 import datetime
 
 from devices.models import Device, Remote
+from vehicles.models import Vehicle
 
 
 def login_user(request):
@@ -24,10 +25,17 @@ def login_user(request):
         password = request.POST.get('password')
 
         user = authenticate(username=username, password=password)
+
+
         if user is not None:
             if user.is_active or request.user.is_authenticated():
-                login(request, user)
-                return redirect('owner_history')
+
+                owner = Vehicle.objects.filter(account_id=user.id)
+                if owner.count():
+                    login(request, user)
+                    return redirect('owner_history')
+                else:
+                    state = "You must be a vehicle owner to log in."
             else:
                 state = "Your account is not active, please contact the site admin."
         else:
