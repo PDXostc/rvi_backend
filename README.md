@@ -269,15 +269,16 @@ to the optional step after cloning the RVI Backend Repository from GitHub.
 
 9. Cryptography Library
 
-   The Cryptography library requires the libffi development library, 
-   libffi-devel on Fedora and OpenSUSE, libffi-dev on Debian and Ubuntu, to
-   be installed. Install it first, then install
+   The Cryptography library requires the libffi development library as well as
+   the libssl development library. The names of the packages to be installed
+   are libffi-devel and libssl-devel on Fedora and OpenSUSE; libffi-dev and 
+   libssl-devel on Debian and Ubuntu. Install them first, then install
 
         sudo pip install cryptography
 
 10. Kafka Library
 
-        sudo pip install python-kafka
+        sudo pip install kafka-python
         
 11. HBase Library
 
