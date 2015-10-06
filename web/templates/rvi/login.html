@@ -1,0 +1,88 @@
+{% extends "rvi/base.html" %}
+
+{% load staticfiles %}
+{% load url from future %}
+
+<!-- {% load bootstrap3 %} -->
+{% load admin_static %}{% load firstof from future %}
+
+{% load i18n %}
+
+
+{% block site_head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'rvi/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'rvi/css/ownerlogin.css' %}" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static 'rvi/js/jquery-2.1.1.min.js' %}"></script>
+    <script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
+
+    {% block extra_site_head %}{% endblock %}
+{% endblock %}
+
+
+{% block site_content %}
+<!--
+ * parallax_login.html
+ * @Author original @msurguy (tw) -> http://bootsnipp.com/snippets/featured/parallax-login-form
+ * @Tested on FF && CH
+ * @Reworked by @kaptenn_com (tw)
+ * @package PARALLAX LOGIN.
+-->
+
+        <body>
+           <div class="container">
+                <div class="row vertical-offset-100">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row-fluid user-row text-center panel-title">
+                                    <h1>
+                                        Remote Vehicle Interaction
+                                    </h1>
+                                    <h3>Owners Portal</h3>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <form accept-charset="UTF-8" role="form" class="form-signin" action="/login/" method="post">
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        <label class="panel-login">
+                                            <div class="login_result"></div>
+                                        </label>
+										{% if user.is_authenticated %}
+											<div class="text-center text-danger">
+                                            <a href="/history">You are already logged in</a>
+                                            </div>
+										{% else %}
+											{% if next %}
+												<input type="hidden" name="next" value="{{ next }}" />
+											{% endif %}
+											username:
+											<input class="form-control" placeholder="Username" name="username" id="username" type="text" value="{{username}}">
+											password:
+											<input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+
+											<div class="text-center text-danger">{{ state }}</div>
+											<br> </br>
+
+											<input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Login »">
+										{% endif %}
+
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+            </div>
+{% endblock %}
