@@ -26,10 +26,10 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # redirect root to admin portal dashboard
-    # url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
+    url(r'^$', 'rvi.views.dashboard', name='rvi_dashboard'),
 
     # redirect root to owner portal login
-    url(r'^$', 'ownerportal.views.login_user'),
+    # url(r'^$', 'ownerportal.views.login_user'),
 
     url(r'^login/$', 'ownerportal.views.login_user', name='owner_login'),
     url(r'^history/$', 'servicehistory.views.history', name='owner_history'),
