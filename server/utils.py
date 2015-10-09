@@ -42,6 +42,11 @@ def get_settings():
         conf['SOTA_SERVICE_ID']   = get_setting("RVI_SOTA_SERVICE_ID", "/sota")
         conf['SOTA_CHUNK_SIZE']   = get_setting("RVI_SOTA_CHUNK_SIZE", 65536)
 
+        conf['DA_ENABLE']       = get_setting("RVI_DA_ENABLE", True)
+        conf['DA_CALLBACK_URL'] = get_setting("RVI_DA_CALLBACK_URL")
+        conf['DA_SERVICE_ID']   = get_setting("RVI_DA_SERVICE_ID", "/dynamicagents")
+        conf['DA_CHUNK_SIZE']   = get_setting("RVI_DA_CHUNK_SIZE", 65536)
+
         conf['TRACKING_ENABLE']       = get_setting("RVI_TRACKING_ENABLE", True)
         conf['TRACKING_CALLBACK_URL'] = get_setting("RVI_TRACKING_CALLBACK_URL")
         conf['TRACKING_SERVICE_ID']   = get_setting("RVI_TRACKING_SERVICE_ID", "/logging")
@@ -57,5 +62,6 @@ def get_settings():
         conf['TRACKING_MQ_HBASE_URL'] = get_setting("RVI_TRACKING_MQ_HBASE_URL", "localhost")
         conf['TRACKING_MQ_HBASE_PORT'] = get_setting("RVI_TRACKING_MQ_HBASE_PORT", "9090")
         conf['TRACKING_MQ_HBASE_TABLE'] = get_setting("RVI_TRACKING_MQ_HBASE_TABLE", "rvi")
+
 
         return conf
