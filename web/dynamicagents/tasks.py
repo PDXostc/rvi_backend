@@ -12,7 +12,8 @@ Anson Fan (afan1@jaguarlandrover.com)
 
 from __future__ import absolute_import
 
-import sys, os, logging, time, jsonrpclib, base64
+from dateutil.parser import parse
+import sys, os, logging, time, jsonrpclib, base64, calendar
 import Queue
 
 from urlparse import urlparse
@@ -37,7 +38,7 @@ def set_status(retry, status):
     :param status: status value from sota.models.Status
     """
     retry.set_status(status)
-    retry.ret_update.set_status(status)
+    retry.ret_update_da.set_status(status)
 
     
 def get_destination(retry):
@@ -45,7 +46,7 @@ def get_destination(retry):
     Return vehicles.Vehicle and vehicle URL from a Retry object
     :param retry: sota.models.Retry object
     """
-    vehicle = retry.ret_update.upd_vehicle
+    vehicle = retry.ret_update_da.upd_vehicle
     dst_url = vehicle.veh_rvibasename + '/vin/' + vehicle.veh_vin
     return [vehicle, dst_url]
 
@@ -58,7 +59,7 @@ def notify_update(retry):
     """
     
     logger.info('%s: Running Update.', retry)
-    set_status(retry, sota.models.Status.STARTED)
+    set_status(retry, dynamicagents.models.Status.STARTED)
     
     global transaction_id
     
@@ -68,11 +69,11 @@ def notify_update(retry):
         rvi_service_url = settings.RVI_SERVICE_EDGE_URL
     except NameError:
         logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', retry)
-        set_status(retry, sota.models.Status.FAILED)
+        set_status(retry, dynamicagents.models.Status.FAILED)
         return False
     # SOTA service id
     try:
-        rvi_service_id = settings.RVI_SOTA_SERVICE_ID
+        rvi_service_id = settings.RVI_DA_SERVICE_ID
     except NameError:
         rvi_service_id = '/dynamicagents'
 
@@ -83,37 +84,52 @@ def notify_update(retry):
         rvi_server = jsonrpclib.Server(rvi_service_url)
     except Exception as e:
         logger.error('%s: Cannot connect to RVI service edge: %s', retry, e)
-        set_status(retry, sota.models.Status.FAILED)
+        set_status(retry, dynamicagents.models.Status.FAILED)
         return False
     logger.info('%s: Established connection to RVI Service Edge: %s', retry, rvi_server)
     
     # get package to update and open file
-    agent = retry.ret_update.upd_package
-    agent_name = agent.pac_name
+    agent = retry.ret_update_da.upd_package_da
+    agent_name = agent.pac_name_da
+    agent_launch_cmd = str(agent.pac_start_cmd)
+    agent_expiration = calendar.timegm(parse(str(retry.ret_update_da.upd_expiration)).timetuple())
+    agent_file_dst = agent.pac_file_da
     
-    # get destination info
-    vehicle = retry.ret_update.upd_vehicle
+    agent_file_dst.open(mode='r')
+    agentcode = agent_file_dst.read()
+    agent_file_dst.close()
+
+    vehicle = retry.ret_update_da.upd_vehicle_da
     dst_url = vehicle.veh_rvibasename + '/vin/' + vehicle.veh_vin
  
     # notify remote of pending file transfer
     transaction_id += 1
     try:
+        # rvi_server.message(calling_service = rvi_service_id,
+        #                    service_name = dst_url + rvi_service_id + '/notify',
+        #                    transaction_id = str(transaction_id),
+        #                    timeout = int(retry.get_timeout_epoch()),
+        #                    parameters = [{ u'agent': agent_name },
+        #                                  { u'retry': retry.pk },
+        #                                 ])
+
         rvi_server.message(calling_service = rvi_service_id,
-                           service_name = dst_url + rvi_service_id + '/notify',
+                           service_name = dst_url + rvi_service_id + '/agent',
                            transaction_id = str(transaction_id),
                            timeout = int(retry.get_timeout_epoch()),
-                           parameters = [{ u'agent': agent_name },
-                                         { u'retry': retry.pk },
-                                        ])
+                           parameters = {u'agent':agent_name, u'launch':agent_launch_cmd,u'expires':str(agent_expiration),
+                                            u'agent_code':(base64.b64encode(agentcode.encode('UTF-8')))}
+                           )
+
     except Exception as e:
         logger.error('%s: Cannot send request: %s', retry, e)
-        set_status(retry, sota.models.Status.FAILED)
+        set_status(retry, dynamicagents.models.Status.FAILED)
         return False
     
     logger.info('%s: Notified remote of pending file transfer.', retry)
     
     # done
-    set_status(retry, sota.models.Status.WAITING)
+    set_status(retry, dynamicagents.models.Status.SUCCESS)
     logger.info('%s: Completed Update.', retry)
     return True
 

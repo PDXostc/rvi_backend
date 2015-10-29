@@ -89,8 +89,7 @@ class UpdateDA(models.Model):
                                   max_length=2,
                                   choices=UPDATE_STATUS,
                                   default=Status.PENDING)
-    upd_timeout_da = models.DateTimeField('Valid Until')
-    upd_expiration = models.DateTimeField('Agent Expiration Date')
+    upd_expiration = models.DateTimeField('Valid Until')
     upd_retries_da = models.IntegerField('Maximum Retries', validators=[validate_upd_retries_da], default="0")
     
     @property
@@ -119,7 +118,7 @@ class UpdateDA(models.Model):
         """
         Returns 'True' if this Update is not expired.
         """
-        return (timezone.now() <= self.upd_timeout_da)
+        return (timezone.now() <= self.upd_expiration)
     not_expired.short_description = 'Not Expired'
     not_expired.admin_order_field = 'udp_timeout'
     not_expired.boolean = True
@@ -129,7 +128,7 @@ class UpdateDA(models.Model):
         Returns the number of Retry objects associated with this
         Update.
         """
-        return Retry.objects.filter(ret_update_da=self).count()
+        return RetryDA.objects.filter(ret_update_da=self).count()
     retry_count.short_description = "Retry Count"
 
     def active_retries(self):
@@ -138,7 +137,7 @@ class UpdateDA(models.Model):
         the Update. A Retry is active if its status is PENDING, STARTED,
         RUNNING or WAITING.
         """
-        return Retry.objects.filter(ret_update_da=self,
+        return RetryDA.objects.filter(ret_update_da=self,
                                     ret_status_da=(Status.PENDING or Status.STARTED or Status.RUNNING or Status.WAITING)
                                    )
 
@@ -149,9 +148,9 @@ class UpdateDA(models.Model):
         update process.
         """
         if self.upd_status_da in [Status.PENDING, Status.ABORTED, Status.FAILED]:
-            retry = Retry(ret_update_da=self,
+            retry = RetryDA(ret_update_da=self,
                           ret_start_da=timezone.now(),
-                          ret_timeout_da=self.upd_timeout_da,
+                          ret_timeout_da=self.upd_expiration,
                           ret_status_da=Status.PENDING
                          )
             retry.save()

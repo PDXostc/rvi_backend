@@ -46,7 +46,7 @@ class UpdateAdmin(admin.ModelAdmin):
     """
     fieldsets = [
         (None,                  {'fields': [('upd_vehicle_da', 'upd_package_da')]}),
-        ('Update Information',  {'fields': [('upd_status_da', 'upd_timeout_da', 'upd_retries_da')]}),
+        ('Update Information',  {'fields': [('upd_status_da', 'upd_expiration', 'upd_retries_da')]}),
     ]
     inlines = [RetryInline]
 
