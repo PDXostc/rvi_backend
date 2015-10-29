@@ -18,7 +18,7 @@ from django.core.exceptions import ValidationError
 
 from vehicles.models import Vehicle
 from tasks import notify_update
-
+from tasks import terminate_agent
 
 # Validators
 def validate_upd_timeout_da(timeout):
@@ -42,6 +42,7 @@ class Status:
     FAILED   = "FA"
     WAITING  = "WA"
     REJECTED = "RE"
+    TERMINATED = "TD"
         
 
 class Agent(models.Model):
@@ -82,6 +83,7 @@ class UpdateDA(models.Model):
         (Status.FAILED,   "Failed"),
         (Status.WAITING,  "Waiting"),
         (Status.REJECTED, "Rejected"),
+        (Status.TERMINATED, "Terminated"),
     )
     upd_vehicle_da = models.ForeignKey(Vehicle, verbose_name='Vehicle')
     upd_package_da = models.ForeignKey(Agent, verbose_name='Agent')
@@ -161,6 +163,18 @@ class UpdateDA(models.Model):
         else:
             return None
 
+    def terminate(self):
+            retry = RetryDA(ret_update_da=self,
+                          ret_start_da=timezone.now(),
+                          ret_timeout_da=self.upd_expiration,
+                          ret_status_da=Status.PENDING
+                         )
+            retry.save()
+            self.upd_status_da = Status.STARTED
+            self.save()
+            terminate_agent(retry)
+            return retry
+
     def abort(self):
         """
         Abort the Update and currently running Retry.
@@ -210,6 +224,7 @@ class RetryDA(models.Model):
         (Status.FAILED,   "Failed"),
         (Status.WAITING,  "Waiting"),
         (Status.REJECTED, "Rejected"),
+        (Status.TERMINATED, "Terminated"),
     )
     ret_update_da = models.ForeignKey(UpdateDA, verbose_name='Update')
     ret_start_da = models.DateTimeField('Retry Started')

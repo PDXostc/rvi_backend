@@ -70,6 +70,13 @@ class UpdateAdmin(admin.ModelAdmin):
         self.message_user(request, "%s successfully started." % mbit)
     start_update.short_description = "Start selected updates"
 
+    def terminate_agent(self, request, updates):
+        for update in updates:
+            retry = update.terminate()
+        self.message_user(request, "Agents terminating")
+    terminate_agent.short_description = "Terminate selected agents"
+
+
     def abort_update(self, request, updates):
         updates_aborted = 0
         for update in updates:
@@ -87,7 +94,7 @@ class UpdateAdmin(admin.ModelAdmin):
     list_display = ('update_name', 'upd_vehicle_da', 'upd_package_da', 'upd_status_da', 'retry_count', 'not_expired')
     list_filter = ['upd_status_da']
     search_fields = ['upd_vehicle__veh_name', 'upd_package__pac_name']
-    actions = [start_update, abort_update]
+    actions = [start_update, abort_update, terminate_agent]
 
 
 class AgentAdmin(admin.ModelAdmin):

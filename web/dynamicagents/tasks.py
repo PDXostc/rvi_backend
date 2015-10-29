@@ -21,6 +21,7 @@ from urlparse import urlparse
 from django.conf import settings
 
 import dynamicagents.models
+import time
 
 
 # Logging setup
@@ -50,6 +51,65 @@ def get_destination(retry):
     dst_url = vehicle.veh_rvibasename + '/vin/' + vehicle.veh_vin
     return [vehicle, dst_url]
 
+def terminate_agent(retry):
+    logger.info("Terminating an agent")
+
+    global transaction_id
+
+    # get settings
+    # service edge url
+    try:
+        rvi_service_url = settings.RVI_SERVICE_EDGE_URL
+    except NameError:
+        logger.error('%s: RVI_SERVICE_EDGE_URL not defined. Check settings!', retry)
+        set_status(retry, dynamicagents.models.Status.FAILED)
+        return False
+    # SOTA service id
+    try:
+        rvi_service_id = settings.RVI_DA_SERVICE_ID
+    except NameError:
+        rvi_service_id = '/dynamicagents'
+
+    rvi_server = None
+    logger.info('%s: Establishing RVI service edge connection: %s', retry, rvi_service_url)
+    try:
+        rvi_server = jsonrpclib.Server(rvi_service_url)
+    except Exception as e:
+        logger.error('%s: Cannot connect to RVI service edge: %s', retry, e)
+        set_status(retry, dynamicagents.models.Status.FAILED)
+        return False
+    logger.info('%s: Established connection to RVI Service Edge: %s', retry, rvi_server)
+
+    # get package to update and open file
+    agent = retry.ret_update_da.upd_package_da
+    agent_name = agent.pac_name_da
+
+    vehicle = retry.ret_update_da.upd_vehicle_da
+    dst_url = vehicle.veh_rvibasename + '/vin/' + vehicle.veh_vin
+ 
+    # notify remote of pending file transfer
+    transaction_id += 1
+    
+    try:
+
+        rvi_server.message(calling_service = rvi_service_id,
+                           service_name = dst_url + rvi_service_id + '/terminate_agent',
+                           transaction_id = str(transaction_id),
+                           timeout = int(time.time()+60),
+                           parameters = {u'agent':agent_name}
+                           )
+
+    except Exception as e:
+        logger.error('%s: Cannot send request: %s', retry, e)
+        set_status(retry, dynamicagents.models.Status.FAILED)
+        return False
+    
+    logger.info('%s: Notified remote of pending file transfer.', retry)
+    
+    # done
+    set_status(retry, dynamicagents.models.Status.TERMINATED)
+    logger.info('%s: Completed Update.', retry)
+    return True    
 
 def notify_update(retry):
     """
