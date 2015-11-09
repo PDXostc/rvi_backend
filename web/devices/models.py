@@ -57,8 +57,8 @@ class Remote(models.Model):
     rem_vehicle   = models.ForeignKey(Vehicle, verbose_name='Vehicle')
     rem_created   = models.DateTimeField(auto_now_add=True, editable=False)
     rem_updated   = models.DateTimeField(auto_now=True, editable=False)
-    rem_validfrom = models.DateTimeField('Valid From')
-    rem_validto   = models.DateTimeField('Valid To')
+    rem_validfrom = models.DateTimeField('Valid From', max_length=100)
+    rem_validto   = models.DateTimeField('Valid To', max_length=100)
     rem_lock      = models.BooleanField('Lock/Unlock', default=False)
     rem_engine    = models.BooleanField('Start/Stop Engine', default=False)
     rem_trunk     = models.BooleanField('Open/Close Trunk', default=False)
@@ -91,7 +91,7 @@ class Remote(models.Model):
         jr[u'destinations'] = []
         for control in self._controls:
             if control[1]:
-                jr[u'destinations'].append('rpc:' + self.rem_vehicle.get_rvi_id() + '/control/' + control[0])
+                jr[u'destinations'].append(self.rem_vehicle.get_rvi_id() + '/control/' + control[0])
         jr[u'keys'] = []
         jr[u'keys'].append(self.rem_device.dev_key.format_json_public_key(use = JSONWebKey.USE_TYPE_SIG))
         jr[u'validity'] = {

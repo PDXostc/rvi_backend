@@ -9,7 +9,7 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 """
 
 from django.contrib import admin
-from security.models import JSONWebKey
+from security.models import JSONWebKey, CANFWKey
 
 
 class KeyAdmin(admin.ModelAdmin):
@@ -30,8 +30,19 @@ class KeyAdmin(admin.ModelAdmin):
     def key_kid(self, object):
         return object.key_kid
     key_kid.short_description = 'Key Fingerprint'
+
+class FWKeyAdmin(admin.ModelAdmin):
+    """
+    Administration view for Vehicles.
+    """
+    readonly_fields = ('key_created', 'key_updated')
+    list_display = ('key_name','symm_key', 'key_created', 'key_updated')
+
+    fieldsets = [
+        (None,                    {'fields': ['key_name']}),
+        ('Key Information',       {'fields': ['symm_key', 'key_created', 'key_updated']}),
+    ]
     
 
-
-
 admin.site.register(JSONWebKey, KeyAdmin)
+admin.site.register(CANFWKey, FWKeyAdmin)

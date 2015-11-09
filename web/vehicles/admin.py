@@ -11,6 +11,7 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 from django.contrib import admin
 from vehicles.models import Vehicle
 from security.models import JSONWebKey
+from security.models import CANFWKey
 import tracking.tasks
 
 
@@ -27,6 +28,7 @@ class VehicleAdmin(admin.ModelAdmin):
         ('Account Information',  {'fields': ['account']}),
         ('RVI Information',      {'fields': ['veh_rvibasename']}),
         ('Security Information', {'fields': ['veh_key']}),
+        ('CAN Firewall Key',     {'fields': ['canfw_key']}),
     ]
 
     def subscribe_location(self, request, vehicles):

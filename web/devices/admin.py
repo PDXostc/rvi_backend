@@ -20,18 +20,20 @@ def replace(str):
     str.replace(" ", "<br>")
     return str
 
-class RemoteInline(admin.TabularInline):
+class RemoteInline(admin.StackedInline):
     """
     A Remote is associated with a Device. We use this Inline to show
     all Remotes of a Device on the Device's detail page.
     """
     model = Remote
+    extra = 1
+
     fieldsets = [
         (None,                  {'fields': ['rem_name']}),
-        ('Device Information',  {'fields': ['rem_device']}),
-        ('Vehicle Information', {'fields': ['rem_vehicle']}),
-        ('Validity',            {'fields': ['rem_validfrom', 'rem_validto']}),
-        ('Authorizations',      {'fields': ['rem_lock', 'rem_engine', 'rem_trunk', 'rem_horn', 'rem_lights', 'rem_windows', 'rem_hazard']}),
+        (None,                  {'fields': ['rem_device']}),
+        (None,                  {'fields': ['rem_vehicle']}),
+        (None,                  {'fields': ['rem_validfrom', 'rem_validto']}),
+        (None,                  {'fields': ['rem_lock', 'rem_engine', 'rem_trunk', 'rem_horn', 'rem_lights', 'rem_windows', 'rem_hazard']}),
     ]
 
     def has_add_permission(self, request):
