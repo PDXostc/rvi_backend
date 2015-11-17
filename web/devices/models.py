@@ -11,7 +11,7 @@ Rudolf Streif (rstreif@jaguarlandrover.com)
 import datetime, pytz, uuid, jwt
 from django.db import models
 from django.utils.safestring import mark_safe
-from common.user import Account
+from common.models import Account
 from vehicles.models import Vehicle
 from security.models import JSONWebKey
 
@@ -52,7 +52,7 @@ class Remote(models.Model):
     certain actions on a Vehicle.
     """
     rem_name      = models.CharField('Remote Name', max_length=256)
-    rem_uuid      = models.CharField('Remote UUID', max_length=256, default=str(uuid.uuid4()), editable=False)
+    rem_uuid      = models.CharField('Remote UUID', max_length=60, editable=False, unique=True)
     rem_device    = models.ForeignKey(Device, verbose_name='Device')
     rem_vehicle   = models.ForeignKey(Vehicle, verbose_name='Vehicle')
     rem_created   = models.DateTimeField(auto_now_add=True, editable=False)
@@ -109,3 +109,6 @@ class Remote(models.Model):
     def _get_time_epoch(self, dt):
         return int((dt.astimezone(pytz.UTC) - datetime.datetime(1970,1,1,tzinfo=pytz.UTC)).total_seconds())
 
+    def save(self, *args, **kwargs):
+        self.rem_uuid = str(uuid.uuid4())
+        super(Remote, self).save(*args, **kwargs)

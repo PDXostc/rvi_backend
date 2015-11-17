@@ -5,7 +5,8 @@ This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 
-Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
+Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
+Modified by: David Thiriez (david.thiriez@p3-group.com)
 """
 
 """
@@ -45,6 +46,18 @@ def get_settings():
         conf['TRACKING_ENABLE']       = get_setting("RVI_TRACKING_ENABLE", True)
         conf['TRACKING_CALLBACK_URL'] = get_setting("RVI_TRACKING_CALLBACK_URL")
         conf['TRACKING_SERVICE_ID']   = get_setting("RVI_TRACKING_SERVICE_ID", "/logging")
+
+        conf['CERTIFICATE_SERVICES_ENABLE']       = get_setting("RVI_CERTIFICATE_SERVICES_ENABLE", True)
+        conf['CERTIFICATE_SERVICES_CALLBACK_URL'] = get_setting("RVI_CERTIFICATE_SERVICES_CALLBACK_URL")
+        conf['CERTIFICATE_SERVICES_CALLBACK_ID']   = get_setting("RVI_CERTIFICATE_SERVICES_CALLBACK_ID", "/dm")
+
+        conf['LOG_INVOKED_SERVICES_ENABLE']       = get_setting("RVI_LOG_INVOKED_SERVICES_ENABLE", True)
+        conf['LOG_INVOKED_SERVICES_CALLBACK_URL'] = get_setting("RVI_LOG_INVOKED_SERVICES_CALLBACK_URL")
+        conf['LOG_INVOKED_SERVICES_CALLBACK_ID']   = get_setting("RVI_LOG_INVOKED_SERVICES_CALLBACK_ID", "/logging")
+
+        conf['INVOKE_SERVICES_ENABLE']       = get_setting("RVI_INVOKE_SERVICES_ENABLE", True)
+        conf['INVOKE_SERVICES_CALLBACK_URL'] = get_setting("RVI_INVOKE_SERVICES_CALLBACK_URL")
+        conf['INVOKE_SERVICES_CALLBACK_ID']   = get_setting("RVI_INVOKE_SERVICES_CALLBACK_ID", "/invoke")
 
         conf['TRACKING_DB_PUBLISH']   = get_setting("RVI_TRACKING_DB_PUBLISH", False)
 

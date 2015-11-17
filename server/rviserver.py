@@ -5,7 +5,8 @@ This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 
-Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
+Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
+Modified by: David Thiriez (david.thiriez@p3-group.com)
 """
 
 """
@@ -28,6 +29,9 @@ import __init__
 from util.daemon import Daemon
 from server.sotaserver import SOTACallbackServer, SOTATransmissionServer
 from server.trackingserver import TrackingCallbackServer
+from server.devicemanagementserver import DeviceManagementServer
+from server.loginvokedserviceserver import LogInvokedServicesServer
+from server.invokeserviceserver import InvokeServicesServer
 from server.mqsinkserver import MQSinkServer
 from server.hbaseserver import HBaseServer
 from server.utils import get_settings
@@ -46,6 +50,7 @@ class RVIServer(Daemon):
     sota_cb_server = None
     sota_tx_server = None
     tracking_cb_server = None
+    certificate_services_cb = None
     mq_sink_server = None
     hbase_server = None
     def cleanup(self, *args):
@@ -56,6 +61,8 @@ class RVIServer(Daemon):
             self.sota_tx_server.shutdown()
         if self.tracking_cb_server:
             self.tracking_cb_server.shutdown()
+        if self.certificate_services_cb:
+            self.certificate_services_cb.shutdown()
         if self.mq_sink_server:
             self.mq_sink_server.shutdown()
         if self.hbase_server:
@@ -134,7 +141,101 @@ class RVIServer(Daemon):
 
         else:
             rvi_logger.info('RVI Server: Tracking not enabled')
-        
+
+
+        # Backend Device Management Services Startup
+        if conf['CERTIFICATE_SERVICES_ENABLE'] == True:
+            # Backend Device Management Services configuration
+            rvi_logger.info('RVI Server: Backend Device Management Server Configuration: ' +
+                            'RVI_CERTIFICATE_SERVICES_CALLBACK_URL: ' + conf['CERTIFICATE_SERVICES_CALLBACK_URL'] +
+                            ', RVI_CERTIFICATE_SERVICES_SERVICE_ID: ' + conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                            )
+            # Start the Backend Device Management Services callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Backend Device Management Server on %s with service id %s.',
+                    conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
+                    conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = DeviceManagementServer(
+                    self.rvi_service_edge,
+                    conf['CERTIFICATE_SERVICES_CALLBACK_URL'],
+                    conf['CERTIFICATE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Backend Device Management Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Remote Backend Device Management Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Backend Device Management Services callback server to come up
+            time.sleep(0.5)
+        else:
+            rvi_logger.info('RVI Server: Backend Device Management Server not enabled')
+
+
+        # Log Invoked Service Startup
+        if conf['LOG_INVOKED_SERVICES_ENABLE'] == True:
+            # Log Invoked Service configuration
+            rvi_logger.info('RVI Server: Log Invoked Service Configuration: ' +
+                'RVI_LOG_INVOKED_SERVICES_CALLBACK_URL: ' + conf['LOG_INVOKED_SERVICES_CALLBACK_URL'] + ', ' +
+                'RVI_LOG_INVOKED_SERVICES_CALLBACK_ID: '   + conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+            # Start the Log Invoked Service callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Log Invoked Service Server on %s with service id %s.',
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_URL'],
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = LogInvokedServicesServer(
+                    self.rvi_service_edge,
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_URL'],
+                    conf['LOG_INVOKED_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Log Invoked Service Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Log Invoked Service Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Log Invoked Service callback server to come up
+            time.sleep(0.5)
+        else:
+            rvi_logger.info('RVI Server: Log Invoked Services Service not enabled')
+
+
+        # Invoke Service Startup
+        if conf['INVOKE_SERVICES_ENABLE'] == True:
+            # Invoke Service configuration
+            rvi_logger.info('RVI Server: Log Invoked Service Configuration: ' +
+                'RVI_INVOKE_SERVICES_CALLBACK_URL: ' + conf['INVOKE_SERVICES_CALLBACK_URL'] + ', ' +
+                'RVI_INVOKE_SERVICES_CALLBACK_ID: '   + conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+            # Start the Invoke Service callback server
+            try:
+                rvi_logger.info(
+                    'RVI Server: Starting Invoke Service Server on %s with service id %s.',
+                    conf['INVOKE_SERVICES_CALLBACK_URL'],
+                    conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb = InvokeServicesServer(
+                    self.rvi_service_edge,
+                    conf['INVOKE_SERVICES_CALLBACK_URL'],
+                    conf['INVOKE_SERVICES_CALLBACK_ID']
+                )
+                self.certificate_services_cb.start()
+                rvi_logger.info('RVI Server: Invoke Service Callback Server started.')
+            except Exception as e:
+                rvi_logger.error('RVI Server: Cannot start Invoke Service Callback Server: %s', e)
+                sys.exit(1)
+
+            # wait for Invoke Service callback server to come up
+            time.sleep(0.5)
+        else:
+            rvi_logger.info('RVI Server: Invoke Services Service not enabled')
+
+
         # Publish to Kafka Message Queue
         if conf['TRACKING_MQ_PUBLISH'] == True:
             #log kafka configuration
@@ -168,7 +269,8 @@ class RVIServer(Daemon):
                 sys.exit(1)
         else:
             rvi_logger.info('RVI Server: HBase server storage not enabled')
-        
+
+
         # catch signals for proper shutdown
         for sig in (SIGABRT, SIGTERM, SIGINT):
             signal(sig, self.cleanup)

@@ -5,7 +5,8 @@ This program is licensed under the terms and conditions of the
 Mozilla Public License, version 2.0.  The full text of the 
 Mozilla Public License is at https://www.mozilla.org/MPL/2.0/
 
-Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com) 
+Maintainer: Rudolf Streif (rstreif@jaguarlandrover.com)
+Modified by: David Thiriez (david.thiriez@p3-group.com)
 """
 
 """
@@ -18,33 +19,53 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = os.path.dirname(__file__)
-WEB_DIR = os.path.join(BASE_DIR, 'web')
+# Build paths inside the project
+from unipath import Path
+# Load secrets from non-executable JSON
+import json
+# Normally you should not import ANYTHING from Django directly
+# into your settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
 
-# Templates
-TEMPLATE_DIRS = [os.path.join(WEB_DIR, 'templates')]
+# Build paths inside the project like this:
+BASE_DIR = Path(__file__).absolute().ancestor(3)
+MEDIA_ROOT = BASE_DIR.child('media')
+WEB_DIR = BASE_DIR.child('web')
+# STATIC_ROOT = WEB_DIR.child("staticroot")
+CONFIG_DIR = BASE_DIR.child('config')
+TEMPLATE_DIRS = [WEB_DIR.child('templates')]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y7pg3qz)6fs4vk4=)_*fn(dagsx+t!wvl=p&d3ybm(yc%((&pg'
+# secret keys handled in /config/settings/secrets.json
+# JSON-based secrets module
+with open(CONFIG_DIR.child('settings', 'secrets.json')) as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = 'Set the {0} environment variable'.format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret('DJANGO_SECRET_KEY')
+GOOGLE_API_KEY = get_secret('GOOGLE_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = False
 
 # We allow all hosts to connect
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = (
-#    'django_admin_bootstrapped',
+    # 'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,9 +83,11 @@ INSTALLED_APPS = (
     'devices',
     'security',
     'can_fw',
+    'servicehistory',
+    'tokenapi',
 )
 
-#INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
+# INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -81,6 +104,8 @@ ROOT_URLCONF = 'rvi.urls'
 
 WSGI_APPLICATION = 'rvi.wsgi.application'
 
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'tokenapi.backends.TokenBackend', )
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -94,7 +119,6 @@ DATABASES = {
         'CHARSET': 'utf8',
     },
 }
-
 
 # Logging
 # https://docs.djangoproject.com/en/1.7/topics/logging/
@@ -116,14 +140,15 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-             'level': 'INFO',
-             'class': 'logging.StreamHandler',
-             'formatter': 'simple',
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
         },
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
+            # 'filename': os.path.join(BASE_DIR, 'log/rvibackend.log'),
+            'filename': BASE_DIR.child('log', 'rvibackend.log'),
             'formatter': 'verbose',
         },
         'db_general': {
@@ -182,9 +207,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATICFILES_DIRS = (
-    os.path.join(WEB_DIR, 'static'),
+    # os.path.join(WEB_DIR, 'static'),
+    WEB_DIR.child('static'),
 )
-STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
+# STATIC_ROOT = os.path.join(WEB_DIR, 'staticroot')
+STATIC_ROOT = WEB_DIR.child('staticroot')
 STATIC_URL = '/static/'
 
 
@@ -194,19 +221,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Bootstrap 3 Configuration
 BOOTSTRAP3 = {
-'jquery_url': '//code.jquery.com/jquery-2.1.1.min.js',
-'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
-'css_url': None,
-'theme_url': None,
-'javascript_url': None,
-'javascript_in_head': False,
-'include_jquery': True,
+    'jquery_url': '//code.jquery.com/jquery-2.1.1.min.js',
+    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
+    'css_url': None,
+    'theme_url': None,
+    'javascript_url': None,
+    'javascript_in_head': False,
+    'include_jquery': True,
 }
 
 
 # Server Key File
-# Original key is checked in under rvi_core/insecure_root_key_priv.pem
-RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/insecure_root_key_priv.pem')
+# RVI_BACKEND_KEYFILE = os.path.join(BASE_DIR, 'keys/rvi_be.private.pem')
+RVI_BACKEND_KEYFILE = BASE_DIR.child("keys", "insecure_root_key_priv.pem")
 
 # Server Signature Algorithm (default: RS256)
 RVI_BACKEND_ALG_SIG = 'RS256'
@@ -215,13 +242,13 @@ RVI_BACKEND_ALG_SIG = 'RS256'
 # File upload base path
 # You can use the relative path when running the rviserver in the foreground.
 # For running as a daemon you must use an absolute path.
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
-#MEDIA_ROOT = '/absolute/path/to/files/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_ROOT = BASE_DIR.child("files")
+# MEDIA_ROOT = '/absolute/path/to/files/'
 
 MEDIA_URL = '/files/'
 
 DEFAULT_VEHICLE_IMAGE = "car-100x50.png"
-
 
 # Mapping Configuration
 LEAFLET_CONFIG = {
@@ -251,12 +278,27 @@ RVI_CANFW_NUM_PRIO = 16
 RVI_DM_SERVICE_ID = '/dm'
 
 # Tracking
-#RVI_TRACKING_SOURCE_GPS = True
+# RVI_TRACKING_SOURCE_GPS = True
 RVI_TRACKING_ENABLE = False
 RVI_TRACKING_CALLBACK_URL = 'http://127.0.0.1:20002'
 RVI_TRACKING_SERVICE_ID = '/logging'
 
 RVI_TRACKING_DB_PUBLISH = False
+
+# Remote (certificate) Services
+RVI_CERTIFICATE_SERVICES_ENABLE = True
+RVI_CERTIFICATE_SERVICES_CALLBACK_URL = 'http://127.0.0.1:20003'
+RVI_CERTIFICATE_SERVICES_CALLBACK_ID = RVI_DM_SERVICE_ID
+
+# Service invoked logging Service
+RVI_LOG_INVOKED_SERVICES_ENABLE = True
+RVI_LOG_INVOKED_SERVICES_CALLBACK_URL = 'http://127.0.0.1:20004'
+RVI_LOG_INVOKED_SERVICES_CALLBACK_ID = RVI_TRACKING_SERVICE_ID
+
+# Service invoked logging Service
+RVI_INVOKE_SERVICES_ENABLE = True
+RVI_INVOKE_SERVICES_CALLBACK_URL = 'http://127.0.0.1:20005'
+RVI_INVOKE_SERVICES_CALLBACK_ID = '/invoke'
 
 # Publish to Kafka Message Queue
 RVI_TRACKING_MQ_PUBLISH = True
@@ -264,7 +306,10 @@ RVI_TRACKING_MQ_URL = "master:6667"
 RVI_TRACKING_MQ_TOPIC = "rvi"
 
 # Read from Kafka save to HBase table
-RVI_TRACKING_MQ_HBASE = True
+RVI_TRACKING_MQ_HBASE = False
 RVI_TRACKING_MQ_HBASE_URL = "master"
 RVI_TRACKING_MQ_HBASE_PORT = "9090"
 RVI_TRACKING_MQ_HBASE_TABLE = "rvi"
+
+# Login Token config
+TOKEN_CHECK_ACTIVE_USER = True

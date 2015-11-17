@@ -1,0 +1,38 @@
+                    <table class="table table-hover table-history">
+                        <thead>
+                            <tr>
+                                <th >User</th>
+                                <th >RVI Service</th>
+                                <th >Timestamp</th>
+                                <th >Location</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hist-table">
+
+                        {% for record in last_invoked %}
+                            <tr id="{{ record.hist_id }}">
+                                <td>
+                                    <b>{{ record.hist_user }}</b>
+                                    {% if user.username != record.hist_user %}
+                                        <br>
+                                        (guest)
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ record.hist_service }}
+                                </td>
+                                <td>
+                                    {{ record.hist_timestamp|linebreaksbr }}
+                                </td>
+                                <td>{{ record.hist_address|linebreaksbr }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                <script type="text/javascript">
+                {% for item in last_invoked %}
+                    L.marker([{{ item.hist_latitude }}, {{ item.hist_longitude }}]).addTo(map);
+                {% endfor %}
+                </script>

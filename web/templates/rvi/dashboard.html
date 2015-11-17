@@ -1,11 +1,11 @@
 {% extends "rvi/bootstrap.html" %}
 
 {% load staticfiles %}
-{% load url from future %}
+<!--{% load url from future %}
 
-<!-- {% load bootstrap3 %} -->
+<!-- {% load bootstrap3 %}
 {% load admin_static %}{% load firstof from future %}
-
+ -->
 {% load i18n %}
 
 
@@ -17,12 +17,16 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>{% block title %}Remote Vehicle Interaction{% endblock %}</title>
+    <title>
+        {% block title %}Remote Vehicle Interaction{% endblock %}
+    </title>
 
     <!-- Custom styles for this template -->
     <link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet">
     <link href="{% static 'rvi/css/dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'rvi/css/common.css' %}" rel="stylesheet">
+
+
     <script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
     <script type="text/javascript" src="{% static 'rvi/js/main.js' %}"></script>
@@ -33,6 +37,7 @@
 {% block site_content %}
 
 <div id="container" class="container">
+
   {% if not is_popup %}
   <!-- Navigation Bar -->
   <div id="header" class="header">
@@ -45,21 +50,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand">Remote Vehicle Interaction</a>
+          <a class="navbar-brand">
+              Remote Vehicle Interaction
+          </a>
           <a id="sidebar_menu" class="open-menu">☰</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar"> <!--class="navbar-collapse collapse"-->
           <ul class="nav navbar-nav navbar-right">
-            {% if user.is_active and user.is_staff %}
-                  <li><a href="#">{% trans 'Welcome, ' %}<strong>{% firstof user.get_short_name user.get_username %}</strong>.</a></li>
-                  {% if user.has_usable_password %}
-                  <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
-                  {% endif %}
-                  <li><a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a></li>
-            {% else %}
-              <li><a href="{% url 'admin:index' %}">Log in</a></li>
-            {% endif %}
-            <li><a href="#">Help</a></li>
+           {% if user.is_active and user.is_staff %}
+                  <li><a href="#">{% trans 'Welcome, ' %}<strong>{% firstof user.get_full_name %}</strong>.</a></li>
+
+                  <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
+           {% endif %}
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -78,35 +80,30 @@
         <!-- Sidebar Left -->
         <div id="sidebar" class="sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="{% url 'rvi_dashboard' %}">Dashboard<span class="sr-only">(current)</span></a></li>
-            <li><a href="{% url 'tracking_index' %}">Tracking</a></li>
-            <li><a href="{% url 'admin:sota_update_changelist' %}">SOTA</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="{% url 'admin:index' %}">Administration</a></li>
+            <li>
+                <a href="{% url 'owner_history' %}">History</a>
+            </li>
+            <li>
+                <a href="{% url 'owner_keys' %}">Keys</a>
+            </li>
           </ul>
         </div>
         {% endif %}
-        
+
         <!-- Content -->
-        <div class="main">
-          {% block page_header %}{% endblock %}
-          {% block page_content %}(no content){% endblock %}
-        </div>
 
+        <div>
+            {% block page_content %}(no content){% endblock %}
       </div>
-
     </div>
 </div>
-   
-{% if not is_popup %}  
-<!-- Sticky Footer -->
+
+{% if not is_popup %}
 <footer class="footer">
   <div class="container">
      <p class="text-muted">RVI &copy; 2014, 2015 Jaguar Land Rover</p>
   </div>
 </footer>
-{% endif %}        
-
-
+{% endif %}
+</div>
 {% endblock %}

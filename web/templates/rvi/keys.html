@@ -1,0 +1,119 @@
+{% extends "rvi/base.html" %}
+
+{% load admin_static %}{% load firstof from future %}
+
+<!--
+{% load staticfiles %}
+{% load url from future %}
+
+{% load admin_static %}{% load firstof from future %}
+
+{% load i18n %}
+-->
+
+{% block extra_site_head %}
+	<link href="{% static 'rvi/css/bootstrap-modified.css' %}" rel="stylesheet">
+ 	<link href="{% static 'rvi/css/ownerportal.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+<div class="container-keys">
+
+	<div class="middle-third">
+		<div class="table-row">
+			<div class="panel panel-primary  ">
+				<div class="panel-heading ">
+					<h3 class="panel-title">RVI Active Keys</h3>
+
+				</div>
+				<div class="panel-body">
+					<input type="text" class="form-control"  />
+				</div>
+				<table class="table table-hover table-keys">
+					<thead>
+						<tr>
+							<th >User</th>
+							<th >Valid From</th>
+							<th >Valid To</th>
+							<th >Lock/Unlock</th>
+							<th >Engine Start</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for item in active_certificates %}
+						<tr>
+							<td>{{ item.rem_device.dev_owner }}</td>
+							<td>{{ item.rem_validfrom | date:"D N j, Y, g:i A T" }}</td>
+							<td>{{ item.rem_validto | date:"D N j, Y, g:i A T" }}</td>
+							<td>
+								{% if item.rem_lock %}
+								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								{% endif %}
+							</td>
+							<td>
+								{% if item.rem_engine %}
+								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="bottom-third">
+		<div class="table-row">
+			<div class="panel panel-primary ">
+				<div class="panel-heading ">
+					<h3 class="panel-title">RVI Expired Keys</h3>
+				</div>
+				<div class="panel-body">
+					<input type="text" class="form-control"/>
+				</div>
+				<table class="table table-hover table-keys">
+					<thead>
+						<tr>
+							<th >User</th>
+							<th >Valid From</th>
+							<th >Valid To</th>
+							<th >Lock/Unlock</th>
+							<th >Engine Start</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for item in expired_certificates %}
+						<tr>
+							<td>{{ item.rem_device.dev_owner }}</td>
+							<td>{{ item.rem_validfrom | date:"D N j, Y, g:i A T" }}</td>
+							<td>{{ item.rem_validto | date:"D N j, Y, g:i A T" }}</td>
+							<td>
+								{% if item.rem_lock %}
+								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								{% endif %}
+							</td>
+							<td>
+								{% if item.rem_engine %}
+								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

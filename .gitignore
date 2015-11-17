@@ -52,3 +52,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Changes via AFP
+.AppleDouble
+.DS_Store
+
+# PyCharm
+.idea/
