@@ -35,5 +35,6 @@ logging.config.dictConfig(settings.LOGGING)
 __RVI_LOGGER__ = logging.getLogger('rvi')
 # use SOTA logger for SOTA logging
 __SOTA_LOGGER__ = logging.getLogger('rvi.sota')
-
+# use Agent logger for DA logging
+__DA_LOGGER__ = logging.getLogger('rvi.da')
 
