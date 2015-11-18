@@ -49,10 +49,10 @@ class LogInvokedServicesServer(threading.Thread):
 
     def register_services(self):
         # register callback functions with RPC server
-        self.localServer.register_function(log_invoked_service, self.service_id + "/report/serviceinvoked")
+        self.localServer.register_function(log_invoked_service, self.service_id + "/serviceinvoked")
 
         # register services with RVI framework
-        result = self.service_edge.register_service(service = self.service_id+'/report/serviceinvoked',
+        result = self.service_edge.register_service(service = self.service_id+'/serviceinvoked',
                                                network_address = self.callback_url)
         rvi_logger.info(SERVER_NAME + 'Registration: %s', result['service'])
 

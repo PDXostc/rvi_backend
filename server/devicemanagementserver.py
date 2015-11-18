@@ -74,7 +74,7 @@ class DeviceManagementServer(threading.Thread):
 
 
 # Callback functions
-def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
+def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo, userType):
     rvi_logger.info(SERVER_NAME + 'Remote (Certificate) create request: \n'
                     'username: %s\n'
                     'vehicleVIN: %s\n'
@@ -94,7 +94,7 @@ def create_remote(username, vehicleVIN, authorizedServices, validFrom, validTo):
     return {u'status': 0}
 
 
-def modify_remote(certid, authorizedServices, validFrom, validTo):
+def modify_remote(certid, authorizedServices, validFrom, validTo, userType):
     rvi_logger.info(SERVER_NAME + 'Remote (Certificate) modify request: \n'
                     'certid: %s\n'
                     'authorizedServices: %s\n'
@@ -185,15 +185,14 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
     try:
         device = Device.objects.get(dev_owner=username)
         vehicle = Vehicle.objects.get(veh_vin=vehicleVIN)
-        parsed_data = json.dumps(authorizedServices)
-        json_authorizedServices = json.loads(parsed_data)
-        lock = parse_true_or_false((json_authorizedServices[0])[u'lock'])
-        start = parse_true_or_false((json_authorizedServices[1])[u'start'])
-        trunk = parse_true_or_false((json_authorizedServices[2])[u'trunk'])
-        windows = parse_true_or_false((json_authorizedServices[3])[u'windows'])
-        lights = parse_true_or_false((json_authorizedServices[4])[u'lights'])
-        hazard = parse_true_or_false((json_authorizedServices[5])[u'hazard'])
-        horn = parse_true_or_false((json_authorizedServices[6])[u'horn'])
+        json_authorizedServices = authorizedServices
+        lock = json_authorizedServices[u'lock']
+        start = json_authorizedServices[u'engine']
+        trunk = json_authorizedServices[u'trunk']
+        windows = json_authorizedServices[u'windows']
+        lights = json_authorizedServices[u'lights']
+        hazard = json_authorizedServices[u'hazard']
+        horn = json_authorizedServices[u'horn']
         validFrom = parser.parse(str(validFrom).replace('T', ' ').replace('0Z',' +0000'))
         validTo = parser.parse(str(validTo).replace('T', ' ').replace('0Z',' +0000'))
 
@@ -227,15 +226,14 @@ def validate_create_remote(username, vehicleVIN, authorizedServices, validFrom, 
 def validate_modify_remote(certid, authorizedServices, validFrom, validTo):
     try:
         remote = Remote.objects.get(rem_uuid=certid)
-        parsed_data = json.dumps(authorizedServices)
-        json_authorizedServices = json.loads(parsed_data)
-        lock = parse_true_or_false((json_authorizedServices[0])[u'lock'])
-        start = parse_true_or_false((json_authorizedServices[1])[u'start'])
-        trunk = parse_true_or_false((json_authorizedServices[2])[u'trunk'])
-        windows = parse_true_or_false((json_authorizedServices[3])[u'windows'])
-        lights = parse_true_or_false((json_authorizedServices[4])[u'lights'])
-        hazard = parse_true_or_false((json_authorizedServices[5])[u'hazard'])
-        horn = parse_true_or_false((json_authorizedServices[6])[u'horn'])
+        json_authorizedServices = authorizedServices
+        lock = json_authorizedServices['lock']
+        start = json_authorizedServices['engine']
+        trunk = json_authorizedServices['trunk']
+        windows = json_authorizedServices['windows']
+        lights = json_authorizedServices['lights']
+        hazard = json_authorizedServices['hazard']
+        horn = json_authorizedServices['horn']
 
         validFrom = parser.parse(
             str(validFrom).replace('T', ' ').replace('0Z',' +0000')
