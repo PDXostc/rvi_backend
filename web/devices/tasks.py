@@ -114,11 +114,12 @@ def send_remote(remote):
     time.sleep(2)
 
     # get user info
-    user = User.objects.get(id=mobile.account_id)
+    username = remote.rem_device.dev_owner
     vehicle = remote.rem_vehicle
     owner_username = vehicle.list_account()
 
-    if owner_username == user.username:
+    logger.info("comparing %s and %s", str(username), str(owner_username))
+    if str(owner_username) == str(username):
         user_type = u'owner'
     else:
         user_type = u'guest'
@@ -144,7 +145,7 @@ def send_remote(remote):
                        transaction_id = str(transaction_id),
                        timeout = int(time.time()) + 5000,
                        parameters = [{
-                                        u'username': user.username,
+                                        u'username': username,
                                         u'userType': user_type,
                                         u'vehicleName': vehicle.veh_name,
                                         u'vehicleVIN': vehicle.veh_vin,
@@ -167,7 +168,7 @@ def send_remote(remote):
     except Exception as e:
         logger.error('%s: Cannot connect to RVI service edge: %s', remote, e)
         return False
-    logger.info('%s: Sent Account Details.', user.username)
+    logger.info('%s: Sent Account Details.', username)
     return True
 
 
@@ -218,14 +219,14 @@ def send_all_requested_remotes(vehicleVIN, deviceUUID):
     for remote in Remote.objects.filter(rem_vehicle=owner_vehicle).exclude(rem_device=owner_mobile):
 
         mobile = remote.rem_device
-        user = User.objects.get(username=mobile.dev_owner)
+        username = remote.rem_device.dev_owner
 
         valid_from = unicode(remote.rem_validfrom).replace(' ', 'T').replace('+00:00', '')+'.000Z'
         valid_to = unicode(remote.rem_validto).replace(' ', 'T').replace('+00:00', '')+'.000Z'
 
         certificate = {}
         certificate[u'certid'] = remote.rem_uuid
-        certificate[u'username'] = user.username
+        certificate[u'username'] = username
         certificate[u'authorizedServices'] = {
             u'lock': unicode(remote.rem_lock),
             u'engine': unicode(remote.rem_engine),
