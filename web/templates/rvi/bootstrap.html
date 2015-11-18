@@ -3,16 +3,10 @@
 {% extends "bootstrap3/bootstrap3.html" %}
 
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+    {% block bootstrap3_title %}{% block title %}{% endblock %}{% endblock %}
+    {% block bootstrap3_extra_head %}{% block site_head %}{% endblock %}{% endblock %}
 
-{% block site_title %}{% endblock %}
-
-<!-- <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"> -->
 <body>
-{% block bootstrap3_title %}{% block title %}{% endblock %}{% endblock %}
-
-{% block bootstrap3_extra_head %}{% block site_head %}{% endblock %}{% endblock %}
-
-{% block bootstrap3_content %}{% block site_content %}{% endblock %}{% endblock %}
-
-{% block bootstrap3_extra_script %}{% block site_script %}{% endblock %}{% endblock %}
+    {% block bootstrap3_content %}{% block site_content %}{% endblock %}{% endblock %}
+    {% block bootstrap3_extra_script %}{% block site_script %}{% endblock %}{% endblock %}
 </body>

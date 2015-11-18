@@ -11,7 +11,7 @@ This document is an overview of the RVI Backend (RVI-BE) project. RVI-BE is a
 database-backed web environment to interact with vehicles
 (or any device for that matter) via the RVI middleware framework. For
 details on RVI consult the documentation in the
-[RVI](https://github.com/PDXostc/rvi) respository.
+[RVI](https://github.com/PDXostc/rvi_core) repository.
 
 
 DESCRIPTION
@@ -19,8 +19,8 @@ DESCRIPTION
 
 RVI-BE consists of two components:
 
-* [Web](https://github.com/PDXostc/rvibackend/tree/master/web)
-* [Server](https://github.com/PDXostc/rvibackend/tree/master/server)
+* [Web](https://github.com/PDXostc/rvi_backend/tree/master/web)
+* [Server](https://github.com/PDXostc/rvi_backend/tree/master/server)
 
 *Web* is a web interface with database backend built using the 
 [Django](https://www.djangoproject.com) framework.
@@ -145,6 +145,9 @@ Ubuntu:
 
     sudo apt-get install python-mysqldb
 
+Alternatively, the following python module can be installed via Python pip:
+
+    sudo pip install MySQL-python
 
 ### Database Server Startup
 
@@ -226,7 +229,11 @@ which should print *1.7* to the console.
 
 ### Python Modules
 
-The RVI Backend requires additional Python modules to function:
+The RVI Backend requires additional Python modules to function (see below). 
+
+As an alternative to manually installing each package, read through this section to meet all
+required linux package requirement, i.e. the libffi and libssl development libraries and proceed
+to the optional step after cloning the RVI Backend Repository from GitHub.
 
 1. Pillow Imaging Library
 
@@ -262,26 +269,59 @@ The RVI Backend requires additional Python modules to function:
 
 9. Cryptography Library
 
-   The Cryptography library requires the libffi development library, 
-   libffi-devel on Fedora and OpenSUSE, libffi-dev on Debian and Ubuntu, to
-   be installed. Install it first, then install
+   The Cryptography library requires the libffi development library as well as
+   the libssl development library. The names of the packages to be installed
+   are libffi-devel and libssl-devel on Fedora and OpenSUSE; libffi-dev and 
+   libssl-devel on Debian and Ubuntu. Install them first, then install
 
         sudo pip install cryptography
 
 10. Kafka Library
 
-        sudo pip install python-kafka
+        sudo pip install kafka-python
         
 11. HBase Library
 
         sudo pip install happybase
+
+12. Unipath Library
+
+        sudo pip install unipath
+
+13. DateUtil Library
+
+        sudo pip install python-dateutil
+
+14. Requests Library
+
+    For HTTPS support, the requests library requires the libssl development library,
+    openssl-devel on Fedora and OpenSUSE, libssl-dev on Debian and Ubuntu, to
+    be installed. Install it first, then install
+    
+        sudo pip install requests
+        sudo pip install requests[security]
+    
+    With the latter, *requests[security]* being equivalent to installing the following 3 packages...
+
+        sudo pip install pyopenssl ndg-httpsclient pyasn1
         
+15. Tokenapi library
+
+    This is only needed if mobile app login is required.
+    If this is not needed, follow reverse steps outlined in 
+    [https://github.com/jpulgarin/django-tokenapi/blob/master/README.md#installation]
+    
+        sudo pip install django-tokenapi
 
 ### RVI Backend Installation
 
 1. Clone the RVI Backend Repository from GitHub
 
         git clone https://github.com/PDXostc/rvi_backend.git rvibackend
+        
+   *Optional*, to install all required Python packages using one command, run 
+   
+        pip install -r rvibackend/config/requirements/base.txt
     
 2. Set PYTHONPATH
 
@@ -289,14 +329,14 @@ The RVI Backend requires additional Python modules to function:
    environment variable PYTHONPATH. Add to the *.bashrc* file in your home
    directory, replacing <path>/<to> with your path:
    
-        PYTHONPATH="${PYTHONPATH}:/<path>/<to>/rvi_backend"
+        PYTHONPATH="${PYTHONPATH}:/<path>/<to>/rvibackend"
         export PYTHONPATH
 
    Source the file to make the setting become active for your current terminal:
    
         source ~/.bashrc
 
-2. Change into the *rvibackend/web* Directory
+2. Change into the *rvi_backend/web* Directory
 
         cd rvibackend/web
     
@@ -307,7 +347,7 @@ The RVI Backend requires additional Python modules to function:
     This will access the MariaDB database server. If you set the database up according
     to the above instructions this will work right out of the box. If you did change
     user name and/or password when setting up the database then you will need to modify
-    the file *rvibackend/settings.py* accordingly. You may also need to restart the database server. Ubuntu users would type *sudo service mysql restart* in the terminal.
+    the file *rvibackend/config/settings/base.py* accordingly. You may also need to restart the database server. Ubuntu users would type *sudo service mysql restart* in the terminal.
 
 4. Create the Admin User for the RVI Backend
 
@@ -352,7 +392,7 @@ The RVI Backend requires additional Python modules to function:
 
 Before you can start the RVI Backend Server Daemon you will need to have the RVI
 Middleware Server running on your system. Please consult the instructions at
-[RVI](https://github.com/PDXostc/rvi) on how to setup and start the server.
+[RVI](https://github.com/PDXostc/rvi_core) on how to setup and start the server.
 
 The RVI Backend Server Daemon connects to the RVI Middleware Server on the
 service edge at *localhost:8801*. If you configured your RVI Middleware Server
@@ -360,7 +400,7 @@ to listen to a different host/port you will have to change the setting
 
     RVI_SERVICE_EDGE_URL = 'http://127.0.0.1:8801'
     
-in the file *rvibackend/settings.py*. This file is the common configuration file for
+in the file *rvibackend/config/settings/base.py*. This file is the common configuration file for
 the RVI Backend. After that you can start the RVI Backend Server Daemon in
 console or foreground mode with
 
@@ -369,35 +409,46 @@ console or foreground mode with
 If everything is configured correctly you will see
 
     INFO RVI Server: Starting...
-    INFO RVI Server: Configuration: RVI_SERVICE_EDGE_URL: http://127.0.0.1:8801, RVI_SOTA_CALLBACK_URL: http://127.0.0.1:20001, RVI_SOTA_SERVICE_ID: /sota, RVI_SOTA_CHUNK_SIZE: 65536, MEDIA_ROOT: ../web/../files/
-    INFO RVI Server: Starting SOTA Callback Server on http://127.0.0.1:20001 with service id /sota.
-    INFO RVI Server: SOTA Callback Server started.
+    INFO RVI Server: General Configuration: RVI_SERVICE_EDGE_URL: http://127.0.0.1:8801, MEDIA_ROOT: /home/pi/rvi_backend/files
     INFO RVI Server: Setting up outbound connection to RVI Service Edge at http://127.0.0.1:8801
-    INFO RVI Server: Initiate download service name: jlr.com/backend/sota/initiate_download
-    INFO RVI Server: Cancel download service name: jlr.com/backend/sota/cancel_download
-    INFO RVI Server: Download complete service name: jlr.com/backend/sota/download_complete
-    INFO RVI Server: Starting SOTA Transmission Server.
-    INFO RVI Server: SOTA Transmission Server started.
-    
-Every 10 seconds the RVI Backend Server will issue a heartbeat message:
+    INFO RVI Server: Tracking not enabled
+    INFO RVI Server: Backend Device Management Server Configuration: RVI_CERTIFICATE_SERVICES_CALLBACK_URL: http://127.0.0.1:20003, RVI_CERTIFICATE_SERVICES_SERVICE_ID: /dm
+    INFO RVI Server: Starting Backend Device Management Server on http://127.0.0.1:20003 with service id /dm.
+    INFO Backend Device Management Server: Registration: Create service name: jlr.com/backend/dm/cert_create
+    INFO Backend Device Management Server: Registration: Modify service name: jlr.com/backend/dm/cert_modify
+    INFO Backend Device Management Server: Registration: Retrieve all existing service name: jlr.com/backend/dm/cert_requestall
+    INFO RVI Server: Backend Device Management Callback Server started.
+    INFO RVI Server: Log Invoked Service Configuration: RVI_LOG_INVOKED_SERVICES_CALLBACK_URL: http://127.0.0.1:20004, RVI_LOG_INVOKED_SERVICES_CALLBACK_ID: /logging
+    INFO RVI Server: Starting Log Invoked Service Server on http://127.0.0.1:20004 with service id /logging.
+    INFO Log Invoked Service Server: Registration: jlr.com/backend/logging/report/serviceinvoked
+    INFO RVI Server: Log Invoked Service Callback Server started.
+    INFO RVI Server: Log Invoked Service Configuration: RVI_INVOKE_SERVICES_CALLBACK_URL: http://127.0.0.1:20005, RVI_INVOKE_SERVICES_CALLBACK_ID: /invoke
+    INFO RVI Server: Starting Invoke Service Server on http://127.0.0.1:20005 with service id /invoke.
+    INFO Invoke Service Server: Registration: jlr.com/backend/invoke/service
+    INFO RVI Server: Invoke Service Callback Server started.
+    INFO RVI Server: Publishing to Kafka Message Queue: master:6667 , with topic: rvi
+    INFO RVIServer: Publishing to message queue enabled.
+    INFO Tracking Service Registration: Report service name: jlr.com/backend/logging/report
+    INFO RVI Server: Message Queue Server started.
+    INFO RVI Server: HBase server storage not enabled
+    Performing system checks...
 
-    DEBUG RVI Server: Heartbeat.
+Your RVI Backend is now ready for use. Logs will be stored at *rvibackend/log/rvibackend.log*
 
-
-Your RVI Backend is now ready for use.
+Additionally, If you plan on using service history logs and would like to use reverse geocoding of 
+latitude and longitude to an address, you can add your Google API key to *rvibackend/config/settings/secrets.json*
 
 
 USING THE RVI BACKEND
 ---------------------
 
-This pre-release of the RVI Backend does not yet include any customized pages but
-uses the administration pages that are automatically created by Django. The root
-URL is automatically forwarded to the administration pages. Loggin into your server
-from a web browser using
+This pre-release of the RVI Backend has some basic vehicle owner portal pages in addition to 
+the administration pages that are automatically created by Django. The root URL is automatically 
+forwarded to the administration pages. Log in to your server from a web browser using 
 
     http://localhost:8000
     
-will take you to the front page of the administrative UI which is divided into
+This will take you to the front page of the administrative UI which is divided into
 the applications
 
 * Authentication and Authorization
@@ -405,6 +456,23 @@ the applications
 * Sota
 * Vehicles
 
+At a minimum, you need to set up the administrative portion of the site with user accounts, 
+devices, Remotes/certificates and one vehicle. Once you have completed set up via the admin 
+portal, you may begin to use the vehicle owner portal. Log in to your server's owner portal 
+from a web browser using
+ 
+    http://localhost:8000/login
+    
+**An owner account is distinguished from other user accounts by being tied to a vehicle.**
+     
+This will take you to the owner portal login page. Once logged in, you will be redirected to the 
+service history page. The owner portal is currently divided into the following features
+
+* Service History (service logs of RVI commands invoked at the vehicle)
+* Keys (logs of all existing active and expired Remotes issued to guest users)
+
+If any changes to accounts, devices, or vehicles are needed, these still need to be performed
+via the administrative portion of the site. 
 
 ### Authentication and Authorization
 

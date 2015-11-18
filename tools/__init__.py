@@ -25,7 +25,7 @@ sys.path.append('../web')
 
 # set the default Django settings module
 # set the default Django settings module
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
 django.setup()
 
 # setup logging

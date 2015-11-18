@@ -1,0 +1,78 @@
+{% extends "rvi/base.html" %}
+
+{% load admin_static %}{% load firstof from future %}
+
+<!--
+{% load staticfiles %}
+{% load url from future %}
+
+{% load admin_static %}{% load firstof from future %}
+
+{% load i18n %}
+-->
+
+{% block extra_site_head %}
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" rel="stylesheet">
+    <link href="{% static 'rvi/css/ownerportal.css' %}" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static 'rvi/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'rvi/js/bootstrap.min.js' %}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+{% endblock %}
+
+
+{% block page_content %}
+    <div class="container-history">
+            <div id="map" class="panel left-half"></div>
+
+            <div class="col-md-6 table-row right-half">
+                <div class="panel panel-primary">
+                    <div class="panel-heading ">
+                        <h3 class="panel-title">Key History</h3>
+                    </div>
+
+                    <div id="div_to_refresh">
+                    {% include 'rvi/history-table.html' %}
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script type="text/javascript" src="{% static 'rvi/js/history.js' %}"></script>
+
+   <script type="text/javascript">
+    var aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
+    var aLastupdated;
+
+    function refresh() {
+
+        $.ajax({
+            url: '{% url 'owner_history' %}',
+            success: function(data) {
+                var dtr = $("#div_to_refresh", data);
+                $('#div_to_refresh').html(dtr);
+
+                aUpdatedval = parseInt($('#hist-table tr:nth-child(1)').attr('id'));
+
+                if (aLastupdated != aUpdatedval && !isNaN(aLastupdated)) {
+                        var $row  = $("#"+aUpdatedval).nextUntil("#"+aLastupdated).addBack(),
+                        alpha   = 1.0;
+                        var fade = setInterval(function(){
+                            $row.css('background-color', 'rgba(253,149,11,'+alpha+')');
+                            if(alpha >= 0)
+                                alpha-=0.005;
+                            else clearInterval(fade);
+                        }, 33);
+                }
+                aLastupdated = aUpdatedval;
+                setTimeout("refresh()", 3000);
+            }
+        });
+    }
+
+    $(function(){
+        refresh();
+    });
+
+   </script>
+
+{% endblock %}

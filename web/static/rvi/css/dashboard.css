@@ -222,6 +222,7 @@ h1 {
 
 .navbar-brand {
   padding-left: 25px;
+  vertical-align: middle;
 }
 
 .header a.navbar-brand {
@@ -330,6 +331,7 @@ form.navbar-form.navbar-right {
  */
 
 .main {
+
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -342,6 +344,7 @@ form.navbar-form.navbar-right {
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+
 }
 
 @media (min-width: 768px) {
