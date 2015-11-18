@@ -147,7 +147,7 @@ def send_invoked_service(username, vehicleVIN, service, latitude, longitude):
 
     try:
         rvi_server.message(calling_service = rvi_service_id,
-                       service_name = 'jlr.com/bt/stoffe/'+service,
+                       service_name = 'jlr.com/bt/'+vehicleVIN+'/'+service,
                        transaction_id = str(transaction_id),
                        timeout = int(time.time()) + 5000,
                        parameters = [{

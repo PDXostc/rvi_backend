@@ -71,4 +71,5 @@ def get_settings():
         conf['TRACKING_MQ_HBASE_PORT'] = get_setting("RVI_TRACKING_MQ_HBASE_PORT", "9090")
         conf['TRACKING_MQ_HBASE_TABLE'] = get_setting("RVI_TRACKING_MQ_HBASE_TABLE", "rvi")
 
+
         return conf

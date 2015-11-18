@@ -122,7 +122,7 @@ def notify_update(retry):
                                             + rule_payload['data_operand'] + rule_payload['id_operand'] 
                                             + rule_payload['sequence'] + rule_payload['unused'])
 
-            send_payload['hmac_sig'] = hmac.new(str(fw_key), msg=hex(int(send_payload['sig_string'],16)), digestmod=hashlib.sha256).hexdigest()
+            send_payload['hmac_sig'] = hmac.new(bytearray(str(fw_key)), msg=bytearray(send_payload['sig_string'].decode("hex")), digestmod=hashlib.sha256).hexdigest()
 
             payload_array.append(send_payload)
 
@@ -151,7 +151,7 @@ def notify_update(retry):
                                             + rule_payload['data_operand'] + rule_payload['id_operand']
                                             + rule_payload['sequence'] + rule_payload['unused'])
 
-            send_payload['hmac_sig'] = hmac.new(str(fw_key), msg=hex(int(send_payload['sig_string'],16)), digestmod=hashlib.sha256).hexdigest()
+            send_payload['hmac_sig'] = hmac.new(bytearray(str(fw_key)), msg=bytearray(send_payload['sig_string'].decode("hex")), digestmod=hashlib.sha256).hexdigest()
 
             payload_array.append(send_payload)
             vehicle.seq_counter = vehicle.seq_counter + 1
@@ -164,10 +164,13 @@ def notify_update(retry):
                            service_name = dst_url + rvi_service_id + '/package_acceptor',
                            transaction_id = str(transaction_id),
                            timeout = int(retry.get_timeout_epoch()),
-                           parameters = [{ u'package': package_name },
-                                         { u'payload': payload_array },
-                                         { u'num_prio': settings.RVI_CANFW_NUM_PRIO},
-                                        ])
+                           # parameters = [{ u'package': package_name },
+                           #               { u'payload': payload_array },
+                           #               { u'num_prio': settings.RVI_CANFW_NUM_PRIO},
+                           #              ])
+                           parameters = {u'package':package_name, u'payload':payload_array,u'num_prio':settings.RVI_CANFW_NUM_PRIO}
+                           )
+    
     except Exception as e:
         logger.error('%s: Cannot send request: %s', retry, e)
         set_status(retry, can_fw.models.Status.FAILED)

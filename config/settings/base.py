@@ -83,8 +83,9 @@ INSTALLED_APPS = (
     'devices',
     'security',
     'can_fw',
+    'dynamicagents',
     'servicehistory',
-    'tokenapi',
+    'tokenapi'
 )
 
 # INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
@@ -268,9 +269,14 @@ RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
 RVI_SOTA_CHUNK_SIZE = 65536
 
+# DA
+RVI_DA_ENABLE = False 
+RVI_DA_CALLBACK_URL = 'http://127.0.0.1:20006'
+RVI_DA_SERVICE_ID = '/dynamicagents'
+
 # CAN_FW
 RVI_CANFW_ENABLE = False
-RVI_CANFW_CALLBACK_URL = 'http://127.0.0.1:20004'
+RVI_CANFW_CALLBACK_URL = 'http://127.0.0.1:20007'
 RVI_CANFW_SERVICE_ID = '/canfw'
 RVI_CANFW_NUM_PRIO = 16
 
@@ -301,7 +307,7 @@ RVI_INVOKE_SERVICES_CALLBACK_URL = 'http://127.0.0.1:20005'
 RVI_INVOKE_SERVICES_CALLBACK_ID = '/invoke'
 
 # Publish to Kafka Message Queue
-RVI_TRACKING_MQ_PUBLISH = True
+RVI_TRACKING_MQ_PUBLISH = False
 RVI_TRACKING_MQ_URL = "master:6667"
 RVI_TRACKING_MQ_TOPIC = "rvi"
 

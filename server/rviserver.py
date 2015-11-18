@@ -118,7 +118,7 @@ class RVIServer(Daemon):
     
             # wait for SOTA transmission server to come up    
             time.sleep(0.5)
-            
+        
         # Tracking Startup
         if conf['TRACKING_ENABLE'] == True:
             # log Tracking configuration
