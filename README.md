@@ -303,7 +303,7 @@ The RVI Backend requires additional Python modules to function:
     
 3. Create the Tables for the RVI Backend Database
 
-	python manage.py makemigrations
+        python manage.py makemigrations
         python manage.py migrate
 
     This will access the MariaDB database server. If you set the database up according
