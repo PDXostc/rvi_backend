@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'devices',
     'security',
     'can_fw',
+    'dynamicagents',
 )
 
 #INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
@@ -241,6 +242,11 @@ RVI_SOTA_CALLBACK_URL = 'http://127.0.0.1:20001'
 RVI_SOTA_SERVICE_ID = '/sota'
 RVI_SOTA_CHUNK_SIZE = 65536
 
+# DA
+RVI_DA_ENABLE = True
+RVI_DA_CALLBACK_URL = 'http://127.0.0.1:20005'
+RVI_DA_SERVICE_ID = '/dynamicagents'
+
 # CAN_FW
 RVI_CANFW_ENABLE = False
 RVI_CANFW_CALLBACK_URL = 'http://127.0.0.1:20004'
@@ -259,12 +265,12 @@ RVI_TRACKING_SERVICE_ID = '/logging'
 RVI_TRACKING_DB_PUBLISH = False
 
 # Publish to Kafka Message Queue
-RVI_TRACKING_MQ_PUBLISH = True
+RVI_TRACKING_MQ_PUBLISH = False
 RVI_TRACKING_MQ_URL = "master:6667"
 RVI_TRACKING_MQ_TOPIC = "rvi"
 
 # Read from Kafka save to HBase table
-RVI_TRACKING_MQ_HBASE = True
+RVI_TRACKING_MQ_HBASE = False
 RVI_TRACKING_MQ_HBASE_URL = "master"
 RVI_TRACKING_MQ_HBASE_PORT = "9090"
 RVI_TRACKING_MQ_HBASE_TABLE = "rvi"
