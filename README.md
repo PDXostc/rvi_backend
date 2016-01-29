@@ -228,6 +228,10 @@ which should print *1.7* to the console.
 
 The RVI Backend requires additional Python modules to function:
 
+    sudo pip install -r requirements.txt
+
+Or You can install each modules manually
+
 1. Pillow Imaging Library
 
         sudo pip install pillow
@@ -276,6 +280,10 @@ The RVI Backend requires additional Python modules to function:
 11. HBase Library
 
         sudo pip install happybase
+        
+12. Dateutil Library
+
+        sudo pip install python-dateutil
         
 
 ### RVI Backend Installation
